@@ -1,0 +1,9 @@
+.table th, .table td {
+    text-align: right; /* Align text for all columns to the right */
+  }
+  
+  /* You can specify particular columns if needed */
+  .table th:nth-child(1), .table td:nth-child(1) { /* Adjusting specifically the first column, which is 'Fillon' */
+    text-align: right;
+  }
+  
