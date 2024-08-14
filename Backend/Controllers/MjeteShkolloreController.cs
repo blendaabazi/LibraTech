@@ -1,176 +1,225 @@
-﻿//using Microsoft.AspNetCore.Mvc;
-//using Microsoft.EntityFrameworkCore;
-//using Lab1_Backend.Models;
-//using System.Collections.Generic;
-//using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Lab1_Backend.Models;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Hosting;
+using System.IO;
+using System.Linq;
 
-//namespace Lab1_Backend.Controllers
-//{
-//    [Route("api/[controller]")]
-//    [ApiController]
-//    public class MjeteShkolloreController : ControllerBase
-//    {
-//        private readonly LibrariaContext _mjeteShkolloreContext;
-//        private readonly IWebHostEnvironment _env;
+namespace Lab1_Backend.Controllers
+{
+    [Route("api/[controller]")]
+    [ApiController]
+    public class MjeteShkolloreController : ControllerBase
+    {
+        private readonly LibrariaContext _mjeteShkolloreContext;
+        private readonly IConfiguration _configuration;
+        private readonly IWebHostEnvironment _env;
 
-//        public MjeteShkolloreController(LibrariaContext mjeteShkolloreContext, IWebHostEnvironment env)
-//        {
-//            _mjeteShkolloreContext = mjeteShkolloreContext;
-//            _env = env;
-//        }
-//        [HttpGet]
-//        public async Task<ActionResult<IEnumerable<MjeteShkollore>>> GetMjeteShkollore()
-//        {
-//            if (_mjeteShkolloreContext.MjeteShkollore == null)
-//            {
-//                return NotFound();
-//            }
-//            return await _mjeteShkolloreContext.MjeteShkollore.ToListAsync();
-//        }
-//        [HttpGet("{id}")]
-//        public async Task<ActionResult<MjeteShkollore>> GetMjeteShkollore(int id)
-//        {
-//            var mjeteShkollore = await _mjeteShkolloreContext.MjeteShkollore.FindAsync(id);
-//            if (mjeteShkollore == null)
-//            {
-//                return NotFound();
-//            }
-//            return mjeteShkollore;
-//        }
+        public MjeteShkolloreController(LibrariaContext mjeteShkolloreContext, IConfiguration configuration, IWebHostEnvironment env)
+        {
+            _mjeteShkolloreContext = mjeteShkolloreContext;
+            _configuration = configuration;
+            _env = env;
+        }
 
-//        [HttpPost]
-//        public async Task<ActionResult<MjeteShkollore>> PostMjeteShkollore(MjeteShkollore mjete)
-//        {
-//            _mjeteShkolloreContext.MjeteShkollore.Add(mjete);
-//            await _mjeteShkolloreContext.SaveChangesAsync();
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<MjeteShkollore>>> GetMjeteShkollore()
+        {
+            return await _mjeteShkolloreContext.MjeteShkollore
+                                               .Include(m => m.Tipi)
+                                               .Include(m => m.ShtetiMSh)
+                                               .Include(m => m.ProdhuesiMSh)
+                                               .ToListAsync();
+        }
 
-//            return CreatedAtAction(nameof(GetMjeteShkollore), new { id = mjete.ID }, mjete);
-//        }
+        [HttpGet("{id}")]
+        public async Task<ActionResult<MjeteShkollore>> GetMjeteShkollore(int id)
+        {
+            var mjeteShkollore = await _mjeteShkolloreContext.MjeteShkollore
+                                                             .Include(m => m.Tipi)
+                                                             .Include(m => m.ShtetiMSh)
+                                                             .Include(m => m.ProdhuesiMSh)
+                                                             .FirstOrDefaultAsync(m => m.ID == id);
 
+            if (mjeteShkollore == null)
+            {
+                return NotFound();
+            }
 
-//        [HttpPut]
-//        public async Task<ActionResult> PutMjeteShkollore(MjeteShkollore mjete)
-//        {
-//            if (mjete == null || mjete.ID == 0)
-//            {
-//                return BadRequest("Invalid object or ID.");
-//            }
+            return mjeteShkollore;
+        }
 
-//            _mjeteShkolloreContext.Entry(mjete).State = EntityState.Modified;
-//            try
-//            {
-//                await _mjeteShkolloreContext.SaveChangesAsync();
-//            }
-//            catch (DbUpdateConcurrencyException)
-//            {
-//                throw;
-//            }
-//            return Ok();
-//        }
+        [HttpPost]
+        public async Task<ActionResult<MjeteShkollore>> PostMjeteShkollore([FromBody] MjeteShkolloreDto mjeteShkolloreDto)
+        {
+            try
+            {
+                if (mjeteShkolloreDto == null)
+                {
+                    return BadRequest("Mjete Shkollore data is null.");
+                }
 
+                var mjeteShkollore = new MjeteShkollore
+                {
+                    Pershkrimi = mjeteShkolloreDto.Pershkrimi,
+                    TipiID = mjeteShkolloreDto.TipiID,
+                    ShtetiMShID = mjeteShkolloreDto.ShtetiMShID,
+                    ProdhuesiMShID = mjeteShkolloreDto.ProdhuesiMShID,
+                    Cmimi = mjeteShkolloreDto.Cmimi,
+                    Sasia = mjeteShkolloreDto.Sasia,
+                    ImgPath = mjeteShkolloreDto.ImgPath
+                };
 
-//        [HttpDelete("{id}")]
-//        public async Task<ActionResult> DeleteMjeteShkollore(int id)
-//        {
-//            if (_mjeteShkolloreContext.MjeteShkollore == null)
-//            {
-//                return NotFound();
-//            }
-//            var mjete = await _mjeteShkolloreContext.MjeteShkollore.FindAsync(id);
-//            if (mjete == null)
-//            {
-//                return NotFound();
-//            }
-//            _mjeteShkolloreContext.MjeteShkollore.Remove(mjete);
-//            await _mjeteShkolloreContext.SaveChangesAsync();
-//            return Ok();
-//        } 
-   
-//        private bool MjeteShkolloreExists(int id)
-//        {
-//            return _mjeteShkolloreContext.MjeteShkollore.Any(e => e.ID == id);
-//        }
-//        [HttpGet("GetMjetetShkollore")]
-//        public async Task<ActionResult<IEnumerable<MjeteShkollore>>> GetNewestBooks()
-//        {
+                _mjeteShkolloreContext.MjeteShkollore.Add(mjeteShkollore);
+                await _mjeteShkolloreContext.SaveChangesAsync();
 
-//            var newestBooks = await _mjeteShkolloreContext.MjeteShkollore.OrderByDescending(l => l.ID).Take(6).ToListAsync();
-//            if (newestBooks == null)
-//            {
-//                return NotFound();
-//            }
-//            return newestBooks;
-//        }
-//        [HttpGet("tipi/{tipi}")]
-//        public ActionResult<IEnumerable<MjeteShkollore>> GetMjetetbyTipi(string tipi)
-//        {
-//            var mjetet = _mjeteShkolloreContext.MjeteShkollore.Where(l => l.Tipi == tipi).ToList();
+                return CreatedAtAction(nameof(GetMjeteShkollore), new { id = mjeteShkollore.ID }, mjeteShkollore);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
 
-//            if (mjetet == null || mjetet.Count == 0)
-//            {
-//                return NotFound();
-//            }
+        [HttpPut("{id}")]
+        public async Task<IActionResult> PutMjeteShkollore(int id, [FromBody] MjeteShkolloreDto mjeteShkolloreDto)
+        {
+            try
+            {
+                if (id != mjeteShkolloreDto.ID)
+                {
+                    return BadRequest("ID mismatch.");
+                }
 
-//            return mjetet;
-//        }
-//        [HttpGet("GetAllMjetet")]
-//        public async Task<ActionResult<IEnumerable<MjeteShkollore>>> GetAllMjetet()
-//        {
-//            return await _mjeteShkolloreContext.MjeteShkollore.ToListAsync();
-//        }
+                var mjeteShkollore = await _mjeteShkolloreContext.MjeteShkollore.FindAsync(id);
+                if (mjeteShkollore == null)
+                {
+                    return NotFound();
+                }
 
-//        [HttpGet]
-//        [Route("GetFoto/{id}")]
-//        public IActionResult GetFoto(int id)
-//        {
-//            var libri = _mjeteShkolloreContext.MjeteShkollore.FirstOrDefault(l => l.ID == id);
-//            if (libri == null || string.IsNullOrEmpty(libri.ImgPath))
-//            {
-//                return NotFound();
-//            }
+                mjeteShkollore.Pershkrimi = mjeteShkolloreDto.Pershkrimi;
+                mjeteShkollore.TipiID = mjeteShkolloreDto.TipiID;
+                mjeteShkollore.ShtetiMShID = mjeteShkolloreDto.ShtetiMShID;
+                mjeteShkollore.ProdhuesiMShID = mjeteShkolloreDto.ProdhuesiMShID;
+                mjeteShkollore.Cmimi = mjeteShkolloreDto.Cmimi;
+                mjeteShkollore.Sasia = mjeteShkolloreDto.Sasia;
+                mjeteShkollore.ImgPath = mjeteShkolloreDto.ImgPath;
 
-//            var imagePath = Path.Combine("Photos", libri.ImgPath);
-//            if (!System.IO.File.Exists(imagePath))
-//            {
-//                return NotFound();
-//            }
+                _mjeteShkolloreContext.Entry(mjeteShkollore).State = EntityState.Modified;
+                await _mjeteShkolloreContext.SaveChangesAsync();
 
-//            var image = System.IO.File.OpenRead(imagePath);
-//            return File(image, "image/jpeg");
-//        }
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
 
-//        [HttpGet("TotalMjetet")]
-//        public async Task<ActionResult<int>> GetTotalMjetet()
-//        {
-//            var totalLibrat = await _mjeteShkolloreContext.MjeteShkollore.CountAsync();
-//            return totalLibrat;
-//        }
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteMjeteShkollore(int id)
+        {
+            var mjeteShkollore = await _mjeteShkolloreContext.MjeteShkollore.FindAsync(id);
+            if (mjeteShkollore == null)
+            {
+                return NotFound();
+            }
 
+            _mjeteShkolloreContext.MjeteShkollore.Remove(mjeteShkollore);
+            await _mjeteShkolloreContext.SaveChangesAsync();
 
-//        [Route("SaveFile")]
-//        [HttpPost]
-//        public JsonResult SaveFile()
-//        {
-//            try
-//            {
-//                var httpRequest = Request.Form;
-//                var postedFile = httpRequest.Files[0];
-//                string filename = postedFile.FileName;
-//                var physicalPath = _env.ContentRootPath + "/Photos/" + filename;
+            return NoContent();
+        }
 
-//                using (var stream = new FileStream(physicalPath, FileMode.Create))
-//                {
-//                    postedFile.CopyTo(stream);
-//                }
+        [HttpGet("TotalMjetet")]
+        public async Task<ActionResult<int>> GetTotalMjetet()
+        {
+            var totalMjetet = await _mjeteShkolloreContext.MjeteShkollore.CountAsync();
+            return totalMjetet;
+        }
 
-//                return new JsonResult(filename);
-//            }
-//            catch (Exception)
-//            {
+        [HttpGet("GetMjetetMeTeRinje")]
+        public async Task<ActionResult<IEnumerable<MjeteShkollore>>> GetNewestMjete()
+        {
+            var newestMjete = await _mjeteShkolloreContext.MjeteShkollore.OrderByDescending(m => m.ID).Take(6).ToListAsync();
+            return newestMjete;
+        }
 
-//                return new JsonResult("img.png");
-//            }
-//        }
-//    }
+        [HttpGet("tipi/{tipi}")]
+        public async Task<ActionResult<IEnumerable<MjeteShkollore>>> GetMjeteByTipi(int tipi)
+        {
+            var mjetet = await _mjeteShkolloreContext.MjeteShkollore
+                                                     .Where(m => m.TipiID == tipi)
+                                                     .ToListAsync();
+            if (mjetet == null || mjetet.Count == 0)
+            {
+                return NotFound();
+            }
+            return mjetet;
+        }
 
-//}
+        [HttpGet]
+        [Route("GetFoto/{id}")]
+        public IActionResult GetFoto(int id)
+        {
+            var mjeteShkollore = _mjeteShkolloreContext.MjeteShkollore.FirstOrDefault(m => m.ID == id);
+            if (mjeteShkollore == null || string.IsNullOrEmpty(mjeteShkollore.ImgPath))
+            {
+                return NotFound();
+            }
+
+            var imagePath = Path.Combine("Photos", mjeteShkollore.ImgPath);
+            if (!System.IO.File.Exists(imagePath))
+            {
+                return NotFound();
+            }
+
+            var image = System.IO.File.OpenRead(imagePath);
+            return File(image, "image/jpeg");
+        }
+
+        [Route("SaveFile")]
+        [HttpPost]
+        public JsonResult SaveFile()
+        {
+            try
+            {
+                var httpRequest = Request.Form;
+                var postedFile = httpRequest.Files[0];
+                string filename = postedFile.FileName;
+                var physicalPath = _env.ContentRootPath + "/Photos/" + filename;
+
+                using (var stream = new FileStream(physicalPath, FileMode.Create))
+                {
+                    postedFile.CopyTo(stream);
+                }
+
+                return new JsonResult(filename);
+            }
+            catch (Exception)
+            {
+                return new JsonResult("img.png");
+            }
+        }
+
+        private bool MjeteShkolloreExists(int id)
+        {
+            return _mjeteShkolloreContext.MjeteShkollore.Any(e => e.ID == id);
+        }
+    }
+
+    public class MjeteShkolloreDto
+    {
+        public int ID { get; set; }
+        public string Pershkrimi { get; set; }
+        public int? TipiID { get; set; }
+        public int? ShtetiMShID { get; set; }
+        public int? ProdhuesiMShID { get; set; }
+        public double Cmimi { get; set; }
+        public int Sasia { get; set; }
+        public string ImgPath { get; set; }
+    }
+}

@@ -10,22 +10,24 @@
             }
             /*public DbSet<Libraria> libraria { get; set; }*/
             //public DbSet<MjeteShkollore> MjeteShkollore { get; set; }
-            //public DbSet<Tipi> Tipi { get; set; }
+            public DbSet<Tipi> Tipi { get; set; }
 
             public DbSet<Libri> Libri { get; set; }
-           
+            public DbSet<MjeteShkollore> MjeteShkollore { get; set; }
 
-            public DbSet<Autori> Autori { get; set; }
+
+        public DbSet<Autori> Autori { get; set; }
            
-            //public DbSet<DimensionetMSh> DimensionetMSh { get; set; }
-            //public DbSet<ShtetiMSh> ShtetiMSh { get; set; }
-            //public DbSet<ProdhuesiMSh> ProdhuesiMSh { get; set; }
+     
+           public DbSet<ShtetiMSh> ShtetiMSh { get; set; }
+           
+        public DbSet<ProdhuesiMSh> ProdhuesiMSh { get; set; }
             public DbSet<ShtepiaBotuese> ShtepiaBotuese { get; set; }
             public DbSet<Gjuha> Gjuha { get; set; }
             public DbSet<Kategoria> Kategoria { get; set; }
            
 
-            //public DbSet<NgjyraMSh> NgjyraMSh { get; set; }
+          
 
             /*Klienti*/
             //public DbSet<Klienti> Klienti { get; set; }

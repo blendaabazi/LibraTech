@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Naim\\OneDrive\\Desktop\\ProjektiFinal\\LibraTech\\Lab1\\Backend\\Backend.csproj": {}
+    "C:\\Users\\Zgjim\\Desktop\\ProjektiFinal\\LibraTech\\Backend\\Backend.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Naim\\OneDrive\\Desktop\\ProjektiFinal\\LibraTech\\Lab1\\Backend\\Backend.csproj": {
+    "C:\\Users\\Zgjim\\Desktop\\ProjektiFinal\\LibraTech\\Backend\\Backend.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Naim\\OneDrive\\Desktop\\ProjektiFinal\\LibraTech\\Lab1\\Backend\\Backend.csproj",
+        "projectUniqueName": "C:\\Users\\Zgjim\\Desktop\\ProjektiFinal\\LibraTech\\Backend\\Backend.csproj",
         "projectName": "Backend",
-        "projectPath": "C:\\Users\\Naim\\OneDrive\\Desktop\\ProjektiFinal\\LibraTech\\Lab1\\Backend\\Backend.csproj",
-        "packagesPath": "C:\\Users\\Naim\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Naim\\OneDrive\\Desktop\\ProjektiFinal\\LibraTech\\Lab1\\Backend\\obj\\",
+        "projectPath": "C:\\Users\\Zgjim\\Desktop\\ProjektiFinal\\LibraTech\\Backend\\Backend.csproj",
+        "packagesPath": "C:\\Users\\Zgjim\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Zgjim\\Desktop\\ProjektiFinal\\LibraTech\\Backend\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Naim\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Zgjim\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
