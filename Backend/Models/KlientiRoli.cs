@@ -1,14 +1,14 @@
-﻿//using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
-//namespace Lab1_Backend.Models
-//{
-//    public class KlientiRoli
-//    {
-      
-//        public int Id { get; set; }
+namespace Lab1_Backend.Models
+{
+    public class KlientiRoli
+    {
 
-//        public string Roli { get; set; }
+        public int KlientiRoliID { get; set; }
+
+        public string Roli { get; set; }
 
 
-//    }
-//}
+    }
+}

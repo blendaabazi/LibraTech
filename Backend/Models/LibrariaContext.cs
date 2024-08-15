@@ -25,28 +25,28 @@
             public DbSet<ShtepiaBotuese> ShtepiaBotuese { get; set; }
             public DbSet<Gjuha> Gjuha { get; set; }
             public DbSet<Kategoria> Kategoria { get; set; }
-           
 
-          
 
-            /*Klienti*/
-            //public DbSet<Klienti> Klienti { get; set; }
-            //public DbSet<KlientiGjinia> KlientiGjinia { get; set; }
-            //public DbSet<KlientiQyteti> KlientiQyteti { get; set; }
-            //public DbSet<KlientiRoli> KlientiRoli { get; set; }
 
-            /*Stafi*/
-            //public DbSet<Stafi> Stafi { get; set; }
-            //public DbSet<StafiGjinia> StafiGjinia { get; set; }
-            //public DbSet<StafiOrari> StafiOrari { get; set; }
-            //public DbSet<StafiSektori> StafiSektori { get; set; }
 
-            //public DbSet<StafiSchedule> StafiSchedule { get; set; }
+        /*Klienti*/
+        public DbSet<Klienti> Klienti { get; set; }
+        public DbSet<KlientiGjinia> KlientiGjinia { get; set; }
+        public DbSet<KlientiQyteti> KlientiQyteti { get; set; }
+        public DbSet<KlientiRoli> KlientiRoli { get; set; }
 
-            /*Porosia*/
+        /*Stafi*/
+        //public DbSet<Stafi> Stafi { get; set; }
+        //public DbSet<StafiGjinia> StafiGjinia { get; set; }
+        //public DbSet<StafiOrari> StafiOrari { get; set; }
+        //public DbSet<StafiSektori> StafiSektori { get; set; }
 
-            //public DbSet<Porosia> Porosia { get; set; }
-            //public DbSet<Produkti> Produkti { get; set; }
+        //public DbSet<StafiSchedule> StafiSchedule { get; set; }
+
+        /*Porosia*/
+
+        //public DbSet<Porosia> Porosia { get; set; }
+        //public DbSet<Produkti> Produkti { get; set; }
 
 
 
