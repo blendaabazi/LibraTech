@@ -24,9 +24,9 @@
         ID: 0,
         Emri: "",
         Mbiemri: "",
-        KlientiGjinia: "",
-        KlientiQyteti: "",
-        KlientiRoli: "",
+        KlientiGjiniaID: "",
+        KlientiQytetiID: "",
+        KlientiRoliID: "",
         Email:"",
         Password:"",
         isFormValid: false,
@@ -53,9 +53,9 @@
         ID: 0,
         Emri: "",
         Mbiemri: "",
-        KlientiGjinia: "",
-        KlientiQyteti: "",
-        KlientiRoli: "",
+        KlientiGjiniaID: "",
+        KlientiQytetiID: "",
+        KlientiRoliID: "",
         Email:"",
         Password: "",
         isFormValid: false,
@@ -64,8 +64,8 @@
     }
 
     validateForm = () => {
-      const { Emri, Mbiemri, Email, KlientiGjinia, KlientiQyteti, KlientiRoli, Password } = this.state;
-      return Emri && Mbiemri && Email && KlientiGjinia && KlientiQyteti && KlientiRoli  && Password;
+      const { Emri, Mbiemri, Email, KlientiGjiniaID, KlientiQytetiID, KlientiRoliID, Password } = this.state;
+      return Emri && Mbiemri && Email && KlientiGjiniaID && KlientiQytetiID && KlientiRoliID  && Password;
     };
 
     refreshList() {
@@ -103,14 +103,14 @@
       this.setState({ Email: e.target.value });
     }
     changeKlientiGjinia = (e) => {
-      this.setState({ KlientiGjinia: e.target.value });
+      this.setState({ KlientiGjiniaID: e.target.value });
     }
     changeKlientiQyteti = (e) => {
-      this.setState({ KlientiQyteti: e.target.value });
+      this.setState({ KlientiQytetiID: e.target.value });
     }
   
     changeKlientiRoli = (e) => {
-      this.setState({ KlientiRoli: e.target.value });
+      this.setState({ KlientiRoliID: e.target.value });
     }
     changePassword = (e) => {
       this.setState({ Password: e.target.value });
@@ -122,9 +122,9 @@
         ID: 0,
         Emri: "",
         Mbiemri: "",
-        KlientiGjinia: "",
-        KlientiQyteti: "",
-        KlientiRoli: "",
+        KlientiGjiniaID: "",
+        KlientiQytetiID: "",
+        KlientiRoliID: "",
         Email:"",
         Password: ""
       });
@@ -136,9 +136,9 @@
         Emri: emp.Emri,
         Mbiemri: emp.Mbiemri,
         Email: emp.Email,
-        KlientiGjinia: emp.KlientiGjinia,
-        KlientiQyteti: emp.KlientiQyteti,
-        KlientiRoli: emp.KlientiRoli,
+        KlientiGjiniaID: emp.KlientiGjiniaID,
+        KlientiQytetiID: emp.KlientiQytetiID,
+        KlientiRoliID: emp.KlientiRoliID,
         Password: emp.Password,
         
 
@@ -147,6 +147,16 @@
 
 
     createClick() {
+      console.log('Creating client with data:', {
+        Emri: this.state.Emri,
+        Mbiemri: this.state.Mbiemri,
+        Email: this.state.Email,
+        KlientiGjiniaID: this.state.KlientiGjiniaID,
+        KlientiQytetiID: this.state.KlientiQytetiID,
+        KlientiRoliID: this.state.KlientiRoliID,
+        Password: this.state.Password,
+      });
+    
       fetch(variables.API_URL + 'klienti', {
         method: 'POST',
         headers: {
@@ -157,22 +167,26 @@
           Emri: this.state.Emri,
           Mbiemri: this.state.Mbiemri,
           Email: this.state.Email,
-          KlientiGjinia: this.state.KlientiGjinia,
-          KlientiQyteti: this.state.KlientiQyteti,
-          KlientiRoli: this.state.KlientiRoli,
+          KlientiGjiniaID: this.state.KlientiGjiniaID,
+          KlientiQytetiID: this.state.KlientiQytetiID,
+          KlientiRoliID: this.state.KlientiRoliID,
           Password: this.state.Password,
         })
       })
         .then(res => res.json())
         .then((result) => {
+          console.log('Result:', result);
           alert('U shtua me sukses');
           this.refreshList();
           document.getElementById("exampleModal").classList.remove("show");
           document.querySelector(".modal-backdrop").remove();
-        }, (error) => {
-          alert('Failed');
         })
+        .catch(error => {
+          console.error('Failed:', error);
+          alert('Failed');
+        });
     }
+    
 
     updateClick() {
       fetch(variables.API_URL + 'klienti', {
@@ -186,9 +200,9 @@
               Emri: this.state.Emri,
               Mbiemri: this.state.Mbiemri,
               Email: this.state.Email,
-              KlientiGjinia: this.state.KlientiGjinia,
-              KlientiQyteti: this.state.KlientiQyteti,
-              KlientiRoli: this.state.KlientiRoli,
+              KlientiGjiniaID: this.state.KlientiGjiniaID,
+              KlientiQytetiID: this.state.KlientiQytetiID,
+              KlientiRoliID: this.state.KlientiRoliID,
               Password: this.state.Password,
 
           })
@@ -244,9 +258,9 @@
         Emri,
         Mbiemri,
         Password,
-        KlientiGjinia,
-        KlientiQyteti,
-        KlientiRoli,
+        KlientiGjiniaID,
+        KlientiQytetiID,
+        KlientiRoliID,
         Email
         
       } = this.state;
@@ -306,9 +320,9 @@
                         <td>{emp.Emri}</td>
                         <td>{emp.Mbiemri}</td>
                         <td>{emp.Password}</td>
-                        <td>{emp.KlientiGjinia}</td>
-                        <td>{emp.KlientiQyteti}</td>
-                        <td>{emp.KlientiRoli}</td>
+                        <td>{emp.KlientiGjiniaID}</td>
+                        <td>{emp.KlientiQytetiID}</td>
+                        <td>{emp.KlientiRoliID}</td>
                         <td>{emp.Email}</td>
                         <td>
                           <button type="button"
@@ -369,9 +383,9 @@
                               <span className="input-group-text">Gjinia</span>
                               <select className="form-select"
                                 onChange={this.changeKlientiGjinia}
-                                value={KlientiGjinia}>
+                                value={KlientiGjiniaID}>
                                   <option value="">Select</option>
-                                {gjinite.map(dep => <option key={dep.Id}>
+                                {gjinite.map(dep => <option key={dep.KlientiGjiniaID}>
                                   {dep.Gjinia}
                                 </option>)}
                               </select>
@@ -380,9 +394,9 @@
                               <span className="input-group-text">Qyteti</span>
                               <select className="form-select"
                                 onChange={this.changeKlientiQyteti}
-                                value={KlientiQyteti}>
+                                value={KlientiQytetiID}>
                                   <option value="">Select</option>
-                                {qytetet.map(dep => <option key={dep.Id}>
+                                {qytetet.map(dep => <option key={dep.KlientiQytetiID}>
                                   {dep.Qyteti}
                                 </option>)}
                               </select>
@@ -391,9 +405,9 @@
                               <span className="input-group-text">Roli</span>
                               <select className="form-select"
                                 onChange={this.changeKlientiRoli}
-                                value={KlientiRoli}>
+                                value={KlientiRoliID}>
                                   <option value="">Select</option>
-                                {rolet.map(dep => <option key={dep.Id}>
+                                {rolet.map(dep => <option key={dep.KlientiRoliID}>
                                   {dep.Roli}
                                 </option>)}
                               </select>

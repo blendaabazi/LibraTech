@@ -11,7 +11,7 @@ export class Gjuha extends Component {
         this.state = {
             gjuhet: [],
             modalTitle: "",
-            ID: 0,
+            GjuhaID: 0,
             gjuha: ""
         }
     }
@@ -37,14 +37,14 @@ export class Gjuha extends Component {
     addClick() {
         this.setState({
             modalTitle: "Shto Gjuhen",
-            ID: 0,
+            GjuhaID: 0,
             gjuha: ""
         });
     }
     editClick(dep) {
         this.setState({
             modalTitle: "Ndrysho gjuhen",
-            ID: dep.ID,
+            GjuhaID: dep.GjuhaID,
             gjuha: dep.gjuha
         });
     }
@@ -81,7 +81,7 @@ export class Gjuha extends Component {
 
 
     updateClick() {
-        const { ID, gjuha } = this.state;
+        const { GjuhaID, gjuha } = this.state;
 
         if (!gjuha) {
             alert('Ju lutem vendosni gjuhen');
@@ -95,7 +95,7 @@ export class Gjuha extends Component {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                ID: ID,
+                GjuhaID: GjuhaID,
                 gjuha: gjuha
             })
         })
@@ -135,7 +135,7 @@ export class Gjuha extends Component {
         const {
             gjuhet,
             modalTitle,
-            ID,
+            GjuhaID,
             gjuha
         } = this.state;
 
@@ -165,7 +165,7 @@ export class Gjuha extends Component {
 
 
                                             </div>
-                                            ID
+                                            GjuhaID
                                         </th>
                                         <th>
                                             <div className="d-flex flex-row">
@@ -180,8 +180,8 @@ export class Gjuha extends Component {
                                 </thead>
                                 <tbody>
                                     {gjuhet.map(dep =>
-                                        <tr key={dep.ID}>
-                                            <td>{dep.ID}</td>
+                                        <tr key={dep.GjuhaID}>
+                                            <td>{dep.GjuhaID}</td>
                                             <td>{dep.gjuha}</td>
                                             <td>
                                                 <button type="button"
@@ -226,14 +226,14 @@ export class Gjuha extends Component {
                                                     onChange={this.changeGjuha} />
                                             </div>
 
-                                            {ID == 0 ?
+                                            {GjuhaID == 0 ?
                                                 <button type="button"
                                                     className="btn btn-primary float-start"
                                                     onClick={() => this.createClick()}
                                                 >Create</button>
                                                 : null}
 
-                                            {ID != 0 ?
+                                            {GjuhaID != 0 ?
                                                 <button type="button"
                                                     className="btn btn-primary float-start"
                                                     onClick={() => this.updateClick()}

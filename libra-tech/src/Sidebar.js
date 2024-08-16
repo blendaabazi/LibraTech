@@ -134,7 +134,7 @@ function Sidebar() {
                             <i className="fa fa-list"></i>
                             <span>Libra</span>
                         </a>
-                        <div id="collapseLibra" className="collapse" aria-labelledby="headingLibra" data-parent="#accordionSidebar">
+                        {/* <div id="collapseLibra" className="collapse" aria-labelledby="headingLibra" data-parent="#accordionSidebar">
                             <div className="bg-white py-2 collapse-inner rounded">
                                 <div className="list-group">
                                     {categories.map(kategoria => (
@@ -144,7 +144,7 @@ function Sidebar() {
                                     ))}
                                 </div>
                             </div>
-                        </div>
+                        </div> */}
                     </li>
 
                     <li className="nav-item">
@@ -152,7 +152,7 @@ function Sidebar() {
                             <i className="fa fa-list"></i>
                             <span>Mjete Shkollore</span>
                         </a>
-                        <div id="collapseMjeteShkollore" className="collapse" aria-labelledby="headingMjeteShkollore" data-parent="#accordionSidebar">
+                        {/* <div id="collapseMjeteShkollore" className="collapse" aria-labelledby="headingMjeteShkollore" data-parent="#accordionSidebar">
                             <div className="bg-white py-2 collapse-inner rounded">
                                 <div className="list-group">
                                     {tipet.map(tipi => (
@@ -162,7 +162,7 @@ function Sidebar() {
                                     ))}
                                 </div>
                             </div>
-                        </div>
+                        </div> */}
                     </li>
 
                     <hr className="sidebar-divider my-0" />

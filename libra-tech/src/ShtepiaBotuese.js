@@ -11,7 +11,7 @@ export class ShtepiaBotuese extends Component {
         this.state = {
             botuesit: [],
             modalTitle: "",
-            ID: 0,
+            ShtepiaBotueseID: 0,
             shtepiaBotuese: ""
         }
     }
@@ -37,14 +37,14 @@ export class ShtepiaBotuese extends Component {
     addClick() {
         this.setState({
             modalTitle: "Shto Shtepine Botuese",
-            ID: 0,
+            ShtepiaBotueseID: 0,
             shtepiaBotuese: ""
         });
     }
     editClick(dep) {
         this.setState({
             modalTitle: "Ndrysho Shtepine Botuese",
-            ID: dep.ID,
+            ShtepiaBotueseID: dep.ShtepiaBotueseID,
             shtepiaBotuese: dep.shtepiaBotuese
         });
     }
@@ -81,7 +81,7 @@ export class ShtepiaBotuese extends Component {
 
 
     updateClick() {
-        const { ID, shtepiaBotuese } = this.state;
+        const { ShtepiaBotueseID, shtepiaBotuese } = this.state;
 
         if (!shtepiaBotuese) {
             alert('Ju lutem vendosni Shtepine Botuese');
@@ -95,7 +95,7 @@ export class ShtepiaBotuese extends Component {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                ID: ID,
+                ShtepiaBotueseID: ShtepiaBotueseID,
                 shtepiaBotuese: shtepiaBotuese
             })
         })
@@ -135,7 +135,7 @@ export class ShtepiaBotuese extends Component {
         const {
             botuesit,
             modalTitle,
-            ID,
+            ShtepiaBotueseID,
             shtepiaBotuese
         } = this.state;
 
@@ -182,8 +182,8 @@ export class ShtepiaBotuese extends Component {
                                 </thead>
                                 <tbody>
                                     {botuesit.map(dep =>
-                                        <tr key={dep.ID}>
-                                            <td>{dep.ID}</td>
+                                        <tr key={dep.ShtepiaBotueseID}>
+                                            <td>{dep.ShtepiaBotueseID}</td>
                                             <td>{dep.shtepiaBotuese}</td>
                                             <td>
                                                 <button type="button"
@@ -228,14 +228,14 @@ export class ShtepiaBotuese extends Component {
                                                     onChange={this.changeShtepiaBotuese} />
                                             </div>
 
-                                            {ID == 0 ?
+                                            {ShtepiaBotueseID == 0 ?
                                                 <button type="button"
                                                     className="btn btn-primary float-start"
                                                     onClick={() => this.createClick()}
                                                 >Create</button>
                                                 : null}
 
-                                            {ID != 0 ?
+                                            {ShtepiaBotueseID != 0 ?
                                                 <button type="button"
                                                     className="btn btn-primary float-start"
                                                     onClick={() => this.updateClick()}

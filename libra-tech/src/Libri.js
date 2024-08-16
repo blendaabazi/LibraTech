@@ -27,10 +27,10 @@ export class Libri extends Component {
       Pershkrimi: "",
       AutoriID: "",
       NrFaqeve: "",
-      Kategoria: "",
+      KategoriaID: "",
       VitiPublikimit: 0,
-      ShtepiaBotuese: "",
-      Gjuha: "",
+      ShtepiaBotueseID: "",
+      GjuhaID: "",
       Cmimi: 0.0,
       Sasia: 0,
       isFormValid: false,
@@ -61,11 +61,11 @@ export class Libri extends Component {
       Titulli: "",
       Pershkrimi: "",
       AutoriID: "",
-      NrFaqeve: "",
-      Kategoria: "",
+      NrFaqeve: 0,
+      KategoriaID: "",
       VitiPublikimit: 0,
-      ShtepiaBotuese: "",
-      Gjuha: "",
+      ShtepiaBotueseID: "",
+      GjuhaID: "",
       Cmimi: 0.0,
       Sasia: 0,
       isFormValid: false,
@@ -139,16 +139,16 @@ export class Libri extends Component {
     this.setState({ NrFaqeve: e.target.value });
   }
   changeKategoria = (e) => {
-    this.setState({ Kategoria: e.target.value });
+    this.setState({ KategoriaID: e.target.value });
   }
   changeVitiPublikimit = (e) => {
     this.setState({ VitiPublikimit: e.target.value });
   }
   changeShtepiaBotuese = (e) => {
-    this.setState({ ShtepiaBotuese: e.target.value });
+    this.setState({ ShtepiaBotueseID: e.target.value });
   }
   changeGjuha = (e) => {
-    this.setState({ Gjuha: e.target.value });
+    this.setState({ GjuhaID: e.target.value });
   }
   changeCmimi = (e) => {
     this.setState({ Cmimi: e.target.value });
@@ -157,9 +157,9 @@ export class Libri extends Component {
     this.setState({ Sasia: e.target.value });
   }
   validateForm = () => {
-    const { ISBN, Titulli, Pershkrimi, AutoriID,NrFaqeve,Kategoria,VitiPublikimit,ShtepiaBotuese,Gjuha,Cmimi,Sasia } = this.state;
-    return ISBN !== "" && Titulli !== 0 && Pershkrimi !== 0 && AutoriID !== ""  && NrFaqeve !== ""   && Kategoria !== ""  && VitiPublikimit !== "-"  && ShtepiaBotuese !== ""
-    && Gjuha !== ""  && Cmimi !== ""  && Sasia !== "";
+    const { ISBN, Titulli, Pershkrimi, AutoriID,NrFaqeve,KategoriaID,VitiPublikimit,ShtepiaBotueseID,GjuhaID,Cmimi,Sasia } = this.state;
+    return ISBN !== "" && Titulli !== 0 && Pershkrimi !== 0 && AutoriID !== ""  && NrFaqeve !== ""   && KategoriaID !== ""  && VitiPublikimit !== "-"  && ShtepiaBotueseID !== ""
+    && GjuhaID !== ""  && Cmimi !== ""  && Sasia !== "";
 };
 
 
@@ -172,10 +172,10 @@ export class Libri extends Component {
       Pershkrimi: "",
       AutoriID: "",
       NrFaqeve: "",
-      Kategoria: "",
+      KategoriaID: "",
       VitiPublikimit: 0,
-      ShtepiaBotuese: "",
-      Gjuha: "",
+      ShtepiaBotueseID: "",
+      GjuhaID: "",
       Cmimi: 0.0,
       Sasia: 0,
       ImgPath: "img.png"
@@ -190,10 +190,10 @@ export class Libri extends Component {
       Pershkrimi: emp.Pershkrimi,
       AutoriID: emp.AutoriID,
       NrFaqeve: emp.NrFaqeve,
-      Kategoria: emp.Kategoria,
+      KategoriaID: emp.KategoriaID,
       VitiPublikimit: emp.VitiPublikimit,
-      ShtepiaBotuese: emp.ShtepiaBotuese,
-      Gjuha: emp.Gjuha,
+      ShtepiaBotueseID: emp.ShtepiaBotueseID,
+      GjuhaID: emp.GjuhaID,
       Cmimi: emp.Cmimi,
       Sasia: emp.Sasia,
       ImgPath: emp.ImgPath
@@ -208,10 +208,10 @@ export class Libri extends Component {
       Pershkrimi: this.state.Pershkrimi,
       AutoriID: this.state.AutoriID,
       NrFaqeve: this.state.NrFaqeve,
-      Kategoria: this.state.Kategoria,
+      KategoriaID: this.state.KategoriaID,
       VitiPublikimit: this.state.VitiPublikimit,
-      ShtepiaBotuese: this.state.ShtepiaBotuese,
-      Gjuha: this.state.Gjuha,
+      ShtepiaBotueseID: this.state.ShtepiaBotueseID,
+      GjuhaID: this.state.GjuhaID,
       Cmimi: this.state.Cmimi,
       Sasia: this.state.Sasia,
       ImgPath: this.state.ImgPath
@@ -228,7 +228,7 @@ export class Libri extends Component {
     });
 };
 updateClick = () => {
-  const { ID,ISBN, Titulli, Pershkrimi, AutoriID,NrFaqeve,Kategoria,VitiPublikimit,ShtepiaBotuese,Gjuha,Cmimi,Sasia,ImgPath  } = this.state;
+  const { ID,ISBN, Titulli, Pershkrimi, AutoriID,NrFaqeve,KategoriaID,VitiPublikimit,ShtepiaBotueseID,GjuhaID,Cmimi,Sasia,ImgPath  } = this.state;
 
   axios.put(`http://localhost:5170/api/Libri/${ID}`, {
     ID,
@@ -237,10 +237,10 @@ updateClick = () => {
     Pershkrimi,
     AutoriID,
     NrFaqeve,
-    Kategoria,
+    KategoriaID,
     VitiPublikimit,
-    ShtepiaBotuese,
-    Gjuha,
+    ShtepiaBotueseID,
+    GjuhaID,
     Cmimi,
     Sasia,
     ImgPath
@@ -311,10 +311,10 @@ updateClick = () => {
       Pershkrimi,
       AutoriID,
       NrFaqeve,
-      Kategoria,
+      KategoriaID,
       VitiPublikimit,
-      ShtepiaBotuese,
-      Gjuha,
+      ShtepiaBotueseID,
+      GjuhaID,
       Cmimi,
       Sasia,
       PhotoFileName,
@@ -346,9 +346,7 @@ updateClick = () => {
                   <Link style={{ background: '#a9c0cf' }} to="/Kategoria" className="btn btn-primary m-2 float-end">
                     + Kategoria
                   </Link>
-                  <Link style={{ background: '#a9c0cf' }} to="/NrFaqeve" className="btn btn-primary m-2 float-end">
-                    + NrFaqeve
-                  </Link>
+
                 </div>
                 <div>
                   <button type="button"
@@ -387,10 +385,10 @@ updateClick = () => {
                       <td>{emp.Pershkrimi}</td>
                       <td>{autoret.find(t => t.AutoriID === emp.AutoriID)?.Emri || 'No Team'}</td>
                       <td>{emp.NrFaqeve}</td>
-                      <td>{emp.Kategoria}</td>
+                      <td>{kategorit.find(t => t.KategoriaID === emp.KategoriaID)?.kategoria || 'No Kategori'}</td>
                       <td>{emp.VitiPublikimit}</td>
-                      <td>{emp.ShtepiaBotuese}</td>
-                      <td>{emp.Gjuha}</td>
+                      <td>{botuesit.find(t => t.ShtepiaBotueseID === emp.ShtepiaBotueseID)?.shtepiaBotuese || 'Nuk ka botues'}</td>
+                      <td>{gjuhet.find(t => t.GjuhaID === emp.GjuhaID)?.gjuha || 'Nuk ka gjuhe'}</td>
                       <td>{emp.Cmimi}</td>
                       <td>{emp.Sasia}</td>
                       <td>
@@ -461,24 +459,18 @@ updateClick = () => {
                             </select>
                           </div>
                           <div className="input-group mb-3">
-                            <span className="input-group-text">Nr.Faqeve</span>
-                            <select className="form-select"
-                              onChange={this.changeNrFaqeve}
-                              value={NrFaqeve}>
-                                <option value="">Select</option>
-                              {faqet.map(dep => <option key={dep.ID}>
-                                {dep.nrfaqeve}
-                              </option>)}
-                            </select>
+                            <span className="input-group-text">Nr\</span>
+                            <input type="text" className="form-control"
+                              value={NrFaqeve}
+                              onChange={this.changeNrFaqeve} />
                           </div>
                           <div className="input-group mb-3">
                             <span className="input-group-text">Kategoria</span>
                             <select className="form-select"
                               onChange={this.changeKategoria}
-                              value={Kategoria}>
+                              value={KategoriaID}>
                                  <option value="">Select</option>
-                              {kategorit.map(dep => <option key={dep.ID}>
-                               
+                              {kategorit.map(dep => <option key={dep.KategoriaID} value={dep.KategoriaID}>
                                 {dep.kategoria}
                               </option>)}
                             </select>
@@ -493,9 +485,9 @@ updateClick = () => {
                             <span className="input-group-text">Shtepia Botuese</span>
                             <select className="form-select"
                               onChange={this.changeShtepiaBotuese}
-                              value={ShtepiaBotuese}>
+                              value={ShtepiaBotueseID}>
                                  <option value="">Select</option>
-                              {botuesit.map(dep => <option key={dep.ID}>
+                              {botuesit.map(dep => <option key={dep.ShtepiaBotueseID} value={dep.ShtepiaBotueseID}>
                                 {dep.shtepiaBotuese}
                               </option>)}
                             </select>
@@ -504,10 +496,9 @@ updateClick = () => {
                             <span className="input-group-text">Gjuha</span>
                             <select className="form-select"
                               onChange={this.changeGjuha}
-                              placeholder="Last Name"
-                              value={Gjuha}>
+                              value={GjuhaID}>
                                  <option value="">Select</option>
-                              {gjuhet.map(dep => <option key={dep.ID}>
+                              {gjuhet.map(dep => <option key={dep.GjuhaID} value={dep.GjuhaID}>
                                 {dep.gjuha}
                               </option>)}
                             </select>

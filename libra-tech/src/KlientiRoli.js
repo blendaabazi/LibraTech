@@ -14,7 +14,7 @@ export class KlientiRoli extends Component {
             rolet: [],
             modalTitle: "",
             Roli: "",
-            Id: 0,
+            KlientiRoliID: 0,
 
             
         }
@@ -40,14 +40,14 @@ export class KlientiRoli extends Component {
     addClick() {
         this.setState({
             modalTitle: "Shto Rolin",
-            Id: 0,
+            KlientiRoliID: 0,
             Roli: ""
         });
     }
     editClick(dep) {
         this.setState({
             modalTitle: "Edit Roli",
-            Id: dep.Id,
+            KlientiRoliID: dep.KlientiRoliID,
             Roli: dep.Roli
         });
     }
@@ -60,7 +60,7 @@ export class KlientiRoli extends Component {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                Roli: this.state.Roli
+                KlientiRoliID: this.state.KlientiRoliID
             })
         })
             .then(res => res.json())
@@ -83,7 +83,7 @@ export class KlientiRoli extends Component {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                Id: this.state.Id,
+                KlientiRoliID: this.state.KlientiRoliID,
                 Roli: this.state.Roli
             })
         })
@@ -121,7 +121,7 @@ export class KlientiRoli extends Component {
         const {
             rolet,
             modalTitle,
-            Id,
+            KlientiRoliID,
             Roli
         } = this.state;
 
@@ -166,8 +166,8 @@ export class KlientiRoli extends Component {
                                 </thead>
                                 <tbody>
                                     {rolet.map(dep =>
-                                        <tr key={dep.Id}>
-                                            <td>{dep.Id}</td>
+                                        <tr key={dep.KlientiRoliID}>
+                                            <td>{dep.KlientiRoliID}</td>
                                             <td>{dep.Roli}</td>
                                             <td>
                                                 <button type="button"
@@ -183,7 +183,7 @@ export class KlientiRoli extends Component {
 
                                                 <button type="button"
                                                     className="btn btn-light mr-1"
-                                                    onClick={() => this.deleteClick(dep.Id)}>
+                                                    onClick={() => this.deleteClick(dep.KlientiRoliID)}>
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-trash-fill" viewBox="0 0 16 16">
                                                         <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z" />
                                                     </svg>
@@ -212,14 +212,14 @@ export class KlientiRoli extends Component {
                                                     onChange={this.changeRoli} />
                                             </div>
 
-                                            {Id == 0 ?
+                                            {KlientiRoliID == 0 ?
                                                 <button type="button"
                                                     className="btn btn-primary float-start"
                                                     onClick={() => this.createClick()}
                                                 >Create</button>
                                                 : null}
 
-                                            {Id != 0 ?
+                                            {KlientiRoliID != 0 ?
                                                 <button type="button"
                                                     className="btn btn-primary float-start"
                                                     onClick={() => this.updateClick()}

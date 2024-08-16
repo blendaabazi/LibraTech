@@ -14,7 +14,7 @@ export class KlientiQyteti extends Component {
             qytetet: [],
             modalTitle: "",
             Qyteti: "",
-            Id: 0,
+            KlientiQytetiID: 0,
 
             
         }
@@ -40,14 +40,14 @@ export class KlientiQyteti extends Component {
     addClick() {
         this.setState({
             modalTitle: "Shto Qytetin",
-            Id: 0,
+            KlientiQytetiID: 0,
             Qyteti: ""
         });
     }
     editClick(dep) {
         this.setState({
             modalTitle: "Edit Qyteti",
-            Id: dep.Id,
+            KlientiQytetiID: dep.KlientiQytetiID,
             Qyteti: dep.Qyteti
         });
     }
@@ -83,7 +83,7 @@ export class KlientiQyteti extends Component {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                Id: this.state.Id,
+                KlientiQytetiID: this.state.KlientiQytetiID,
                 Qyteti: this.state.Qyteti
             })
         })
@@ -123,7 +123,7 @@ export class KlientiQyteti extends Component {
         const {
             qytetet,
             modalTitle,
-            Id,
+            KlientiQytetiID,
             Qyteti
         } = this.state;
 
@@ -168,8 +168,8 @@ export class KlientiQyteti extends Component {
                                 </thead>
                                 <tbody>
                                     {qytetet.map(dep =>
-                                        <tr key={dep.Id}>
-                                            <td>{dep.Id}</td>
+                                        <tr key={dep.KlientiQytetiID}>
+                                            <td>{dep.KlientiQytetiID}</td>
                                             <td>{dep.Qyteti}</td>
                                             <td>
                                                 <button type="button"
@@ -185,7 +185,7 @@ export class KlientiQyteti extends Component {
 
                                                 <button type="button"
                                                     className="btn btn-light mr-1"
-                                                    onClick={() => this.deleteClick(dep.Id)}>
+                                                    onClick={() => this.deleteClick(dep.KlientiQytetiID)}>
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-trash-fill" viewBox="0 0 16 16">
                                                         <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z" />
                                                     </svg>
@@ -214,14 +214,14 @@ export class KlientiQyteti extends Component {
                                                     onChange={this.changeQyteti} />
                                             </div>
 
-                                            {Id == 0 ?
+                                            {KlientiQytetiID == 0 ?
                                                 <button type="button"
                                                     className="btn btn-primary float-start"
                                                     onClick={() => this.createClick()}
                                                 >Create</button>
                                                 : null}
 
-                                            {Id != 0 ?
+                                            {KlientiQytetiID != 0 ?
                                                 <button type="button"
                                                     className="btn btn-primary float-start"
                                                     onClick={() => this.updateClick()}

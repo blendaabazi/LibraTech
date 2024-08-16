@@ -100,6 +100,8 @@ function App() {
             </>
           )}
            <Route path='/libri' element={<Libri />} />
+           <Route path='/Kategoria' element={<Kategoria />} />
+
            <Route path='/porosia' element={<Porosia />} />
            <Route path="/klienti" element={<Klienti/>} />
            <Route path="/stafi" element={<Stafi/>} />

@@ -1,243 +1,243 @@
 
-import React, { Component } from 'react';
-import { variables } from './Variables.js';
-import Footer from './Footer.js';
-import Header from './Header';
-import Sidebar from './Sidebar.js';
+// import React, { Component } from 'react';
+// import { variables } from './Variables.js';
+// import Footer from './Footer.js';
+// import Header from './Header';
+// import Sidebar from './Sidebar.js';
 
-export class Tipi extends Component {
+// export class Tipi extends Component {
 
-    constructor(props) {
-        super(props);
+//     constructor(props) {
+//         super(props);
 
-        this.state = {
-            tipet: [],
-            modalTitle: "",
-            TipiEmri: "",
-            TipiID: 0,
+//         this.state = {
+//             tipet: [],
+//             modalTitle: "",
+//             TipiEmri: "",
+//             TipiID: 0,
 
             
-        }
-    }
+//         }
+//     }
 
 
-    refreshList() {
-        fetch(variables.API_URL + 'Tipi')
-            .then(response => response.json())
-            .then(data => {
-                this.setState({ tipet: data });
-            });
-    }
+//     refreshList() {
+//         fetch(variables.API_URL + 'Tipi')
+//             .then(response => response.json())
+//             .then(data => {
+//                 this.setState({ tipet: data });
+//             });
+//     }
 
-    componentDidMount() {
-        this.refreshList();
-    }
+//     componentDidMount() {
+//         this.refreshList();
+//     }
 
-    changeTipiEmri = (e) => {
-        this.setState({ TipiEmri: e.target.value });
-    }
+//     changeTipiEmri = (e) => {
+//         this.setState({ TipiEmri: e.target.value });
+//     }
 
-    addClick() {
-        this.setState({
-            modalTitle: "Add Tip",
-            TipiID: 0,
-            TipiEmri: ""
-        });
-    }
-    editClick(dep) {
-        this.setState({
-            modalTitle: "Edit Tip",
-            TipiID: dep.TipiID,
-            TipiEmri: dep.TipiEmri
-        });
-    }
+//     addClick() {
+//         this.setState({
+//             modalTitle: "Add Tip",
+//             TipiID: 0,
+//             TipiEmri: ""
+//         });
+//     }
+//     editClick(dep) {
+//         this.setState({
+//             modalTitle: "Edit Tip",
+//             TipiID: dep.TipiID,
+//             TipiEmri: dep.TipiEmri
+//         });
+//     }
 
-    createClick() {
-        fetch(variables.API_URL + 'Tipi', {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                TipiEmri: this.state.TipiEmri
-            })
-        })
-            .then(res => res.json())
-            .then((result) => {
-                alert('U shtua me sukses');
-                 this.refreshList();
-                document.getElementById("exampleModal").classList.remove("show");
-                document.querySelector(".modal-backdrop").remove();
-            }, (error) => {
-                alert('Failed');
-            })
-    }
-
-
-    updateClick() {
-        fetch(variables.API_URL + 'Tipi', {
-            method: 'PUT',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                TipiID: this.state.TipiID,
-                TipiEmri: this.state.TipiEmri
-            })
-        })
-            .then(res => res.json())
-            .then((result) => {
-                alert('Failed');
-
-            }, (error) => {
-                alert('Updated');
-                this.refreshList();
-                document.getElementById("exampleModal").classList.remove("show");
-                document.querySelector(".modal-backdrop").remove();
-            })
-    }
-
-    deleteClick(id) {
-        if (window.confirm('A jeni i sigurt?')) {
-            fetch(variables.API_URL + 'Tipi/' + id, {
-                method: 'DELETE',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                }
-            })
-                .then(res => res.json())
-                .then((result) => {
-                    alert('Failed');
-
-                }, (error) => {
-                    alert('Success');
-                    this.refreshList();
-                })
-        }
-    }
-
-    render() {
-        const {
-            tipet,
-            modalTitle,
-            TipiID,
-            TipiEmri
-        } = this.state;
-
-        return (
-            <div>
-                <body id="page-top">
-                    <Header />
-                    <div className="container">
-
-                        <Sidebar />
-                        <div className="container-fluid" style={{ marginLeft: '110px', }}>
+//     createClick() {
+//         fetch(variables.API_URL + 'Tipi', {
+//             method: 'POST',
+//             headers: {
+//                 'Accept': 'application/json',
+//                 'Content-Type': 'application/json'
+//             },
+//             body: JSON.stringify({
+//                 TipiEmri: this.state.TipiEmri
+//             })
+//         })
+//             .then(res => res.json())
+//             .then((result) => {
+//                 alert('U shtua me sukses');
+//                  this.refreshList();
+//                 document.getElementById("exampleModal").classList.remove("show");
+//                 document.querySelector(".modal-backdrop").remove();
+//             }, (error) => {
+//                 alert('Failed');
+//             })
+//     }
 
 
-                            <button type="button"
-                                className="btn btn-primary m-2 float-end"
-                                data-bs-toggle="modal"
-                                data-bs-target="#exampleModal"
-                                onClick={() => this.addClick()}>
-                                Shto Tipin
-                            </button>
-                            <table className="table table-striped">
-                                <thead>
-                                    <tr>
-                                        <th>
-                                            <div className="d-flex flex-row">
+//     updateClick() {
+//         fetch(variables.API_URL + 'Tipi', {
+//             method: 'PUT',
+//             headers: {
+//                 'Accept': 'application/json',
+//                 'Content-Type': 'application/json'
+//             },
+//             body: JSON.stringify({
+//                 TipiID: this.state.TipiID,
+//                 TipiEmri: this.state.TipiEmri
+//             })
+//         })
+//             .then(res => res.json())
+//             .then((result) => {
+//                 alert('Failed');
+
+//             }, (error) => {
+//                 alert('Updated');
+//                 this.refreshList();
+//                 document.getElementById("exampleModal").classList.remove("show");
+//                 document.querySelector(".modal-backdrop").remove();
+//             })
+//     }
+
+//     deleteClick(id) {
+//         if (window.confirm('A jeni i sigurt?')) {
+//             fetch(variables.API_URL + 'Tipi/' + id, {
+//                 method: 'DELETE',
+//                 headers: {
+//                     'Accept': 'application/json',
+//                     'Content-Type': 'application/json'
+//                 }
+//             })
+//                 .then(res => res.json())
+//                 .then((result) => {
+//                     alert('Failed');
+
+//                 }, (error) => {
+//                     alert('Success');
+//                     this.refreshList();
+//                 })
+//         }
+//     }
+
+//     render() {
+//         const {
+//             tipet,
+//             modalTitle,
+//             TipiID,
+//             TipiEmri
+//         } = this.state;
+
+//         return (
+//             <div>
+//                 <body id="page-top">
+//                     <Header />
+//                     <div className="container">
+
+//                         <Sidebar />
+//                         <div className="container-fluid" style={{ marginLeft: '110px', }}>
 
 
-                                            </div>
-                                            TipiID
-                                        </th>
-                                        <th>
-                                            <div className="d-flex flex-row">
+//                             <button type="button"
+//                                 className="btn btn-primary m-2 float-end"
+//                                 data-bs-toggle="modal"
+//                                 data-bs-target="#exampleModal"
+//                                 onClick={() => this.addClick()}>
+//                                 Shto Tipin
+//                             </button>
+//                             <table className="table table-striped">
+//                                 <thead>
+//                                     <tr>
+//                                         <th>
+//                                             <div className="d-flex flex-row">
 
-                                            </div>
-                                            TipiEmri
 
-                                        </th>
-                                        <th>
-                                            Options
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {tipet.map(dep =>
-                                        <tr key={dep.TipiID}>
-                                            <td>{dep.TipiID}</td>
-                                            <td>{dep.TipiEmri}</td>
-                                            <td>
-                                                <button type="button"
-                                                    className="btn btn-light mr-1"
-                                                    data-bs-toggle="modal"
-                                                    data-bs-target="#exampleModal"
-                                                    onClick={() => this.editClick(dep)}>
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-pencil-square" viewBox="0 0 16 16">
-                                                        <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
-                                                        <path fillRule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
-                                                    </svg>
-                                                </button>
+//                                             </div>
+//                                             TipiID
+//                                         </th>
+//                                         <th>
+//                                             <div className="d-flex flex-row">
 
-                                                <button type="button"
-                                                    className="btn btn-light mr-1"
-                                                    onClick={() => this.deleteClick(dep.TipiID)}>
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-trash-fill" viewBox="0 0 16 16">
-                                                        <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z" />
-                                                    </svg>
-                                                </button>
+//                                             </div>
+//                                             TipiEmri
 
-                                            </td>
-                                        </tr>
-                                    )}
-                                </tbody>
-                            </table>
+//                                         </th>
+//                                         <th>
+//                                             Options
+//                                         </th>
+//                                     </tr>
+//                                 </thead>
+//                                 <tbody>
+//                                     {tipet.map(dep =>
+//                                         <tr key={dep.TipiID}>
+//                                             <td>{dep.TipiID}</td>
+//                                             <td>{dep.TipiEmri}</td>
+//                                             <td>
+//                                                 <button type="button"
+//                                                     className="btn btn-light mr-1"
+//                                                     data-bs-toggle="modal"
+//                                                     data-bs-target="#exampleModal"
+//                                                     onClick={() => this.editClick(dep)}>
+//                                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-pencil-square" viewBox="0 0 16 16">
+//                                                         <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
+//                                                         <path fillRule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
+//                                                     </svg>
+//                                                 </button>
 
-                            <div className="modal fade" id="exampleModal" tabIndex="-1" aria-hidden="true">
-                                <div className="modal-dialog modal-lg modal-dialog-centered">
-                                    <div className="modal-content">
-                                        <div className="modal-header">
-                                            <h5 className="modal-title">{modalTitle}</h5>
-                                            <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"
-                                            ></button>
-                                        </div>
+//                                                 <button type="button"
+//                                                     className="btn btn-light mr-1"
+//                                                     onClick={() => this.deleteClick(dep.TipiID)}>
+//                                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-trash-fill" viewBox="0 0 16 16">
+//                                                         <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z" />
+//                                                     </svg>
+//                                                 </button>
 
-                                        <div className="modal-body">
-                                            <div className="input-group mb-3">
-                                                <span className="input-group-text">TipiEmri</span>
-                                                <input type="text" className="form-control"
-                                                    value={TipiEmri}
-                                                    onChange={this.changeTipiEmri} />
-                                            </div>
+//                                             </td>
+//                                         </tr>
+//                                     )}
+//                                 </tbody>
+//                             </table>
 
-                                            {TipiID == 0 ?
-                                                <button type="button"
-                                                    className="btn btn-primary float-start"
-                                                    onClick={() => this.createClick()}
-                                                >Create</button>
-                                                : null}
+//                             <div className="modal fade" id="exampleModal" tabIndex="-1" aria-hidden="true">
+//                                 <div className="modal-dialog modal-lg modal-dialog-centered">
+//                                     <div className="modal-content">
+//                                         <div className="modal-header">
+//                                             <h5 className="modal-title">{modalTitle}</h5>
+//                                             <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"
+//                                             ></button>
+//                                         </div>
 
-                                            {TipiID != 0 ?
-                                                <button type="button"
-                                                    className="btn btn-primary float-start"
-                                                    onClick={() => this.updateClick()}
-                                                >Update</button>
-                                                : null}
+//                                         <div className="modal-body">
+//                                             <div className="input-group mb-3">
+//                                                 <span className="input-group-text">TipiEmri</span>
+//                                                 <input type="text" className="form-control"
+//                                                     value={TipiEmri}
+//                                                     onChange={this.changeTipiEmri} />
+//                                             </div>
 
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <Footer />
-                </body>
-            </div>
-        )
-    }
-}
-export default Tipi;
+//                                             {TipiID == 0 ?
+//                                                 <button type="button"
+//                                                     className="btn btn-primary float-start"
+//                                                     onClick={() => this.createClick()}
+//                                                 >Create</button>
+//                                                 : null}
+
+//                                             {TipiID != 0 ?
+//                                                 <button type="button"
+//                                                     className="btn btn-primary float-start"
+//                                                     onClick={() => this.updateClick()}
+//                                                 >Update</button>
+//                                                 : null}
+
+//                                         </div>
+//                                     </div>
+//                                 </div>
+//                             </div>
+//                         </div>
+//                     </div>
+//                     <Footer />
+//                 </body>
+//             </div>
+//         )
+//     }
+// }
+// export default Tipi;
