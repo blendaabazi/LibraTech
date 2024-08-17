@@ -12,7 +12,7 @@ export class ProdhuesiMSh extends Component {
             prodhueset: [],
             modalTitle: "",
             Prodhuesi: "",
-            ID: 0,
+            ProdhuesiMShID: 0,
         }
     }
 
@@ -35,7 +35,7 @@ export class ProdhuesiMSh extends Component {
     addClick() {
         this.setState({
             modalTitle: "Shto prodhuesin",
-            ID: 0,
+            ProdhuesiMShID: 0,
             Prodhuesi: ""
         });
     }
@@ -43,7 +43,7 @@ export class ProdhuesiMSh extends Component {
     editClick(dep) {
         this.setState({
             modalTitle: "Ndrysho prodhuesin",
-            ID: dep.ID,
+            ProdhuesiMShID: dep.ProdhuesiMShID,
             Prodhuesi: dep.Prodhuesi
         });
     }
@@ -84,7 +84,7 @@ export class ProdhuesiMSh extends Component {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                ID: this.state.ID,
+                ProdhuesiMShID: this.state.ProdhuesiMShID,
                 Prodhuesi: this.state.Prodhuesi
             })
         })
@@ -126,7 +126,7 @@ export class ProdhuesiMSh extends Component {
         const {
             prodhueset,
             modalTitle,
-            ID,
+            ProdhuesiMShID,
             Prodhuesi
         } = this.state;
 
@@ -156,8 +156,8 @@ export class ProdhuesiMSh extends Component {
                                 </thead>
                                 <tbody>
                                     {prodhueset.map(dep =>
-                                        <tr key={dep.ID}>
-                                            <td>{dep.ID}</td>
+                                        <tr key={dep.ProdhuesiMShID}>
+                                            <td>{dep.ProdhuesiMShID}</td>
                                             <td>{dep.Prodhuesi}</td>
                                             <td>
                                                 <button type="button"
@@ -172,7 +172,7 @@ export class ProdhuesiMSh extends Component {
                                                 </button>
                                                 <button type="button"
                                                     className="btn btn-light mr-1"
-                                                    onClick={() => this.deleteClick(dep.ID)}>
+                                                    onClick={() => this.deleteClick(dep.ProdhuesiMShID)}>
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-trash-fill" viewBox="0 0 16 16">
                                                         <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z" />
                                                     </svg>
@@ -198,7 +198,7 @@ export class ProdhuesiMSh extends Component {
                                                     onChange={this.changeProdhuesi} />
                                             </div>
 
-                                            {ID === 0 ?
+                                            {ProdhuesiMShID === 0 ?
                                                 <button type="button"
                                                     className="btn btn-primary float-start"
                                                     onClick={() => this.createClick()}>
@@ -206,7 +206,7 @@ export class ProdhuesiMSh extends Component {
                                                 </button>
                                                 : null}
 
-                                            {ID !== 0 ?
+                                            {ProdhuesiMShID !== 0 ?
                                                 <button type="button"
                                                     className="btn btn-primary float-start"
                                                     onClick={() => this.updateClick()}>

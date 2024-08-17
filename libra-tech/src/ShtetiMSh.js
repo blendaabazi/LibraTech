@@ -11,8 +11,8 @@ export class ShtetiMSh extends Component {
         this.state = {
             shtetet: [],
             modalTitle: "",
-            Shteti: "",
-            ID: 0,
+            shteti: "",
+            ShtetiMShID: 0,
         }
     }
 
@@ -28,29 +28,29 @@ export class ShtetiMSh extends Component {
         this.refreshList();
     }
 
-    changeShteti = (e) => {
-        this.setState({ Shteti: e.target.value });
+    changeShteti= (e) => {
+        this.setState({ shteti: e.target.value });
     }
 
     addClick() {
         this.setState({
             modalTitle: "Shto shtetin",
-            ID: 0,
-            Shteti: ""
+            ShtetiMShID: 0,
+            shteti: ""
         });
     }
 
     editClick(dep) {
         this.setState({
-            modalTitle: "Ndrysho Shtetin",
-            ID: dep.ID,
-            Shteti: dep.Shteti
+            modalTitle: "Ndrysho shtetin",
+            ShtetiMShID: dep.ShtetiMShID,
+            shteti: dep.shteti
         });
     }
 
     createClick() {
 
-        if (!this.state.Shteti) {
+        if (!this.state.shteti) {
             alert("Ju lutem shkruani emrin e shtetit.");
             return;
         }
@@ -62,7 +62,7 @@ export class ShtetiMSh extends Component {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                Shteti: this.state.Shteti
+                shteti: this.state.shteti
             })
         })
             .then(res => res.json())
@@ -84,8 +84,8 @@ export class ShtetiMSh extends Component {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                ID: this.state.ID,
-                Shteti: this.state.Shteti
+                ShtetiMShID: this.state.ShtetiMShID,
+                shteti: this.state.shteti
             })
         })
             .then(res => res.json())
@@ -126,8 +126,8 @@ export class ShtetiMSh extends Component {
         const {
             shtetet,
             modalTitle,
-            ID,
-            Shteti
+            ShtetiMShID,
+            shteti
         } = this.state;
 
         return (
@@ -144,21 +144,21 @@ export class ShtetiMSh extends Component {
                                 data-bs-toggle="modal"
                                 data-bs-target="#exampleModal"
                                 onClick={() => this.addClick()}>
-                                Shto Shtetin
+                                Shto shtetin
                             </button>
                             <table className="table table-striped">
                                 <thead>
                                     <tr>
                                         <th>ID</th>
-                                        <th>Shteti</th>
+                                        <th>shteti</th>
                                         <th>Options</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {shtetet.map(dep =>
-                                        <tr key={dep.ID}>
-                                            <td>{dep.ID}</td>
-                                            <td>{dep.Shteti}</td>
+                                        <tr key={dep.ShtetiMShID}>
+                                            <td>{dep.ShtetiMShID}</td>
+                                            <td>{dep.shteti}</td>
                                             <td>
                                                 <button type="button"
                                                     className="btn btn-light mr-1"
@@ -172,7 +172,7 @@ export class ShtetiMSh extends Component {
                                                 </button>
                                                 <button type="button"
                                                     className="btn btn-light mr-1"
-                                                    onClick={() => this.deleteClick(dep.ID)}>
+                                                    onClick={() => this.deleteClick(dep.ShtetiMShID)}>
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-trash-fill" viewBox="0 0 16 16">
                                                         <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z" />
                                                     </svg>
@@ -192,13 +192,13 @@ export class ShtetiMSh extends Component {
                                         </div>
                                         <div className="modal-body">
                                             <div className="input-group mb-3">
-                                                <span className="input-group-text">Shteti</span>
+                                                <span className="input-group-text">shteti</span>
                                                 <input type="text" className="form-control"
-                                                    value={Shteti}
+                                                    value={shteti}
                                                     onChange={this.changeShteti} />
                                             </div>
 
-                                            {ID === 0 ?
+                                            {ShtetiMShID === 0 ?
                                                 <button type="button"
                                                     className="btn btn-primary float-start"
                                                     onClick={() => this.createClick()}>
@@ -206,7 +206,7 @@ export class ShtetiMSh extends Component {
                                                 </button>
                                                 : null}
 
-                                            {ID !== 0 ?
+                                            {ShtetiMShID !== 0 ?
                                                 <button type="button"
                                                     className="btn btn-primary float-start"
                                                     onClick={() => this.updateClick()}>

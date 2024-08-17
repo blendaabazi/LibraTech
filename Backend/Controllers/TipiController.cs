@@ -26,12 +26,12 @@ namespace Lab1_Backend.Controllers
 
         // GET: api/Kategoria
         [HttpGet]
-        //public ActionResult<IEnumerable<Tipi>> GetTipi()
-        //{
-        //    return _context.Tipi.ToList();
-        //}
+        public ActionResult<IEnumerable<Tipi>> GetTipi()
+        {
+            return _context.Tipi.ToList();
+        }
 
-       // GET: api/Kategoria/5
+        // GET: api/Kategoria/5
         [HttpGet("{id}")]
         public ActionResult<Tipi> GetTipi(int id)
         {

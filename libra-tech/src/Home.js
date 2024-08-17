@@ -52,7 +52,7 @@ function Home() {
 
     const fetchMjetet = async () => {
         try {
-            const response = await fetch(variables.API_URL + 'MjeteShkollore/GetMjetetShkollore');
+            const response = await fetch(variables.API_URL + 'MjeteShkollore');
             if (!response.ok) {
                 throw new Error('Gabim gjatë marrjes së të dhënave');
             }

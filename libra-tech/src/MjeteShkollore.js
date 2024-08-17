@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import { variables } from './Variables.js';
-import DimensionetMSh from './DimensionetMSh.js';
 import ProdhuesiMSh from './ProdhuesiMSh.js';
 import ShtetiMSh from './ShtetiMSh.js';
 import Header from './Header';
 import Footer from './Footer';
 import Sidebar from './Sidebar';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 
 
 
@@ -19,21 +19,17 @@ export class MjeteShkollore extends Component {
         this.state = {
             shtetet: [],
             prodhuesit: [],
-            ngjyrat: [],
-            dimensionet: [],
             tipet: [],
             mjetet: [],
             modalTitle: "",
             ID: 0,
             Pershkrimi: "",
-            Tipi: "",
+            TipiID: "",
             ImgPath: "img.png",
             Cmimi: 0.0,
             Sasia: 0,
-            DimensionetMSh: "",
-            NgjyraMSh: "",
-            ProdhuesiMSh: "",
-            ShtetiMSh: "",
+            ProdhuesiMShID: "",
+            ShtetiMShID: "",
             PhotoFileName: variables.PHOTO_URL,
             isFormValid: false,
 
@@ -58,28 +54,27 @@ export class MjeteShkollore extends Component {
             modalTitle: "",
             ID: 0,
             Pershkrimi: "",
-            Tipi: "",
+            TipiID: "",
             ImgPath: "img.png",
             Cmimi: 0.0,
             Sasia: 0,
-            DimensionetMSh: "",
-            NgjyraMSh: "",
-            ProdhuesiMSh: "",
-            ShtetiMSh: "",
+
+            ProdhuesiMShID: "",
+            ShtetiMShID: "",
             isFormValid: false,
 
         });
     }
 
     validateForm = () => {
-        const { Pershkrimi, Tipi, Cmimi, Sasia, DimensionetMSh, NgjyraMSh, ProdhuesiMSh
-            , ShtetiMSh } = this.state;
-        return Pershkrimi && Tipi && Cmimi && Sasia && DimensionetMSh && NgjyraMSh && ProdhuesiMSh && ShtetiMSh;
+        const { Pershkrimi, TipiID, Cmimi, Sasia, ProdhuesiMShID
+            , ShtetiMShID } = this.state;
+        return Pershkrimi && TipiID && Cmimi && Sasia && ProdhuesiMShID && ShtetiMShID;
     };
 
     refreshList() {
 
-        fetch(variables.API_URL + 'mjeteShkollore')
+        fetch(variables.API_URL + 'MjeteShkollore')
             .then(response => response.json())
             .then(data => {
                 this.setState({ mjetet: data });
@@ -91,17 +86,6 @@ export class MjeteShkollore extends Component {
                 this.setState({ tipet: data });
             });
 
-        fetch(variables.API_URL + 'DimensionetMSh')
-            .then(response => response.json())
-            .then(data => {
-                this.setState({ dimensionet: data });
-            });
-
-        fetch(variables.API_URL + 'NgjyraMSh')
-            .then(response => response.json())
-            .then(data => {
-                this.setState({ ngjyrat: data });
-            });
 
         fetch(variables.API_URL + 'ProdhuesiMSh')
             .then(response => response.json())
@@ -125,7 +109,7 @@ export class MjeteShkollore extends Component {
         this.setState({ Pershkrimi: e.target.value });
     }
     changeTipi = (e) => {
-        this.setState({ Tipi: e.target.value });
+        this.setState({ TipiID: e.target.value });
     }
     changeCmimi = (e) => {
         this.setState({ Cmimi: e.target.value });
@@ -133,17 +117,11 @@ export class MjeteShkollore extends Component {
     changeSasia = (e) => {
         this.setState({ Sasia: e.target.value });
     }
-    changeDimensionetMSh = (e) => {
-        this.setState({ DimensionetMSh: e.target.value });
-    }
-    changeNgjyraMSh = (e) => {
-        this.setState({ NgjyraMSh: e.target.value });
-    }
     changeProdhuesitMSh = (e) => {
-        this.setState({ ProdhuesiMSh: e.target.value });
+        this.setState({ ProdhuesiMShID: e.target.value });
     }
     changeShtetetMSh = (e) => {
-        this.setState({ ShtetiMSh: e.target.value });
+        this.setState({ ShtetiMShID: e.target.value });
     }
 
 
@@ -152,14 +130,13 @@ export class MjeteShkollore extends Component {
             modalTitle: "Shto MjeteShkollore",
             ID: 0,
             Pershkrimi: "",
-            Tipi: "",
+            TipiID: "",
+            ShtetiMShID: "",
+            ProdhuesiMShID: "",
+            ImgPath: "anonymous.png",
             Cmimi: 0,
             Sasia: 0,
-            ImgPath: "anonymous.png",
-            DimensionetMSh: "",
-            NgjyraMSh: "",
-            ProdhuesiMSh: "",
-            ShtetiMSh: ""
+
         });
     }
     editClick(emp) {
@@ -167,88 +144,63 @@ export class MjeteShkollore extends Component {
             modalTitle: "Ndrysho MjeteShkollore",
             ID: emp.ID,
             Pershkrimi: emp.Pershkrimi,
-            Tipi: emp.Tipi,
+            TipiID: emp.TipiID,
+            ShtetiMSh: emp.ShtetiMShID,
+            ProdhuesiMShID: emp.ProdhuesiMShID,
+            ImgPath: emp.ImgPath,
             Cmimi: emp.Cmimi,
             Sasia: emp.Sasia,
-            ImgPath: emp.ImgPath,
-            DimensionetMSh: emp.DimensionetMSh,
-            NgjyraMSh: emp.NgjyraMSh,
-            ProdhuesiMSh: emp.ProdhuesiMSh,
-            ShtetiMSh: emp.ShtetiMSh
 
         });
     }
 
-    createClick() {
-        fetch(variables.API_URL + 'MjeteShkollore', {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                Pershkrimi: this.state.Pershkrimi,
-                Tipi: this.state.Tipi,
-                ImgPath: this.state.ImgPath,
-                Cmimi: this.state.Cmimi,
-                Sasia: this.state.Sasia,
-                DimensionetMSh: this.state.DimensionetMSh,
-                NgjyraMSh: this.state.NgjyraMSh,
-                ProdhuesiMSh: this.state.ProdhuesiMSh,
-                ShtetiMSh: this.state.ShtetiMSh
-
-            })
+    createClick = () => {
+        axios.post('http://localhost:5170/api/MjeteShkollore', {
+            Pershkrimi: this.state.Pershkrimi,
+            TipiID: this.state.TipiID,
+            ShtetiMShID: this.state.ShtetiMShID,
+            ProdhuesiMShID: this.state.ProdhuesiMShID,
+            ImgPath: this.state.ImgPath,
+            Cmimi: this.state.Cmimi,
+            Sasia: this.state.Sasia,
         })
-            .then(res => res.json())
-            .then((result) => {
+            .then((response) => {
                 alert('U shtua me sukses');
                 this.refreshList();
                 document.getElementById("exampleModal").classList.remove("show");
                 document.querySelector(".modal-backdrop").remove();
-            }, (error) => {
-                alert('Failed');
-            })
-    }
-
-
-    updateClick() {
-        fetch(variables.API_URL + 'MjeteShkollore', {
-            method: 'PUT',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                ID: this.state.ID,
-                Pershkrimi: this.state.Pershkrimi,
-                Tipi: this.state.Tipi,
-                ImgPath: this.state.ImgPath,
-                Cmimi: this.state.Cmimi,
-                Sasia: this.state.Sasia,
-                DimensionetMSh: this.state.DimensionetMSh,
-                NgjyraMSh: this.state.NgjyraMSh,
-                ProdhuesiMSh: this.state.ProdhuesiMSh,
-                ShtetiMSh: this.state.ShtetiMSh,
-
-            })
-        })
-            .then(res => {
-                if (res.ok) {
-                    alert('Updated');
-                    this.refreshList();
-                    document.getElementById("exampleModal").classList.remove("show");
-                    document.querySelector(".modal-backdrop").remove();
-
-
-                } else {
-                    alert('Failed');
-                }
             })
             .catch(error => {
-                console.error('Error updating book:', error);
+                console.error('Error creating player:', error);
                 alert('Failed');
             });
-    }
+    };
+
+
+    updateClick = () => {
+        const { ID, Pershkrimi, TipiID, ShtetiMShID, ProdhuesiMShID, ImgPath, Cmimi, Sasia } = this.state;
+
+        axios.put(`http://localhost:5170/api/MjeteShkollore/${ID}`, {
+            ID,
+            Pershkrimi,
+            TipiID,
+            ShtetiMShID,
+            ProdhuesiMShID,
+            ImgPath,
+            Cmimi,
+            Sasia
+        })
+            .then(response => {
+                alert('Updated successfully');
+                this.refreshList();
+                document.getElementById("exampleModal").classList.remove("show");
+                document.querySelector(".modal-backdrop").remove();
+            })
+            .catch(error => {
+                console.error('Error updating player:', error);
+                alert('Failed to update player');
+            });
+    };
 
     deleteClick(id) {
         if (window.confirm('A jeni i sigurt?')) {
@@ -292,20 +244,16 @@ export class MjeteShkollore extends Component {
         const {
             shtetet,
             prodhuesit,
-            ngjyrat,
-            dimensionet,
             tipet,
             mjetet,
             modalTitle,
             ID,
             Pershkrimi,
-            Tipi,
+            TipiID,
             Cmimi,
             Sasia,
-            DimensionetMSh,
-            NgjyraMSh,
-            ProdhuesiMSh,
-            ShtetiMSh,
+            ProdhuesiMShID,
+            ShtetiMShID,
             PhotoFileName,
             ImgPath
 
@@ -325,17 +273,11 @@ export class MjeteShkollore extends Component {
                                     <Link style={{ background: '#a9c0cf' }} to="/Tipi" className="btn btn-primary m-2 float-end">
                                         + Tipi
                                     </Link>
-                                    <Link style={{ background: '#a9c0cf' }} to="/njesia" className="btn btn-primary m-2 float-end">
-                                        + Njesia
-                                    </Link>
                                     <Link style={{ background: '#a9c0cf' }} to="/ProdhuesiMSh" className="btn btn-primary m-2 float-end">
                                         + Prodhuesi
                                     </Link>
                                     <Link style={{ background: '#a9c0cf' }} to="/ShtetiMSh" className="btn btn-primary m-2 float-end">
                                         + Shteti
-                                    </Link>
-                                    <Link style={{ background: '#a9c0cf' }} to="/DimensionetMSh" className="btn btn-primary m-2 float-end">
-                                        + Dimensione
                                     </Link>
                                 </div>
                                 <div>
@@ -361,22 +303,16 @@ export class MjeteShkollore extends Component {
                                             Tipi
                                         </th>
                                         <th>
-                                            Cmimi
-                                        </th>
-                                        <th>
-                                            Sasia
-                                        </th>
-                                        <th>
-                                            Dimensionet
-                                        </th>
-                                        <th>
-                                            Njesia
+                                            Shteti
                                         </th>
                                         <th>
                                             Prodhuesi
                                         </th>
                                         <th>
-                                            Shteti
+                                            Cmimi
+                                        </th>
+                                        <th>
+                                            Sasia
                                         </th>
                                         <th>
                                             Options
@@ -388,13 +324,11 @@ export class MjeteShkollore extends Component {
                                         <tr key={emp.ID}>
                                             <td>{emp.ID}</td>
                                             <td>{emp.Pershkrimi}</td>
-                                            <td>{emp.Tipi}</td>
+                                            <td>{tipet.find(t => t.TipiID === emp.TipiID)?.tipi || 'No TIP'}</td>
+                                            <td>{shtetet.find(t => t.ShtetiMShID === emp.ShtetiMShID)?.shteti || 'No shtet'}</td>
+                                            <td>{prodhuesit.find(t => t.ProdhuesiMShID === emp.ProdhuesiMShID)?.Prodhuesi || 'No prodhues'}</td>
                                             <td>{emp.Cmimi}</td>
                                             <td>{emp.Sasia}</td>
-                                            <td>{emp.DimensionetMSh}</td>
-                                            <td>{emp.NgjyraMSh}</td>
-                                            <td>{emp.ProdhuesiMSh}</td>
-                                            <td>{emp.ShtetiMSh}</td>
                                             <td>
                                                 <button type="button"
                                                     className="btn btn-light mr-1"
@@ -444,35 +378,13 @@ export class MjeteShkollore extends Component {
 
                                                     <div className="input-group mb-3">
                                                         <span className="input-group-text">Tipi</span>
+
                                                         <select className="form-select"
                                                             onChange={this.changeTipi}
-                                                            value={Tipi}>
-                                                                 <option value="">Select</option>
-                                                            {tipet.map(dep => <option key={dep.TipiID}>
-                                                                {dep.TipiEmri}
-                                                            </option>)}
-                                                        </select>
-                                                    </div>
-
-                                                    <div className="input-group mb-3">
-                                                        <span className="input-group-text">Njesia</span>
-                                                        <select className="form-select"
-                                                            onChange={this.changeNgjyraMSh}
-                                                            value={NgjyraMSh}>
-                                                                 <option value="">Select</option>
-                                                            {ngjyrat.map(dep => <option key={dep.ID}>
-                                                                {dep.Ngjyra}
-                                                            </option>)}
-                                                        </select>
-                                                    </div>
-                                                    <div className="input-group mb-3">
-                                                        <span className="input-group-text">Dimensioni</span>
-                                                        <select className="form-select"
-                                                            onChange={this.changeDimensionetMSh}
-                                                            value={DimensionetMSh}>
-                                                                 <option value="">Select</option>
-                                                            {dimensionet.map(dep => <option key={dep.ID}>
-                                                                {dep.Dimensione}
+                                                            value={TipiID}>
+                                                            <option value="">Select</option>
+                                                            {tipet.map(dep => <option key={dep.TipiID} value={dep.TipiID}>
+                                                                {dep.tipi}
                                                             </option>)}
                                                         </select>
                                                     </div>
@@ -496,10 +408,10 @@ export class MjeteShkollore extends Component {
                                                         <span className="input-group-text">Shteti</span>
                                                         <select className="form-select"
                                                             onChange={this.changeShtetetMSh}
-                                                            value={ShtetiMSh}>
-                                                                 <option value="">Select</option>
-                                                            {shtetet.map(dep => <option key={dep.ID}>
-                                                                {dep.Shteti}
+                                                            value={ShtetiMShID}>
+                                                            <option value="">Select</option>
+                                                            {shtetet.map(dep => <option key={dep.ShtetiMShID} value={dep.ShtetiMShID}>
+                                                                {dep.shteti}
                                                             </option>)}
                                                         </select>
                                                     </div>
@@ -508,9 +420,9 @@ export class MjeteShkollore extends Component {
                                                         <span className="input-group-text">Prodhuesi</span>
                                                         <select className="form-select"
                                                             onChange={this.changeProdhuesitMSh}
-                                                            value={ProdhuesiMSh}>
-                                                                 <option value="">Select</option>
-                                                            {prodhuesit.map(dep => <option key={dep.ID}>
+                                                            value={ProdhuesiMShID}>
+                                                            <option value="">Select</option>
+                                                            {prodhuesit.map(dep => <option key={dep.ProdhuesiMShID} value={dep.ProdhuesiMShID}>
                                                                 {dep.Prodhuesi}
                                                             </option>)}
                                                         </select>
@@ -519,7 +431,7 @@ export class MjeteShkollore extends Component {
 
                                                 </div>
                                                 <div className="p-2 w-50 bd-highlight">
-                                                    
+
                                                     <input className="m-2" type="file" onChange={this.imageUpload} />
                                                 </div>
                                             </div>

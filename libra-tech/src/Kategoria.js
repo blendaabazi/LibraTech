@@ -81,56 +81,56 @@ export class Kategoria extends Component {
             alert('Failed: ' + error.message);
         });
     }
-    
     updateClick() {
-        const { KategoriaID, kategoria } = this.state;
+    const { KategoriaID, kategoria } = this.state;
 
-        if (!kategoria) {
-            alert('Ju lutem vendosni Kategorian.');
-            return;
-        }
+    if (!kategoria) {
+        alert('Ju lutem vendosni kategorine');
+        return;
+    }
 
-        fetch(variables.API_URL + 'Kategoria', {
-            method: 'PUT',
+    fetch(variables.API_URL + 'Kategoria', {
+        method: 'PUT',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            KategoriaID: KategoriaID,
+            kategoria: kategoria
+        })
+    })
+        .then(res => res.json())
+        .then((result) => {
+            alert('Failed');
+            this.refreshList();
+        })
+        .catch((error) => {
+            alert('Updated');
+            this.refreshList();
+            document.getElementById("exampleModal").classList.remove("show");
+            document.querySelector(".modal-backdrop").remove();
+        });
+}
+deleteClick(id) {
+    if (window.confirm('A jeni i sigurt?')) {
+        fetch(variables.API_URL + 'Kategoria/' + id, {
+            method: 'DELETE',
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ KategoriaID, kategoria })
+            }
         })
             .then(res => res.json())
             .then((result) => {
-                alert('Updated successfully');
-                this.refreshList();
-                document.getElementById("exampleModal").classList.remove("show");
-                document.querySelector(".modal-backdrop").remove();
-            })
-            .catch((error) => {
-                alert('Failed to update category');
-                console.error('Error:', error);
-            });
-    }
+                alert('Failed');
 
-    deleteClick(id) {
-        if (window.confirm('A jeni i sigurt?')) {
-            fetch(variables.API_URL + 'Kategoria/' + id, {
-                method: 'DELETE',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                }
+            }, (error) => {
+                alert('Success');
+                this.refreshList();
             })
-                .then(res => res.json())
-                .then((result) => {
-                    alert('Successfully deleted');
-                    this.refreshList();
-                })
-                .catch((error) => {
-                    alert('Failed to delete category');
-                    console.error('Error:', error);
-                });
-        }
     }
+}
 
     render() {
         const { kategorit, modalTitle, KategoriaID, kategoria } = this.state;

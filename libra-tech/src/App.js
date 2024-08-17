@@ -14,7 +14,6 @@ import Furnizimi from './Furnizimi';
 import Qyteti from './Qyteti';
 import ProdhuesiMSh from './ProdhuesiMSh';
 import ShtetiMSh from './ShtetiMSh';
-import DimensionetMSh from './DimensionetMSh';
 import Kategoria from './Kategoria';
 import Gjuha from './Gjuha';
 import ShtepiaBotuese from './ShtepiaBotuese';
@@ -23,7 +22,6 @@ import StafiOrari from './StafiOrari';
 import StafiSektori from './StafiSektori';
 import Header from './Header';
 import Shporta from './Shporta';
-import NgjyraMSh from './NgjyraMSh';
 import LibratSipasKategorise from './LibratSipasKategorise';
 import KlientiRoli from './KlientiRoli';
 import Klienti from './Klienti';
@@ -71,18 +69,16 @@ function App() {
 
               <Route path="/libraria" element={<ProtectedRoute requiredRoli="Admin"><Libraria /></ProtectedRoute>} />
               <Route path='/lokacioni' element={<Lokacioni />} />
-              {/* <Route path="/porosia" element={<ProtectedRoute requiredRoli="Admin"><Porosia /></ProtectedRoute>} /> */}
+              <Route path="/porosia" element={<ProtectedRoute requiredRoli="Admin"><Porosia /></ProtectedRoute>} />
               <Route path="/porosiaService" element={<ProtectedRoute requiredRoli="Admin"><PorosiaService /></ProtectedRoute>} />
               <Route path='/qyteti' element={<Qyteti />} />
-              <Route path='/furnizimi' element={<Furnizimi />} />
+        
               <Route path="/prodhuesiMSh" element={<ProtectedRoute requiredRoli="Admin"><ProdhuesiMSh /></ProtectedRoute>} />
               <Route path="/shtetiMSh" element={<ProtectedRoute requiredRoli="Admin"><ShtetiMSh /></ProtectedRoute>} />
-              <Route path="/dimensionetMSh" element={<ProtectedRoute requiredRoli="Admin"><DimensionetMSh /></ProtectedRoute>} />
               <Route path="/kategoria" element={<ProtectedRoute requiredRoli="Admin"><Kategoria /></ProtectedRoute>} />
               <Route path="/gjuha" element={<ProtectedRoute requiredRoli="Admin"><Gjuha /></ProtectedRoute>} />
               <Route path="/shtepiaBotuese" element={<ProtectedRoute requiredRoli="Admin"><ShtepiaBotuese /></ProtectedRoute>} />
 
-              <Route path="/njesia" element={<ProtectedRoute requiredRoli="Admin"><NgjyraMSh /></ProtectedRoute>} />
               <Route path="/stafiGjinia" element={<ProtectedRoute requiredRoli="Admin"><StafiGjinia /></ProtectedRoute>} />
               <Route path="/stafiOrari" element={<ProtectedRoute requiredRoli="Admin"><StafiOrari /></ProtectedRoute>} />
               <Route path="/stafiSektori" element={<ProtectedRoute requiredRoli="Admin"><StafiSektori /></ProtectedRoute>} />
@@ -100,16 +96,28 @@ function App() {
             </>
           )}
            <Route path='/libri' element={<Libri />} />
-           <Route path='/Kategoria' element={<Kategoria />} />
+           <Route path='/mjeteShkollore' element={<MjeteShkollore />} />
+           {/* <Route path='/kategoria' element={<Kategoria />} /> */}
+           {/* <Route path='/gjuha' element={<Gjuha />} />
+           <Route path='/autori' element={<Autori />} />
+           <Route path='/shtepiabotuese' element={<ShtepiaBotuese />} />
+           <Route path='/tipi' element={<Tipi />} />
+           <Route path='/shtetiMSh' element={<ShtetiMSh />} />
+           <Route path='/klientigjinia' element={<KlientiGjinia />} />
+           <Route path='/KlientiQyteti' element={<KlientiQyteti />} />
+           <Route path='/KlientiRoli' element={<KlientiRoli />} />
+           <Route path='/Home' element={<Home />} />
+           <Route path='/Register' element={<Register />} /> */}
+          
 
-           <Route path='/porosia' element={<Porosia />} />
+           {/* <Route path='/porosia' element={<Porosia />} /> */}
            <Route path="/klienti" element={<Klienti/>} />
-           <Route path="/stafi" element={<Stafi/>} />
+           {/* <Route path="/stafi" element={<Stafi/>} />
            <Route path='/mjeteShkollore' element={<MjeteShkollore />} />
            <Route path="/logout" element={<Logout />} />
            <Route path='/UserProfile' element={<UserProfile />} />
            <Route path="/forgotpassword" element={<ForgotPassword />} />
-           <Route path="/stafischedule" element={<StafiSchedule />} />
+           <Route path="/stafischedule" element={<StafiSchedule />} /> */}
 
 
 
@@ -141,7 +149,6 @@ export default App;
 // import Qyteti from './Qyteti';
 // import ProdhuesiMSh from './ProdhuesiMSh';
 // import ShtetiMSh from './ShtetiMSh';
-// import DimensionetMSh from './DimensionetMSh';
 // import Kategoria from './Kategoria';
 // import Gjuha from './Gjuha';
 // import ShtepiaBotuese from './ShtepiaBotuese';
@@ -151,7 +158,6 @@ export default App;
 // import StafiSektori from './StafiSektori';
 // import Header from './Header';
 // import Shporta from './Shporta';
-// import NgjyraMSh from './NgjyraMSh';
 // import LibratSipasKategorise from './LibratSipasKategorise';
 // import KlientiRoli from './KlientiRoli';
 // import Klienti from './Klienti';
@@ -204,13 +210,11 @@ export default App;
 //               <Route path='/furnizimi' element={<Furnizimi />} />
 //               <Route path="/prodhuesiMSh" element={<ProtectedRoute requiredRoli="Admin"><ProdhuesiMSh /></ProtectedRoute>} />
 //               <Route path="/shtetiMSh" element={<ProtectedRoute requiredRoli="Admin"><ShtetiMSh /></ProtectedRoute>} />
-//               <Route path="/dimensionetMSh" element={<ProtectedRoute requiredRoli="Admin"><DimensionetMSh /></ProtectedRoute>} />
 //               <Route path="/kategoria" element={<ProtectedRoute requiredRoli="Admin"><Kategoria /></ProtectedRoute>} />
 //               <Route path="/gjuha" element={<ProtectedRoute requiredRoli="Admin"><Gjuha /></ProtectedRoute>} />
 //               <Route path="/shtepiaBotuese" element={<ProtectedRoute requiredRoli="Admin"><ShtepiaBotuese /></ProtectedRoute>} />
 //               <Route path="/StafiSchedule" element={<ProtectedRoute requiredRoli="Admin"><StafiSchedule /></ProtectedRoute>} />
 //               <Route path="/nrfaqeve" element={<ProtectedRoute requiredRoli="Admin"><NrFaqeve /></ProtectedRoute>} />
-//               <Route path="/njesia" element={<ProtectedRoute requiredRoli="Admin"><NgjyraMSh /></ProtectedRoute>} />
 //               <Route path="/stafiGjinia" element={<ProtectedRoute requiredRoli="Admin"><StafiGjinia /></ProtectedRoute>} />
 //               <Route path="/stafiOrari" element={<ProtectedRoute requiredRoli="Admin"><StafiOrari /></ProtectedRoute>} />
 //               <Route path="/stafiSektori" element={<ProtectedRoute requiredRoli="Admin"><StafiSektori /></ProtectedRoute>} />

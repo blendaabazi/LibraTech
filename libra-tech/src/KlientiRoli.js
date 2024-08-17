@@ -60,7 +60,7 @@ export class KlientiRoli extends Component {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                KlientiRoliID: this.state.KlientiRoliID
+                Roli: this.state.Roli
             })
         })
             .then(res => res.json())
