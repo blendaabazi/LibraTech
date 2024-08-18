@@ -55,6 +55,7 @@ function App() {
               <Route path="/register" element={<Register />} />
               <Route path="/forgotpassword" element={<ForgotPassword />} />
               <Route path="*" element={<Navigate to="/" />} />
+              <Route path="/logout" element={<Logout />} />
             </>
           ) : (
             <>
@@ -86,6 +87,7 @@ function App() {
               <Route path='/mjeteShkollore/:id' element={<DetajetEMjetit />} />
               <Route path="/kategoria/:kategoria/librat" element={<LibratSipasKategorise />} />
               <Route path="/tipi/:tipi/MjeteShkollore" element={<MjetetSipasTipit />} />
+       
 
 
               <Route path="/klientigjinia" element={<ProtectedRoute requiredRoli="Admin"><KlientiGjinia /></ProtectedRoute>} />

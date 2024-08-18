@@ -102,11 +102,12 @@ using System.Threading.Tasks;
 using System.Data;
 using System.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
-using Lab1_Backend.Models;
+using Backend.Models;
 using Microsoft.EntityFrameworkCore;
+using Lab1_Backend.Models;
 
 
-namespace Lab1_Backend.Controllers
+namespace Backend.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -149,7 +150,7 @@ namespace Lab1_Backend.Controllers
             await _context.SaveChangesAsync();
 
 
-            return CreatedAtAction(nameof(GetKlientiQyteti), new { id = s.KlientiQytetiID }, s);
+            return CreatedAtAction(nameof(GetKlientiQyteti), new { id = s.Id }, s);
         }
         [HttpPut]
         public IActionResult PutKlientiQyteti(KlientiQyteti s)

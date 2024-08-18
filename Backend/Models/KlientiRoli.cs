@@ -1,11 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace Lab1_Backend.Models
+﻿namespace Lab1_Backend.Models
 {
     public class KlientiRoli
     {
 
-        public int KlientiRoliID { get; set; }
+        public int Id { get; set; }
 
         public string Roli { get; set; }
 

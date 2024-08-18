@@ -1,6 +1,7 @@
 ﻿
 
 using Backend.Models;
+
 using Lab1_Backend.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -13,7 +14,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Lab1_Backend.Controllers
+namespace Backend.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]

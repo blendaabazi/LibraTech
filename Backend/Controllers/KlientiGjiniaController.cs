@@ -1,4 +1,4 @@
-﻿/*using Lab1_Backend.Models;
+﻿/*
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
@@ -103,11 +103,12 @@ using System.Threading.Tasks;
 using System.Data;
 using System.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
-using Lab1_Backend.Models;
+using Backend.Models;
 using Microsoft.EntityFrameworkCore;
+using Backend.Models;
 
 
-namespace Lab1_Backend.Controllers
+namespace Lab1_Backend.Models
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -150,7 +151,7 @@ namespace Lab1_Backend.Controllers
             await _context.SaveChangesAsync();
 
 
-            return CreatedAtAction(nameof(GetKlientiGjinia), new { id = s.KlientiGjiniaID }, s);
+            return CreatedAtAction(nameof(GetKlientiGjinia), new { id = s.Id }, s);
         }
         [HttpPut]
         public IActionResult PutKlientiGjinia(KlientiGjinia s)
