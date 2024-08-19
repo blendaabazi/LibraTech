@@ -134,17 +134,17 @@ function Sidebar() {
                             <i className="fa fa-list"></i>
                             <span>Libra</span>
                         </a>
-                        {/* <div id="collapseLibra" className="collapse" aria-labelledby="headingLibra" data-parent="#accordionSidebar">
+                        <div id="collapseLibra" className="collapse" aria-labelledby="headingLibra" data-parent="#accordionSidebar">
                             <div className="bg-white py-2 collapse-inner rounded">
                                 <div className="list-group">
                                     {categories.map(kategoria => (
-                                        <Link key={kategoria.ID} to={`/kategoria/${kategoria.kategoria}/librat`} style={{ color: 'black' }} className="collapse-item">
+                                        <Link key={kategoria.KategoriaID} to={`/kategoria/${kategoria.kategoria}/librat`} style={{ color: 'black' }} className="collapse-item">
                                             {kategoria.kategoria}
                                         </Link>
                                     ))}
                                 </div>
                             </div>
-                        </div> */}
+                        </div>
                     </li>
 
                     <li className="nav-item">
@@ -152,17 +152,17 @@ function Sidebar() {
                             <i className="fa fa-list"></i>
                             <span>Mjete Shkollore</span>
                         </a>
-                        {/* <div id="collapseMjeteShkollore" className="collapse" aria-labelledby="headingMjeteShkollore" data-parent="#accordionSidebar">
+                        <div id="collapseMjeteShkollore" className="collapse" aria-labelledby="headingMjeteShkollore" data-parent="#accordionSidebar">
                             <div className="bg-white py-2 collapse-inner rounded">
                                 <div className="list-group">
                                     {tipet.map(tipi => (
-                                        <Link key={tipi.TipiID} to={`/tipi/${tipi.TipiEmri}/MjeteShkollore`} style={{ color: 'black' }} className="collapse-item">
-                                            {tipi.TipiEmri}
+                                        <Link key={tipi.TipiID} to={`/tipi/${tipi.tipi}/MjeteShkollore`} style={{ color: 'black' }} className="collapse-item">
+                                            {tipi.tipi}
                                         </Link>
                                     ))}
                                 </div>
                             </div>
-                        </div> */}
+                        </div>
                     </li>
 
                     <hr className="sidebar-divider my-0" />

@@ -72,10 +72,10 @@ function DetajetELibrit() {
                     <p><strong>Titulli:</strong> {libri.Titulli}</p>
                     <p><strong>Pershkrimi:</strong> {libri.Pershkrimi}</p>
                     <p><strong>Autori:</strong> {libri.Autori.Emri}</p>
-                    <p><strong>Kategoria:</strong> {libri.Kategoria}</p>
-                    <p><strong>Gjuha:</strong> {libri.Gjuha}</p>
+                    <p><strong>Kategoria:</strong> {libri.Kategoria.kategoria}</p>
+                    <p><strong>Gjuha:</strong> {libri.Gjuha.gjuha}</p>
                     <p><strong>NrFaqeve:</strong> {libri.NrFaqeve}</p>
-                    <p><strong>ShtepiaBotuese:</strong> {libri.ShtepiaBotuese}</p>
+                    <p><strong>ShtepiaBotuese:</strong> {libri.ShtepiaBotuese.shtepiaBotuese}</p>
                     <p><strong>Viti i Publikimit:</strong> {libri.VitiPublikimit}</p>
                     <p><strong>Sasia:</strong> {libri.Sasia}</p>
                     <p><strong>Cmimi:</strong> ${libri.Cmimi}</p>

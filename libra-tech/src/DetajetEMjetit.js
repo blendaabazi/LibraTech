@@ -70,10 +70,8 @@ function DetajetEMjetit() {
                   </div>
                   <div className="col-md-8">
                     <p><strong>Pershkrimi:</strong> {mjeti.Pershkrimi}</p>
-                    <p><strong>Prodhuesi:</strong> {mjeti.ProdhuesiMSh}</p>
-                    <p><strong>Shteti:</strong> {mjeti.ShtetiMSh}</p>
-                    <p><strong>Dimensione:</strong> {mjeti.DimensionetMSh}</p>
-                    <p><strong>Njesia:</strong> {mjeti.NgjyraMSh}</p>
+                    <p><strong>Prodhuesi:</strong> {mjeti.ProdhuesiMSh.Prodhuesi}</p>
+                    <p><strong>Shteti:</strong> {mjeti.ShtetiMSh.shteti}</p>
                     <p><strong>Cmimi:</strong> {mjeti.Cmimi}$</p>
                     <p><strong>Sasia:</strong> {mjeti.Sasia}</p>
                     {user && user.roli === 'User' && (
