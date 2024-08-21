@@ -1,14 +1,31 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from './AuthProvider';
 import { login as loginService } from './AuthService';
+import Logout from './Logout';
 
 function Login() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
-    const { login } = useAuth();
+    const { login, tokenExpiration } = useAuth();
     const navigate = useNavigate();
+
+    useEffect(() => {
+        if (tokenExpiration) {
+            const timer = setTimeout(() => {
+                logoutAndRedirect();
+            }, tokenExpiration - new Date().getTime()); 
+
+            return () => clearTimeout(timer);
+        }
+    }, [tokenExpiration]);
+
+    const logoutAndRedirect = () => {
+        Logout();
+        navigate('/login'); 
+        window.location.reload();
+    };
 
     const handleLogin = async (event) => {
         event.preventDefault();
@@ -29,7 +46,7 @@ function Login() {
                     klientiGjinia: data.KlientiGjinia,
                     klientiQyteti: data.KlientiQyteti,
                     email: data.Email,
-                    password: data.Password // Note: Avoid storing passwords in local storage in production
+                    password: data.Password 
                 });
                 navigate('/home');
                 window.location.reload();
