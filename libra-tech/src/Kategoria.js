@@ -64,7 +64,9 @@ export class Kategoria extends Component {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('Token')}`
+
             },
             body: JSON.stringify({
                 kategoria: kategoria
@@ -93,7 +95,9 @@ export class Kategoria extends Component {
         method: 'PUT',
         headers: {
             'Accept': 'application/json',
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+           'Authorization': `Bearer ${localStorage.getItem('Token')}`
+
         },
         body: JSON.stringify({
             KategoriaID: KategoriaID,
@@ -118,7 +122,9 @@ deleteClick(id) {
             method: 'DELETE',
             headers: {
                 'Accept': 'application/json',
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+           'Authorization': `Bearer ${localStorage.getItem('Token')}`
+
             }
         })
             .then(res => res.json())

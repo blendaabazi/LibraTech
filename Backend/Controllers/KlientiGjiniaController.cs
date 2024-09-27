@@ -106,12 +106,14 @@ using Microsoft.Extensions.Configuration;
 using Backend.Models;
 using Microsoft.EntityFrameworkCore;
 using Backend.Models;
+using Microsoft.AspNetCore.Authorization;
 
 
 namespace Lab1_Backend.Models
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class KlientiGjiniaController : ControllerBase
     {
         private readonly LibrariaContext _context;
@@ -122,6 +124,7 @@ namespace Lab1_Backend.Models
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public ActionResult<IEnumerable<KlientiGjinia>> GetKlientiGjinia()
         {
             return _context.KlientiGjinia.ToList();
@@ -129,6 +132,7 @@ namespace Lab1_Backend.Models
 
 
         [HttpGet("{id}")]
+        [AllowAnonymous]
         public ActionResult<KlientiGjinia> GetKlientiGjinia(int id)
         {
             var gj = _context.KlientiGjinia.Find(id);
@@ -145,6 +149,8 @@ namespace Lab1_Backend.Models
 
 
         [HttpPost]
+        [Authorize(Policy = "AdminOnly")]
+
         public async Task<ActionResult<KlientiGjinia>> PostKlientiGjinia(KlientiGjinia s)
         {
             _context.KlientiGjinia.Add(s);
@@ -154,16 +160,17 @@ namespace Lab1_Backend.Models
             return CreatedAtAction(nameof(GetKlientiGjinia), new { id = s.Id }, s);
         }
         [HttpPut]
-        public IActionResult PutKlientiGjinia(KlientiGjinia s)
+        [Authorize(Policy = "AdminOnly")]
+
+        public IActionResult PutKlientiGjinia(KlientiGjinia k)
         {
-            if (s == null)
+            if (k == null)
             {
                 return BadRequest("Invalid object.");
             }
 
 
-
-            _context.Entry(s).State = EntityState.Modified;
+            _context.Entry(k).State = EntityState.Modified;
             try
             {
                 _context.SaveChanges();
@@ -177,6 +184,8 @@ namespace Lab1_Backend.Models
 
 
         [HttpDelete("{id}")]
+        [Authorize(Policy = "AdminOnly")]
+
         public IActionResult DeleteKlientiGjinia(int id)
         {
             var gj = _context.KlientiGjinia.Find(id);

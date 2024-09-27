@@ -273,6 +273,30 @@ namespace Backend.Migrations
                     b.ToTable("MjeteShkollore");
                 });
 
+            modelBuilder.Entity("Lab1_Backend.Models.Porosia", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
+
+                    b.Property<double>("CmimiTotal")
+                        .HasColumnType("float");
+
+                    b.Property<DateTime>("Data")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("KlientiID")
+                        .HasColumnType("int");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("KlientiID");
+
+                    b.ToTable("Porosia");
+                });
+
             modelBuilder.Entity("Lab1_Backend.Models.ProdhuesiMSh", b =>
                 {
                     b.Property<int>("ProdhuesiMShID")
@@ -287,6 +311,70 @@ namespace Backend.Migrations
                     b.HasKey("ProdhuesiMShID");
 
                     b.ToTable("ProdhuesiMSh");
+                });
+
+            modelBuilder.Entity("Lab1_Backend.Models.Produkti", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
+
+                    b.Property<int?>("LibriID")
+                        .IsRequired()
+                        .HasColumnType("int");
+
+                    b.Property<int?>("MjeteShkolloreID")
+                        .IsRequired()
+                        .HasColumnType("int");
+
+                    b.Property<int>("PorosiaID")
+                        .HasColumnType("int");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("LibriID");
+
+                    b.HasIndex("MjeteShkolloreID");
+
+                    b.HasIndex("PorosiaID");
+
+                    b.ToTable("Produkti");
+                });
+
+            modelBuilder.Entity("Lab1_Backend.Models.RefreshToken", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("ExpiresAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsRevoked")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsUsed")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Token")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("RefreshToken");
                 });
 
             modelBuilder.Entity("Lab1_Backend.Models.ShtepiaBotuese", b =>
@@ -398,6 +486,65 @@ namespace Backend.Migrations
                     b.Navigation("ShtetiMSh");
 
                     b.Navigation("Tipi");
+                });
+
+            modelBuilder.Entity("Lab1_Backend.Models.Porosia", b =>
+                {
+                    b.HasOne("Lab1_Backend.Models.Klienti", "Klienti")
+                        .WithMany()
+                        .HasForeignKey("KlientiID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Klienti");
+                });
+
+            modelBuilder.Entity("Lab1_Backend.Models.Produkti", b =>
+                {
+                    b.HasOne("Lab1_Backend.Models.Libri", "Libri")
+                        .WithMany()
+                        .HasForeignKey("LibriID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Lab1_Backend.Models.MjeteShkollore", "MjeteShkollore")
+                        .WithMany()
+                        .HasForeignKey("MjeteShkolloreID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Lab1_Backend.Models.Porosia", "Porosia")
+                        .WithMany("Produktet")
+                        .HasForeignKey("PorosiaID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Libri");
+
+                    b.Navigation("MjeteShkollore");
+
+                    b.Navigation("Porosia");
+                });
+
+            modelBuilder.Entity("Lab1_Backend.Models.RefreshToken", b =>
+                {
+                    b.HasOne("Lab1_Backend.Models.Klienti", "User")
+                        .WithMany("RefreshTokens")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Lab1_Backend.Models.Klienti", b =>
+                {
+                    b.Navigation("RefreshTokens");
+                });
+
+            modelBuilder.Entity("Lab1_Backend.Models.Porosia", b =>
+                {
+                    b.Navigation("Produktet");
                 });
 #pragma warning restore 612, 618
         }

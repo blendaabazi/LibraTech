@@ -7,6 +7,7 @@ import { Modal, Button } from 'react-bootstrap';
 import Sidebar from './Sidebar';
 import MjeteShkollore from './MjeteShkollore';
 import { useAuth } from './AuthProvider';
+import { useNavigate } from 'react-router-dom';
 
 function Home() {
     const [librat, setLibrat] = useState([]);
@@ -21,6 +22,7 @@ function Home() {
     const [tipet, setTipet] = useState([]);
     const [searchTerm, setSearchTerm] = useState("");
     const { user } = useAuth();
+    // const { kategoria } = useState();
 
     useEffect(() => {
         fetchLibrat();
@@ -28,10 +30,10 @@ function Home() {
         fetchKategorite();
         fetchTipet();
     }, []);
-    
+
     const handleSearchChange = (event) => {
         setSearchTerm(event.target.value);
-      
+
     };
 
     const fetchLibrat = async () => {
@@ -98,14 +100,14 @@ function Home() {
         }
     };
 
-   
+
 
     const filteredLibrat = librat.filter(libri =>
         libri.Titulli.toLowerCase().includes(searchTerm.toLowerCase())
     );
     const filteredMjetet = mjetet.filter(mjeti =>
-      mjeti.Tipi.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+        mjeti.Pershkrimi.toLowerCase().includes(searchTerm.toLowerCase())
+    );
 
     if (loading) {
         return <div className="spinner text-center">Loading...</div>;
@@ -133,7 +135,7 @@ function Home() {
         localStorage.setItem('WishList', JSON.stringify(wishList));
         setShowWishListModal(true);
     };
-   
+
 
     return (
         <div>
@@ -170,14 +172,15 @@ function Home() {
                 }
                 `}
             </style>
-            <Header/>
+            <Header />
             <div>
                 <div className="row">
                     <div className="col-md-3">
                         <Sidebar />
                     </div>
                     <div className="col-md-9">
-                    <form className="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+                        <form className="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+                        
                             <div className="input-group">
                                 <input
                                     type="text"
@@ -194,7 +197,7 @@ function Home() {
                                     </button>
                                 </div>
                             </div>
-                        </form> 
+                        </form>
                         {searchTerm ? (
                             <div className="row">
                                 {filteredLibrat.length > 0 ? (
@@ -212,75 +215,75 @@ function Home() {
                                                     <p className="card-text flex-grow-1">{libri.ShtepiaBotuese}</p>
                                                     <div className="mt-auto d-flex align-items-center">
                                                         <Link to={`/libri/${libri.ID}`} className="btn btn-primary mr-2">
-                                                           Detajet
+                                                            Detajet
                                                         </Link>
 
                                                         {user && user.roli === 'User' && (
-                                                        <button onClick={() => addToCart(libri)} className="btn btn-success mr-2"> 
-                                                             Shto ne Shportë
-                                                        </button>
+                                                            <button onClick={() => addToCart(libri)} className="btn btn-success mr-2">
+                                                                Shto ne Shportë
+                                                            </button>
                                                         )}
 
                                                         {user && user.roli === 'User' && (
 
-                                                        <Link onClick={() => addToWishList(libri)} className="btn btn-outline-danger">
-                                                            <i className="fa fa-heart" aria-hidden="true"></i>
-                                                         </Link>
+                                                            <Link onClick={() => addToWishList(libri)} className="btn btn-outline-danger">
+                                                                <i className="fa fa-heart" aria-hidden="true"></i>
+                                                            </Link>
                                                         )}
-                                                     </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     ))
-                                    
+
                                 ) : (
                                     <div className="col-12">
                                         <p className="text-center">Nuk u gjet asnje liber per kerkesen tuaj.</p>
                                     </div>
                                 )}
                                 <div className="row">
-                                  {filteredMjetet.length > 0 ? (
-                                    filteredMjetet.map(mjeti => (
-                                      
-                                        <div className="col-md-4 mb-4" key={mjeti.ID}>
-                                            <div className="card h-100 shadow-sm">
-                                                <img
-                                                    src={variables.API_URL + 'MjeteShkollore/GetFoto/' + mjeti.ID}
-                                                    alt={mjeti.Tipi}
-                                                    className="card-img-top"
-                                                    style={{ width: '100%', height: '200px', objectFit: 'contain' }}
-                                                />
-                                                <div className="card-body d-flex flex-column">
-                                                    <h5 className="card-title">{mjeti.Tipi}</h5>
-                                                    <p className="card-text flex-grow-1">{mjeti.Pershkrimi}</p>
-                                                    <div className="mt-auto d-flex align-items-center">
-                                                        <Link to={`/libri/${mjeti.ID}`} className="btn btn-primary mr-2">
-                                                           Detajet
-                                                        </Link>
+                                    {filteredMjetet.length > 0 ? (
+                                        filteredMjetet.map(mjeti => (
 
-                                                        {user && user.roli === 'User' && (
-                                                        <button onClick={() => addToCart(mjeti)} className="btn btn-success mr-2"> 
-                                                             Shto ne Shportë
-                                                        </button>
-                                                        )}
+                                            <div className="col-md-4 mb-4" key={mjeti.ID}>
+                                                <div className="card h-100 shadow-sm">
+                                                    <img
+                                                        src={variables.API_URL + 'MjeteShkollore/GetFoto/' + mjeti.ID}
+                                                        alt={mjeti.TipiID}
+                                                        className="card-img-top"
+                                                        style={{ width: '100%', height: '200px', objectFit: 'contain' }}
+                                                    />
+                                                    <div className="card-body d-flex flex-column">
+                                                        <h5 className="card-title">{mjeti.TipiID}</h5>
+                                                        <p className="card-text flex-grow-1">{mjeti.Pershkrimi}</p>
+                                                        <div className="mt-auto d-flex align-items-center">
+                                                            <Link to={`/libri/${mjeti.ID}`} className="btn btn-primary mr-2">
+                                                                Detajet
+                                                            </Link>
 
-                                                        {user && user.roli === 'User' && (
+                                                            {user && user.roli === 'User' && (
+                                                                <button onClick={() => addToCart(mjeti)} className="btn btn-success mr-2">
+                                                                    Shto ne Shportë
+                                                                </button>
+                                                            )}
 
-                                                        <Link onClick={() => addToWishList(mjeti)} className="btn btn-outline-danger">
-                                                            <i className="fa fa-heart" aria-hidden="true"></i>
-                                                         </Link>
-                                                        )}
-                                                     </div>
+                                                            {user && user.roli === 'User' && (
+
+                                                                <Link onClick={() => addToWishList(mjeti)} className="btn btn-outline-danger">
+                                                                    <i className="fa fa-heart" aria-hidden="true"></i>
+                                                                </Link>
+                                                            )}
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
+                                        ))
+                                    ) : (
+                                        <div className="col-12">
+                                            <p className="text-center">Nuk u gjet asnje mjet per kerkesen tuaj.</p>
                                         </div>
-                                    ))
-                                  ) : (
-                                    <div className="col-12">
-                                        <p className="text-center">Nuk u gjet asnje mjet per kerkesen tuaj.</p>
-                                    </div>
-                                )}
-                            </div>
+                                    )}
+                                </div>
 
                             </div>
                         ) : (
@@ -291,7 +294,7 @@ function Home() {
                                         <div className="card-deck">
                                             {kategorite.map(kategoria => (
                                                 <div key={kategoria.KategoriaID} className="col-md-4 mb-4">
-                                                    <Link to={`/kategoria/${kategoria.kategoria}/librat`} className="text-decoration-none">
+                                                    <Link to={`/kategoria/${kategoria.KategoriaID}/librat`} className="text-decoration-none">
                                                         <div className="card h-100">
                                                             <div className="card-body text-center">
                                                                 <h5 className="card-title">{kategoria.kategoria}</h5>
@@ -308,20 +311,23 @@ function Home() {
                                     <div className="col-12">
                                         <h1 className="mb-4 text-center">Tipet</h1>
                                         <div className="card-deck">
-                                            {tipet.map(tipi => (
-                                                <div key={tipi.TipiID} className="col-md-4 mb-4">
-                                                    <Link to={`/tipi/${tipi.tipi}/MjeteShkollore`} className="text-decoration-none">
-                                                        <div className="card h-100">
-                                                            <div className="card-body text-center">
-                                                                <h5 className="card-title">{tipi.tipi}</h5>
+                                            {
+                                                tipet.map(tipi => (
+                                                    <div key={tipi.TipiID} className="col-md-4 mb-4">
+                                                        <Link to={`/tipi/${tipi.TipiID}/MjeteShkollore`} className="text-decoration-none">
+                                                            <div className="card h-100">
+                                                                <div className="card-body text-center">
+                                                                    <h5 className="card-title">{tipi.tipi}</h5>
+                                                                </div>
+                                                                <div className="card-footer">
+                                                                    <small className="text-muted">Kliko për më shumë</small>
+                                                                </div>
                                                             </div>
-                                                            <div className="card-footer">
-                                                                <small className="text-muted">Kliko për më shumë</small>
-                                                            </div>
-                                                        </div>
-                                                    </Link>
-                                                </div>
-                                            ))}
+                                                        </Link>
+                                                    </div>
+                                                ))
+
+                                            }
                                         </div>
                                     </div>
                                 </div>
@@ -337,27 +343,27 @@ function Home() {
                                                     className="card-img-top"
                                                     style={{ width: '100%', height: '200px', objectFit: 'contain' }}
                                                 />
-                                               <div className="card-body d-flex flex-column">
+                                                <div className="card-body d-flex flex-column">
                                                     <h5 className="card-title">{libri.Titulli}</h5>
                                                     <p className="card-text flex-grow-1">{libri.ShtepiaBotuese}</p>
                                                     <div className="mt-auto d-flex align-items-center">
                                                         <Link to={`/libri/${libri.ID}`} className="btn btn-primary mr-2">
-                                                           Detajet
+                                                            Detajet
                                                         </Link>
 
                                                         {user && user.roli === 'User' && (
-                                                        <button onClick={() => addToCart(libri)} className="btn btn-success mr-2"> 
-                                                             Shto ne Shportë
-                                                        </button>
+                                                            <button onClick={() => addToCart(libri)} className="btn btn-success mr-2">
+                                                                Shto ne Shportë
+                                                            </button>
                                                         )}
 
                                                         {user && user.roli === 'User' && (
 
-                                                        <Link onClick={() => addToWishList(libri)} className="btn btn-outline-danger">
-                                                            <i className="fa fa-heart" aria-hidden="true"></i>
-                                                         </Link>
+                                                            <Link onClick={() => addToWishList(libri)} className="btn btn-outline-danger">
+                                                                <i className="fa fa-heart" aria-hidden="true"></i>
+                                                            </Link>
                                                         )}
-                                                     </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -371,12 +377,12 @@ function Home() {
                                             <div className="card h-100 shadow-sm">
                                                 <img
                                                     src={variables.API_URL + 'MjeteShkollore/GetFoto/' + mjeti.ID}
-                                                    alt={mjeti.Tipi}
+                                                    alt={mjeti.TipiID}
                                                     className="card-img-top"
                                                     style={{ width: '100%', height: '200px', objectFit: 'contain' }}
                                                 />
                                                 <div className="card-body d-flex flex-column">
-                                                    <h5 className="card-title">{mjeti.Tipi}</h5>
+                                                    <h5 className="card-title">{mjeti.TipiID}</h5>
                                                     <p className="card-text flex-grow-1">{mjeti.Pershkrimi}</p>
                                                     <div className="mt-auto">
                                                         <Link to={`/MjeteShkollore/${mjeti.ID}`} className="btn btn-primary mr-2">
@@ -385,14 +391,14 @@ function Home() {
 
                                                         {user && user.roli === 'User' && (
 
-                                                        <button onClick={() => addToCart(mjeti)} className="btn btn-success"> Shto në Shportë</button>
+                                                            <button onClick={() => addToCart(mjeti)} className="btn btn-success"> Shto në Shportë</button>
                                                         )}
 
                                                         {user && user.roli === 'User' && (
 
-                                                        <Link onClick={() => addToWishList(mjeti)} className="btn btn-outline-danger" style={{marginLeft:'8px'}}>
-                                                            <i className="fa fa-heart" aria-hidden="true"></i>
-                                                        </Link>
+                                                            <Link onClick={() => addToWishList(mjeti)} className="btn btn-outline-danger" style={{ marginLeft: '8px' }}>
+                                                                <i className="fa fa-heart" aria-hidden="true"></i>
+                                                            </Link>
                                                         )}
 
                                                     </div>
@@ -422,7 +428,7 @@ function Home() {
                 <Modal.Header closeButton>
                     <Modal.Title> WishList <i class="fa fa-check" aria-hidden="true"></i></Modal.Title>
                 </Modal.Header>
-<               Modal.Body>Produkti eshte shtuar me sukses ne listen e deshirave!</Modal.Body>
+                <               Modal.Body>Produkti eshte shtuar me sukses ne listen e deshirave!</Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={handleCloseWishListModal}>
                         Mbylle

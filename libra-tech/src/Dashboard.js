@@ -105,7 +105,15 @@ function Dashboard() {
 
     const fetchtotalKlienti = async () => {
         try {
-            const response = await fetch(variables.API_URL + 'klienti/TotalKlienti');
+            const response = await fetch(variables.API_URL + 'klienti/TotalKlienti',
+                {
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json',
+                   'Authorization': `Bearer ${localStorage.getItem('Token')}`
+                    }
+                })
+            
             if (!response.ok) {
                 throw new Error('Error fetching data');
             }
@@ -144,6 +152,7 @@ function Dashboard() {
     const fetchCategories = async () => {
         try {
             const response = await fetch(variables.API_URL + 'Kategoria');
+            
             const data = await response.json();
             setCategories(data);
         } catch (error) {
@@ -366,7 +375,12 @@ function Dashboard() {
                                                 <div className="row no-gutters align-items-center">
                                                     <div className="col mr-2">
                                                         <div className="text-m font-weight-bold text-success text-uppercase mb-1">
-                                                            <a href='Libri'>Librat</a></div>
+                                                        {user && user.roli === 'Admin' && (
+                                                             <Link  to="/libri">
+                                                                 <span>Libri</span>
+                                                              </Link>
+                                                            )}
+                                                            </div>
                                                         <div className="h3 mb-0 font-weight-bold text-gray-800"> {totalLibrat}</div>
                                                     </div>
                                                     <div className="col-auto">
@@ -384,7 +398,12 @@ function Dashboard() {
                                                 <div className="row no-gutters align-items-center">
                                                     <div className="col mr-2">
                                                         <div className="text-m font-weight-bold text-success text-uppercase mb-1">
-                                                            <a href='mjeteshkollore'>Mjetet Shkollore</a></div>
+                                                        {user && user.roli === 'Admin' && (
+                                                             <Link  to="/mjeteshkollore">
+                                                                 <span>Mjetet Shkollore</span>
+                                                              </Link>
+                                                            )}
+                                                          </div>
                                                         <div className="h3 mb-0 font-weight-bold text-gray-800"> {totalMjetet}</div>
                                                     </div>
                                                     <div className="col-auto">
@@ -402,7 +421,12 @@ function Dashboard() {
                                                 <div className="row no-gutters align-items-center">
                                                     <div className="col mr-2">
                                                         <div className="text-m font-weight-bold text-success text-uppercase mb-1">
-                                                            <a href='Klienti'>Klientët</a></div>
+                                                        {user && user.roli === 'Admin' && (
+                                                             <Link  to="/Klienti">
+                                                                 <span>Klientët</span>
+                                                              </Link>
+                                                            )}
+                                                           </div>
                                                         <div className="h3 mb-0 font-weight-bold text-gray-800"> {totalKlienti}</div>
                                                     </div>
                                                     <div className="col-auto">
@@ -419,7 +443,12 @@ function Dashboard() {
                                                 <div className="row no-gutters align-items-center">
                                                     <div className="col mr-2">
                                                         <div className="text-m font-weight-bold text-success text-uppercase mb-1">
-                                                            <a href='Stafi'>Stafi</a></div>
+                                                        {user && user.roli === 'Admin' && (
+                                                             <Link  to="/Stafi">
+                                                                 <span>Stafi</span>
+                                                              </Link>
+                                                            )}
+                                                           </div>
                                                         <div className="h3 mb-0 font-weight-bold text-gray-800"> {totalStafi}</div>
                                                     </div>
                                                     <div className="col-auto">

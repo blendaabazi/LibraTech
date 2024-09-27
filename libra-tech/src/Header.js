@@ -25,21 +25,21 @@ function Header() {
                     </button>
                     <div className="d-flex justify-content-center">
                         {user && user.roli === 'User' && (
-                        <div style={{ marginLeft: '500px' }}>
-                            {/* Butoni i shportes */}
-                            <Link to="/wishlist" className="nav-link">
-                            <i className="fa fa-heart" aria-hidden="true" style={{ fontSize: '24px' }}></i>
-                            </Link>
-                        </div>
+                            <div style={{ marginLeft: '500px' }}>
+                                {/* Butoni i shportes */}
+                                <Link to="/wishlist" className="nav-link">
+                                    <i className="fa fa-heart" aria-hidden="true" style={{ fontSize: '24px' }}></i>
+                                </Link>
+                            </div>
                         )}
                         {/* Cart Button */}
                         {user && user.roli === 'User' && (
-                        <div>
-                            {/* Butoni i shportes */}
-                            <Link to="/Shporta" className="nav-link">
-                                <i className="fas fa-shopping-cart fa-fw" style={{ fontSize: '24px' }}></i>
-                            </Link>
-                        </div>
+                            <div>
+                                {/* Butoni i shportes */}
+                                <Link to="/Shporta" className="nav-link">
+                                    <i className="fas fa-shopping-cart fa-fw" style={{ fontSize: '24px' }}></i>
+                                </Link>
+                            </div>
                         )}
                     </div>
                     <div style={{ marginLeft: 'auto', marginRight: '30px', paddingBottom: '30px' }}>
@@ -53,10 +53,10 @@ function Header() {
                                 {/* Dropdown - User Information */}
                                 <div className="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                     aria-labelledby="userDropdown">
-                                    <a className="dropdown-item" href="/UserProfile">
+                                    <Link className="dropdown-item" to="/UserProfile">
                                         <i className="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                         Profile
-                                    </a>
+                                    </Link>
 
                                     <div className="dropdown-divider"></div>
                                     <a className="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">

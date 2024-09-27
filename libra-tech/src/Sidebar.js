@@ -13,7 +13,7 @@ function Sidebar() {
         }
     };
     const { user } = useAuth();
-    console.log('Current user:', user);
+    // console.log('Current user:', user);
     const [categories, setCategories] = useState([]);
     const [tipet, setTipet] = useState([]);
 
@@ -117,31 +117,36 @@ function Sidebar() {
 
                     <hr className="sidebar-divider" />
 
+
                     <li className="nav-item">
-                        <a className="nav-link collapsed" href="/userProfile" data-toggle="collapse" data-target="#collapseUserProfile" aria-expanded="true" aria-controls="collapseUserProfile">
+                        <Link className="nav-link" to="/UserProfile">
                             <i className="fa fa-user" aria-hidden="true"></i>
                             <span>User Profile</span>
-                        </a>
-                        <div id="collapseUserProfile" className="collapse" aria-labelledby="headingUserProfile" data-parent="#accordionSidebar">
-                            <div className="bg-white py-2 collapse-inner rounded">
-                                <a className="collapse-item" href="/UserProfile">My Profile</a>
-                            </div>
-                        </div>
+                        </Link>
                     </li>
 
                     <li className="nav-item">
+                    {user && user.roli === 'Admin' && (
                         <a className="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseLibra" aria-expanded="true" aria-controls="collapseLibra">
                             <i className="fa fa-list"></i>
                             <span>Libra</span>
                         </a>
+                        )}
+
                         <div id="collapseLibra" className="collapse" aria-labelledby="headingLibra" data-parent="#accordionSidebar">
                             <div className="bg-white py-2 collapse-inner rounded">
                                 <div className="list-group">
                                     {categories.map(kategoria => (
-                                        <Link key={kategoria.KategoriaID} to={`/kategoria/${kategoria.kategoria}/librat`} style={{ color: 'black' }} className="collapse-item">
+                                        <Link
+                                            to={`/kategoria/${kategoria.KategoriaID}/librat`}
+                                            key={kategoria.KategoriaID} 
+                                            style={{ color: 'black' }}
+                                            className="collapse-item"
+                                        >
                                             {kategoria.kategoria}
                                         </Link>
                                     ))}
+
                                 </div>
                             </div>
                         </div>
@@ -156,10 +161,11 @@ function Sidebar() {
                             <div className="bg-white py-2 collapse-inner rounded">
                                 <div className="list-group">
                                     {tipet.map(tipi => (
-                                        <Link key={tipi.TipiID} to={`/tipi/${tipi.tipi}/MjeteShkollore`} style={{ color: 'black' }} className="collapse-item">
+                                        <Link to={`/tipi/${tipi.TipiID}/MjeteShkollore`} key={tipi.TipiID} style={{ color: 'black' }} className="collapse-item">
                                             {tipi.tipi}
                                         </Link>
                                     ))}
+
                                 </div>
                             </div>
                         </div>
@@ -167,15 +173,15 @@ function Sidebar() {
 
                     <hr className="sidebar-divider my-0" />
                     <li className="nav-item active">
-                    {user && user.roli === 'User' && (
-                        <Link className="nav-link" to="/shporta">
-                        <i className="fas fa-shopping-cart fa-fw"aria-hidden="true" ></i>
-                            <span>Shporta</span>
-                        </Link>
-                    )}
-                 {user && user.roli === 'User' && (
+                        {user && user.roli === 'User' && (
+                            <Link className="nav-link" to="/shporta">
+                                <i className="fas fa-shopping-cart fa-fw" aria-hidden="true" ></i>
+                                <span>Shporta</span>
+                            </Link>
+                        )}
+                        {user && user.roli === 'User' && (
                             <Link className="nav-link" to="/wishlist">
-                                 <i className="fa fa-heart "aria-hidden="true" ></i>
+                                <i className="fa fa-heart " aria-hidden="true" ></i>
                                 <span>WishList</span>
                             </Link>
                         )}

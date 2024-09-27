@@ -53,7 +53,7 @@ export class Libri extends Component {
   }
 
   handleModalHidden() {
-    // Reset modal state values
+    
     this.setState({
       modalTitle: "",
       ID: 0,
@@ -202,20 +202,29 @@ export class Libri extends Component {
   }
 
   createClick = () => {
-    axios.post(variables.API_URL + 'Libri', {
-      ISBN: this.state.ISBN,
-      Titulli: this.state.Titulli,
-      Pershkrimi: this.state.Pershkrimi,
-      AutoriID: this.state.AutoriID,
-      NrFaqeve: this.state.NrFaqeve,
-      KategoriaID: this.state.KategoriaID,
-      VitiPublikimit: this.state.VitiPublikimit,
-      ShtepiaBotueseID: this.state.ShtepiaBotueseID,
-      GjuhaID: this.state.GjuhaID,
-      Cmimi: this.state.Cmimi,
-      Sasia: this.state.Sasia,
-      ImgPath: this.state.ImgPath
-    })
+    axios.post(
+        variables.API_URL + 'Libri',
+        {
+            ISBN: this.state.ISBN,
+            Titulli: this.state.Titulli,
+            Pershkrimi: this.state.Pershkrimi,
+            AutoriID: this.state.AutoriID,
+            NrFaqeve: this.state.NrFaqeve,
+            KategoriaID: this.state.KategoriaID,
+            VitiPublikimit: this.state.VitiPublikimit,
+            ShtepiaBotueseID: this.state.ShtepiaBotueseID,
+            GjuhaID: this.state.GjuhaID,
+            Cmimi: this.state.Cmimi,
+            Sasia: this.state.Sasia,
+            ImgPath: this.state.ImgPath
+        },
+        {
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem('Token')}`
+            }
+        }
+    )
+   
     .then((response) => {
         alert('U shtua me sukses');
         this.refreshList();
@@ -227,6 +236,7 @@ export class Libri extends Component {
         alert('Failed');
     });
 };
+
 updateClick = () => {
   const { ID,ISBN, Titulli, Pershkrimi, AutoriID,NrFaqeve,KategoriaID,VitiPublikimit,ShtepiaBotueseID,GjuhaID,Cmimi,Sasia,ImgPath  } = this.state;
 
@@ -245,7 +255,13 @@ updateClick = () => {
     Sasia,
     ImgPath
       
-  })
+  },
+  {
+    headers: {
+        'Authorization': `Bearer ${localStorage.getItem('Token')}`
+    }
+})
+  
   .then(response => {
       alert('Updated successfully');
       this.refreshList();
@@ -266,7 +282,8 @@ updateClick = () => {
         method: 'DELETE',
         headers: {
           'Accept': 'application/json',
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+           'Authorization': `Bearer ${localStorage.getItem('Token')}`
         }
       })
         .then(res => res.json())

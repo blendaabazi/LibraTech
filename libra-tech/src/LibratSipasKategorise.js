@@ -7,6 +7,7 @@ import { Modal, Button } from 'react-bootstrap';
 import Sidebar from './Sidebar';
 import { Link } from 'react-router-dom';
 import { useAuth } from './AuthProvider';
+import Kategoria from './Kategoria';
 
 
 function LibratSipasKategorise() {
@@ -36,19 +37,20 @@ function LibratSipasKategorise() {
 
     const fetchLibratByKategoria = async (kategoria) => {
         try {
-            const response = await fetch(variables.API_URL + `libri/kategoria/${kategoria}`);
+            const response = await fetch(`${variables.API_URL}libri/kategoria/${kategoria}`);
             if (!response.ok) {
-                throw new Error('Error fetching data');
+                throw new Error('Gabim gjatë marrjes së të dhënave');
             }
             const data = await response.json();
             setLibrat(data);
             setLoading(false);
         } catch (error) {
-            console.error('Error fetching data:', error);
+            console.error('Gabim gjatë marrjes së të dhënave:', error);
             setError(error.message);
             setLoading(false);
         }
     };
+    
 
     const addToCart = (libri) => {
         setShporta([...shporta, libri]);
@@ -148,7 +150,7 @@ function LibratSipasKategorise() {
                                 <>
 
                                 <div className="row" style={{ margin: '20px 0' }}>
-                                    <h1>Librat për kategorine: {kategoria}</h1>
+                                    <h1></h1>
                                     <div className="row">
 
                                         {librat.map(libri => (

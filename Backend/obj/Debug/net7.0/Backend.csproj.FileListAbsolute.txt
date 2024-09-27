@@ -879,3 +879,9 @@ C:\Users\Naim\OneDrive\Desktop\ProjektiFinal\LibraTech\Backend\obj\Debug\net7.0\
 C:\Users\Naim\OneDrive\Desktop\ProjektiFinal\LibraTech\Backend\obj\Debug\net7.0\Backend.pdb
 C:\Users\Naim\OneDrive\Desktop\ProjektiFinal\LibraTech\Backend\obj\Debug\net7.0\Backend.genruntimeconfig.cache
 C:\Users\Naim\OneDrive\Desktop\ProjektiFinal\LibraTech\Backend\obj\Debug\net7.0\ref\Backend.dll
+C:\Users\Naim\OneDrive\Desktop\ProjektiFinal\LibraTech\Backend\bin\Debug\net7.0\Microsoft.AspNetCore.Cryptography.Internal.dll
+C:\Users\Naim\OneDrive\Desktop\ProjektiFinal\LibraTech\Backend\bin\Debug\net7.0\Microsoft.AspNetCore.Cryptography.KeyDerivation.dll
+C:\Users\Naim\OneDrive\Desktop\ProjektiFinal\LibraTech\Backend\bin\Debug\net7.0\Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll
+C:\Users\Naim\OneDrive\Desktop\ProjektiFinal\LibraTech\Backend\bin\Debug\net7.0\Microsoft.Extensions.Identity.Core.dll
+C:\Users\Naim\OneDrive\Desktop\ProjektiFinal\LibraTech\Backend\bin\Debug\net7.0\Microsoft.Extensions.Identity.Stores.dll
+C:\Users\Naim\OneDrive\Desktop\ProjektiFinal\LibraTech\Backend\bin\Debug\net7.0\BCrypt.Net-Next.dll

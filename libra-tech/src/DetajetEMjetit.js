@@ -63,10 +63,10 @@ function DetajetEMjetit() {
           <div className="col-md-9">
             <div className="row" style={{ margin: '20px 0' }}>
               <div className="container">
-                <h1>{mjeti.Tipi}</h1>
+                <h1>{mjeti.Tipi.tipi}</h1>
                 <div className="row">
                   <div className="col-md-4">
-                    <img src={variables.API_URL + 'MjeteShkollore/GetFoto/' + mjeti.ID} alt={mjeti.Tipi} className="img-fluid" />
+                    <img src={variables.API_URL + 'MjeteShkollore/GetFoto/' + mjeti.ID} alt={mjeti.TipiID} className="img-fluid" />
                   </div>
                   <div className="col-md-8">
                     <p><strong>Pershkrimi:</strong> {mjeti.Pershkrimi}</p>

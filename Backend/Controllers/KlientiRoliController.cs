@@ -106,12 +106,14 @@ using Microsoft.Extensions.Configuration;
 using Backend.Models;
 using Microsoft.EntityFrameworkCore;
 using Lab1_Backend.Models;
+using Microsoft.AspNetCore.Authorization;
 
 
 namespace Backend.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class KlientiRoliController : ControllerBase
     {
         private readonly LibrariaContext _context;
@@ -122,6 +124,7 @@ namespace Backend.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public ActionResult<IEnumerable<KlientiRoli>> GetKlientiRoli()
         {
             return _context.KlientiRoli.ToList();
@@ -129,6 +132,7 @@ namespace Backend.Controllers
 
 
         [HttpGet("{id}")]
+        [AllowAnonymous]
         public ActionResult<KlientiRoli> GetKlientiRoli(int id)
         {
             var gj = _context.KlientiRoli.Find(id);
@@ -145,6 +149,8 @@ namespace Backend.Controllers
 
 
         [HttpPost]
+        [Authorize(Policy = "AdminOnly")]
+
         public async Task<ActionResult<KlientiRoli>> PostKlientiRoli(KlientiRoli s)
         {
             _context.KlientiRoli.Add(s);
@@ -154,6 +160,8 @@ namespace Backend.Controllers
             return CreatedAtAction(nameof(GetKlientiRoli), new { id = s.Id }, s);
         }
         [HttpPut]
+        [Authorize(Policy = "AdminOnly")]
+
         public IActionResult PutKlientiRoli(KlientiRoli s)
         {
             if (s == null)
@@ -177,6 +185,8 @@ namespace Backend.Controllers
 
 
         [HttpDelete("{id}")]
+        [Authorize(Policy = "AdminOnly")]
+
         public IActionResult DeleteKlientiRoli(int id)
         {
             var gj = _context.KlientiRoli.Find(id);

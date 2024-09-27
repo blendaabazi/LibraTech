@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Zgjim\\Desktop\\ProjektiFinal\\LibraTech\\Backend\\Backend.csproj": {}
+    "C:\\Users\\Naim\\OneDrive\\Desktop\\ProjektiFinal\\LibraTech\\Backend\\Backend.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Zgjim\\Desktop\\ProjektiFinal\\LibraTech\\Backend\\Backend.csproj": {
+    "C:\\Users\\Naim\\OneDrive\\Desktop\\ProjektiFinal\\LibraTech\\Backend\\Backend.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Zgjim\\Desktop\\ProjektiFinal\\LibraTech\\Backend\\Backend.csproj",
+        "projectUniqueName": "C:\\Users\\Naim\\OneDrive\\Desktop\\ProjektiFinal\\LibraTech\\Backend\\Backend.csproj",
         "projectName": "Backend",
-        "projectPath": "C:\\Users\\Zgjim\\Desktop\\ProjektiFinal\\LibraTech\\Backend\\Backend.csproj",
-        "packagesPath": "C:\\Users\\Zgjim\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Zgjim\\Desktop\\ProjektiFinal\\LibraTech\\Backend\\obj\\",
+        "projectPath": "C:\\Users\\Naim\\OneDrive\\Desktop\\ProjektiFinal\\LibraTech\\Backend\\Backend.csproj",
+        "packagesPath": "C:\\Users\\Naim\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Naim\\OneDrive\\Desktop\\ProjektiFinal\\LibraTech\\Backend\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Zgjim\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Naim\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -45,6 +45,10 @@
         "net7.0": {
           "targetAlias": "net7.0",
           "dependencies": {
+            "BCrypt.Net-Next": {
+              "target": "Package",
+              "version": "[4.0.3, )"
+            },
             "Microsoft.AspNetCore.Authentication": {
               "target": "Package",
               "version": "[2.2.0, )"
@@ -56,6 +60,10 @@
             "Microsoft.AspNetCore.Cors": {
               "target": "Package",
               "version": "[2.2.0, )"
+            },
+            "Microsoft.AspNetCore.Identity.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[7.0.1, )"
             },
             "Microsoft.AspNetCore.Mvc.Cors": {
               "target": "Package",

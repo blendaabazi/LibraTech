@@ -9,11 +9,13 @@ using System.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using Lab1_Backend.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Lab1_Backend.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class ShtetiMShController : ControllerBase
     {
         private readonly LibrariaContext _context;
@@ -25,6 +27,7 @@ namespace Lab1_Backend.Controllers
 
         // GET: api/ShtetiMSh
         [HttpGet]
+        [AllowAnonymous]
         public ActionResult<IEnumerable<ShtetiMSh>> GetShtetiMSh()
         {
             return _context.ShtetiMSh.ToList();
@@ -32,6 +35,7 @@ namespace Lab1_Backend.Controllers
 
         // GET: ap//5
         [HttpGet("{id}")]
+        [AllowAnonymous]
         public ActionResult<ShtetiMSh> GetShtetiMSh(int id)
         {
             var gj = _context.ShtetiMSh.Find(id);
@@ -48,6 +52,8 @@ namespace Lab1_Backend.Controllers
 
         // POST: api/ShtetiMSh
         [HttpPost]
+        [Authorize(Policy = "AdminOnly")]
+
         public async Task<ActionResult<ShtetiMSh>> PostShtetiMSh(ShtetiMSh p)
         {
             _context.ShtetiMSh.Add(p);
@@ -57,6 +63,8 @@ namespace Lab1_Backend.Controllers
             return CreatedAtAction(nameof(GetShtetiMSh), new { id = p.ShtetiMShID }, p);
         }
         [HttpPut]
+        [Authorize(Policy = "AdminOnly")]
+
         public IActionResult PutShtetiMSH(ShtetiMSh p)
         {
             if (p == null)
@@ -81,6 +89,8 @@ namespace Lab1_Backend.Controllers
 
         // DELETE: api/ShtetiMSh/5
         [HttpDelete("{id}")]
+        [Authorize(Policy = "AdminOnly")]
+
         public IActionResult DeleteShtetiMSh(int id)
         {
             var gj = _context.ShtetiMSh.Find(id);

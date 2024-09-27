@@ -105,12 +105,14 @@ using Microsoft.Extensions.Configuration;
 using Backend.Models;
 using Microsoft.EntityFrameworkCore;
 using Lab1_Backend.Models;
+using Microsoft.AspNetCore.Authorization;
 
 
 namespace Backend.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class KlientiQytetiController : ControllerBase
     {
         private readonly LibrariaContext _context;
@@ -121,6 +123,7 @@ namespace Backend.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public ActionResult<IEnumerable<KlientiQyteti>> GetKlientiQyteti()
         {
             return _context.KlientiQyteti.ToList();
@@ -128,6 +131,7 @@ namespace Backend.Controllers
 
 
         [HttpGet("{id}")]
+        [AllowAnonymous]
         public ActionResult<KlientiQyteti> GetKlientiQyteti(int id)
         {
             var gj = _context.KlientiQyteti.Find(id);
@@ -144,6 +148,8 @@ namespace Backend.Controllers
 
 
         [HttpPost]
+        [Authorize(Policy = "AdminOnly")]
+
         public async Task<ActionResult<KlientiQyteti>> PostKlientiQyteti(KlientiQyteti s)
         {
             _context.KlientiQyteti.Add(s);
@@ -153,6 +159,8 @@ namespace Backend.Controllers
             return CreatedAtAction(nameof(GetKlientiQyteti), new { id = s.Id }, s);
         }
         [HttpPut]
+        [Authorize(Policy = "AdminOnly")]
+
         public IActionResult PutKlientiQyteti(KlientiQyteti s)
         {
             if (s == null)
@@ -176,6 +184,8 @@ namespace Backend.Controllers
 
 
         [HttpDelete("{id}")]
+        [Authorize(Policy = "AdminOnly")]
+
         public IActionResult DeleteKlientiQyteti(int id)
         {
             var gj = _context.KlientiQyteti.Find(id);

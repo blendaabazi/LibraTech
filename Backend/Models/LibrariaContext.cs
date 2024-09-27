@@ -11,8 +11,9 @@
             /*public DbSet<Libraria> libraria { get; set; }*/
             //public DbSet<MjeteShkollore> MjeteShkollore { get; set; }
             public DbSet<Tipi> Tipi { get; set; }
+        public DbSet<RefreshToken> RefreshToken { get; set; }
 
-            public DbSet<Libri> Libri { get; set; }
+        public DbSet<Libri> Libri { get; set; }
             public DbSet<MjeteShkollore> MjeteShkollore { get; set; }
 
 
@@ -45,8 +46,19 @@
 
         /*Porosia*/
 
-        //public DbSet<Porosia> Porosia { get; set; }
-        //public DbSet<Produkti> Produkti { get; set; }
+        public DbSet<Porosia> Porosia { get; set; }
+        public DbSet<Produkti> Produkti { get; set; }
+        public DbSet<RefreshToken> RefreshTokens { get; set; }
+        //protected override void OnModelCreating(ModelBuilder modelBuilder)
+        //{
+        //    // Relacionimi mes Klienti dhe RefreshToken
+        //    modelBuilder.Entity<RefreshToken>()
+        //        .HasOne(rt => rt.User)
+        //        .WithMany(u => u.RefreshTokens)
+        //        .HasForeignKey(rt => rt.UserId);
+
+        //    base.OnModelCreating(modelBuilder);
+        //}
 
 
 

@@ -40,14 +40,14 @@ export class KlientiGjinia extends Component {
     addClick() {
         this.setState({
             modalTitle: "Shto Gjini",
-            KlientiGjiniaID: 0,
+            id: 0,
             Gjinia: ""
         });
     }
     editClick(dep) {
         this.setState({
             modalTitle: "Edit Gjinia",
-            KlientiGjiniaID: dep.KlientiGjiniaID,
+            Id: dep.Id,
             Gjinia: dep.Gjinia
         });
     }
@@ -57,7 +57,9 @@ export class KlientiGjinia extends Component {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('Token')}`
+
             },
             body: JSON.stringify({
                 Gjinia: this.state.Gjinia
@@ -80,10 +82,13 @@ export class KlientiGjinia extends Component {
             method: 'PUT',
             headers: {
                 'Accept': 'application/json',
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('Token')}`
+
+                
             },
             body: JSON.stringify({
-                KlientiGjiniaID: this.state.KlientiGjiniaID,
+                Id: this.state.Id,
                 Gjinia: this.state.Gjinia
             })
         })
@@ -105,7 +110,9 @@ export class KlientiGjinia extends Component {
                 method: 'DELETE',
                 headers: {
                     'Accept': 'application/json',
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('Token')}`
+
                 }
             })
                 .then(res => res.json())
@@ -123,7 +130,7 @@ export class KlientiGjinia extends Component {
         const {
             gjinite,
             modalTitle,
-            KlientiGjiniaID,
+            Id,
             Gjinia
         } = this.state;
 
@@ -168,8 +175,8 @@ export class KlientiGjinia extends Component {
                                 </thead>
                                 <tbody>
                                     {gjinite.map(dep =>
-                                        <tr key={dep.KlientiGjiniaID}>
-                                            <td>{dep.KlientiGjiniaID}</td>
+                                        <tr key={dep.Id}>
+                                            <td>{dep.Id}</td>
                                             <td>{dep.Gjinia}</td>
                                             <td>
                                                 <button type="button"
@@ -185,7 +192,7 @@ export class KlientiGjinia extends Component {
 
                                                 <button type="button"
                                                     className="btn btn-light mr-1"
-                                                    onClick={() => this.deleteClick(dep.KlientiGjiniaID)}>
+                                                    onClick={() => this.deleteClick(dep.Id)}>
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-trash-fill" viewBox="0 0 16 16">
                                                         <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z" />
                                                     </svg>
@@ -214,14 +221,14 @@ export class KlientiGjinia extends Component {
                                                     onChange={this.changeGjinia} />
                                             </div>
 
-                                            {KlientiGjiniaID == 0 ?
+                                            {Id == 0 ?
                                                 <button type="button"
                                                     className="btn btn-primary float-start"
                                                     onClick={() => this.createClick()}
                                                 >Create</button>
                                                 : null}
 
-                                            {KlientiGjiniaID != 0 ?
+                                            {Id != 0 ?
                                                 <button type="button"
                                                     className="btn btn-primary float-start"
                                                     onClick={() => this.updateClick()}

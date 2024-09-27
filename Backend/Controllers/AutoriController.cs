@@ -9,12 +9,14 @@ using System.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using Lab1_Backend.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 
 
 namespace Lab1_Backend.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class AutoriController : ControllerBase
     {
         private readonly LibrariaContext _context;
@@ -26,6 +28,8 @@ namespace Lab1_Backend.Controllers
 
         // GET: api/Autori
         [HttpGet]
+        [AllowAnonymous]
+
         public ActionResult<IEnumerable<Autori>> GetAutori()
         {
             return _context.Autori.ToList();
@@ -33,6 +37,8 @@ namespace Lab1_Backend.Controllers
 
         // GET: api/Autori/5
         [HttpGet("{id}")]
+        [AllowAnonymous]
+
         public ActionResult<Autori> GetAutori(int id)
         {
             var autori = _context.Autori.Find(id);
@@ -49,6 +55,8 @@ namespace Lab1_Backend.Controllers
 
         // POST: api/Autori
         [HttpPost]
+        [Authorize(Policy = "AdminOnly")]
+
         public async Task<ActionResult<Autori>> PostAutori(Autori autori)
         {
             _context.Autori.Add(autori);
@@ -58,6 +66,8 @@ namespace Lab1_Backend.Controllers
             return CreatedAtAction(nameof(GetAutori), new { id = autori.AutoriID }, autori);
         }
         [HttpPut]
+        [Authorize(Policy = "AdminOnly")]
+
         public IActionResult PutAutori(Autori autori)
         {
             if (autori == null)
@@ -82,6 +92,8 @@ namespace Lab1_Backend.Controllers
 
         // DELETE: api/autori/5
         [HttpDelete("{id}")]
+        [Authorize(Policy = "AdminOnly")]
+
         public IActionResult DeleteAutori(int id)
         {
             var autori = _context.Autori.Find(id);

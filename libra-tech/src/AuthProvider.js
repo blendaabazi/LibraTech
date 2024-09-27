@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import axios from 'axios';
 
 const AuthContext = createContext();
 
@@ -13,12 +14,14 @@ export const AuthProvider = ({ children }) => {
         email: '',
         password: '',
         roli: '',
-        token: ''
+        token: '',
+        refreshToken:''
     });
     const [tokenExpiration, setTokenExpiration] = useState(null);
 
     useEffect(() => {
         const token = localStorage.getItem('Token');
+        const refreshToken = localStorage.getItem('RefreshToken');
         const roli = localStorage.getItem('Roli');
         const id = localStorage.getItem('ID');
         const emri = localStorage.getItem('Emri');
@@ -29,7 +32,7 @@ export const AuthProvider = ({ children }) => {
         const password = localStorage.getItem('Password');
         const expiration = localStorage.getItem('TokenExpiration');
 
-        if (token && roli && id && emri && mbiemri && klientiGjinia && klientiQyteti && email && password && expiration) {
+        if (token && refreshToken && roli && id && emri && mbiemri && klientiGjinia && klientiQyteti && email && password && expiration) {
             const now = new Date().getTime();
             if (now < expiration) {
                 setIsAuthenticated(true);
@@ -51,10 +54,11 @@ export const AuthProvider = ({ children }) => {
         }
     }, []);
 
-    const login = (token, roli, userData) => {
+    const login = (token,refreshToken, roli, userData) => {
         const expiration = new Date().getTime() + 120000; 
 
         localStorage.setItem('Token', token);
+        localStorage.setItem('RefreshToken', refreshToken);
         localStorage.setItem('Roli', roli);
         localStorage.setItem('ID', userData.id);
         localStorage.setItem('Emri', userData.emri);
@@ -79,6 +83,19 @@ export const AuthProvider = ({ children }) => {
         });
         setTokenExpiration(expiration);
     };
+    const refreshToken = async () => {
+        const refreshToken = localStorage.getItem('refreshToken');
+        try {
+            const response = await axios.post('http://localhost:5170/api/Authorization/refresh-token', { refreshToken });
+            if (response.data.Token) {
+                login(response.data.Token, response.data.RefreshToken, user.roli, user);
+                return true; // Indicate that the refresh was successful
+            }
+        } catch (error) {
+            console.error('Error refreshing token:', error);
+            return false; // Indicate that the refresh failed
+        }
+    };
 
     const logout = () => {
         localStorage.clear();
@@ -98,7 +115,7 @@ export const AuthProvider = ({ children }) => {
     };
 
     return (
-        <AuthContext.Provider value={{ isAuthenticated, user, login, logout, tokenExpiration }}>
+        <AuthContext.Provider value={{ isAuthenticated, user, login, logout, tokenExpiration,refreshToken }}>
             {children}
         </AuthContext.Provider>
     );
@@ -107,3 +124,87 @@ export const AuthProvider = ({ children }) => {
 export const useAuth = () => {
     return useContext(AuthContext);
 };
+// import React, { createContext, useContext, useState, useEffect } from 'react';
+
+// const AuthContext = createContext();
+
+// export const AuthProvider = ({ children }) => {
+//     const [isAuthenticated, setIsAuthenticated] = useState(false);
+//     const [user, setUser] = useState({
+//         id: null,
+//         emri: '',
+//         roli: '',
+//         token: ''
+//     });
+//     const [tokenExpiration, setTokenExpiration] = useState(null);
+
+//     useEffect(() => {
+//         const token = localStorage.getItem('Token');
+//         const roli = localStorage.getItem('Roli');
+//         const id = localStorage.getItem('ID');
+//         const emri = localStorage.getItem('Emri');
+//         const expiration = localStorage.getItem('TokenExpiration');
+
+//         if (token && roli && id && emri && expiration) {
+//             const now = new Date().getTime();
+//             if (now < expiration) {
+//                 setIsAuthenticated(true);
+//                 setUser({
+//                     token,
+//                     roli,
+//                     id,
+//                     emri
+//                 });
+//                 setTokenExpiration(expiration);
+//             } else {
+//                 logout();
+//             }
+//         }
+//     }, []);
+
+//     const login = (token, roli, userData) => {
+//         const expiration = new Date().getTime() + 120000; // Set appropriate expiration time
+
+//         localStorage.setItem('Token', token);
+//         localStorage.setItem('Roli', roli);
+//         localStorage.setItem('ID', userData.id);
+//         localStorage.setItem('Emri', userData.emri);
+//         localStorage.setItem('TokenExpiration', expiration);
+
+//         setIsAuthenticated(true);
+//         setUser({
+//             token,
+//             roli,
+//             id: userData.id,
+//             emri: userData.emri
+//         });
+//         setTokenExpiration(expiration);
+//     };
+
+//     const logout = () => {
+//         localStorage.removeItem('Token');
+//         localStorage.removeItem('Roli');
+//         localStorage.removeItem('ID');
+//         localStorage.removeItem('Emri');
+//         localStorage.removeItem('TokenExpiration');
+
+//         setIsAuthenticated(false);
+//         setUser({
+//             id: null,
+//             emri: '',
+//             roli: '',
+//             token: ''
+//         });
+//         setTokenExpiration(null);
+//     };
+
+//     return (
+//         <AuthContext.Provider value={{ isAuthenticated, user, login, logout, tokenExpiration }}>
+//             {children}
+//         </AuthContext.Provider>
+//     );
+// };
+
+// export const useAuth = () => {
+//     return useContext(AuthContext);
+// };

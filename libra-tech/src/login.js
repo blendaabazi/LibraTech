@@ -2,7 +2,6 @@ import React, { Fragment, useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from './AuthProvider';
 import { login as loginService } from './AuthService';
-import Logout from './Logout';
 
 function Login() {
     const [email, setEmail] = useState('');
@@ -12,19 +11,22 @@ function Login() {
     const navigate = useNavigate();
 
     useEffect(() => {
+        // Handle token expiration
         if (tokenExpiration) {
             const timer = setTimeout(() => {
                 logoutAndRedirect();
-            }, tokenExpiration - new Date().getTime()); 
+            }, tokenExpiration - new Date().getTime());
 
             return () => clearTimeout(timer);
         }
     }, [tokenExpiration]);
 
     const logoutAndRedirect = () => {
-        Logout();
-        navigate('/login'); 
-        window.location.reload();
+        // Clear user data on logout
+        login(null, null, null, null);
+        localStorage.removeItem('token');
+        localStorage.removeItem('refreshToken');
+        navigate('/login');
     };
 
     const handleLogin = async (event) => {
@@ -38,18 +40,24 @@ function Login() {
         try {
             const data = await loginService(email, password);
 
-            if (data.Token) {
-                login(data.Token, data.Roli, {
+            if (data.Token && data.RefreshToken) {
+                
+                // localStorage.setItem('token', data.Token);
+                // localStorage.setItem('refreshToken', data.RefreshToken);
+
+              
+                login(data.Token, data.RefreshToken, data.Roli, {
                     id: data.ID,
                     emri: data.Emri,
                     mbiemri: data.Mbiemri,
                     klientiGjinia: data.KlientiGjinia,
                     klientiQyteti: data.KlientiQyteti,
                     email: data.Email,
-                    password: data.Password 
                 });
-                navigate('/home');
+
+                navigate('/home'); 
                 window.location.reload();
+                
             } else {
                 setErrorMessage(data.message || 'Invalid email or password.');
             }

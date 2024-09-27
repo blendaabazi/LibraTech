@@ -59,7 +59,9 @@ export class ProdhuesiMSh extends Component {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+           'Authorization': `Bearer ${localStorage.getItem('Token')}`
+
             },
             body: JSON.stringify({
                 Prodhuesi: this.state.Prodhuesi
@@ -81,7 +83,9 @@ export class ProdhuesiMSh extends Component {
             method: 'PUT',
             headers: {
                 'Accept': 'application/json',
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+           'Authorization': `Bearer ${localStorage.getItem('Token')}`
+
             },
             body: JSON.stringify({
                 ProdhuesiMShID: this.state.ProdhuesiMShID,
@@ -108,7 +112,9 @@ export class ProdhuesiMSh extends Component {
                 method: 'DELETE',
                 headers: {
                     'Accept': 'application/json',
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+           'Authorization': `Bearer ${localStorage.getItem('Token')}`
+
                 }
             })
                 .then(res => res.json())

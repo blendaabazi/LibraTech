@@ -9,12 +9,15 @@ using System.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using Lab1_Backend.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 
 
 namespace Lab1_Backend.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
+
     public class ShtepiaBotueseController : ControllerBase
     {
         private readonly LibrariaContext _context;
@@ -26,6 +29,7 @@ namespace Lab1_Backend.Controllers
 
         // GET: api/ShtepiaBotuese
         [HttpGet]
+        [AllowAnonymous]
         public ActionResult<IEnumerable<ShtepiaBotuese>> GetAutori()
         {
             return _context.ShtepiaBotuese.ToList();
@@ -33,6 +37,7 @@ namespace Lab1_Backend.Controllers
 
         // GET: api/Autori/5
         [HttpGet("{id}")]
+        [AllowAnonymous]
         public ActionResult<ShtepiaBotuese> GetShtepiaBotuese(int id)
         {
             var sh = _context.ShtepiaBotuese.Find(id);
@@ -49,6 +54,8 @@ namespace Lab1_Backend.Controllers
 
         // POST: api/ShtepiaBotuese
         [HttpPost]
+        [Authorize(Policy = "AdminOnly")]
+
         public async Task<ActionResult<ShtepiaBotuese>> PostShtepiaBotuese(ShtepiaBotuese sh)
         {
             _context.ShtepiaBotuese.Add(sh);
@@ -58,6 +65,8 @@ namespace Lab1_Backend.Controllers
             return CreatedAtAction(nameof(GetShtepiaBotuese), new { id = sh.ShtepiaBotueseID }, sh);
         }
         [HttpPut]
+        [Authorize(Policy = "AdminOnly")]
+
         public IActionResult PutShtepiaBotuese(ShtepiaBotuese sh)
         {
             if (sh == null)
@@ -82,6 +91,8 @@ namespace Lab1_Backend.Controllers
 
       
         [HttpDelete("{id}")]
+        [Authorize(Policy = "AdminOnly")]
+
         public IActionResult DeleteShtepiaBotuese(int id)
         {
             var sh = _context.ShtepiaBotuese.Find(id);

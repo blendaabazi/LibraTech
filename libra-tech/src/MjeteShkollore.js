@@ -6,7 +6,7 @@ import Header from './Header';
 import Footer from './Footer';
 import Sidebar from './Sidebar';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
+import axiosInstance from './axiosInstance';
 
 
 
@@ -49,7 +49,6 @@ export class MjeteShkollore extends Component {
     }
 
     handleModalHidden() {
-        // Reset modal state values
         this.setState({
             modalTitle: "",
             ID: 0,
@@ -155,7 +154,7 @@ export class MjeteShkollore extends Component {
     }
 
     createClick = () => {
-        axios.post('http://localhost:5170/api/MjeteShkollore', {
+        axiosInstance.post('http://localhost:5170/api/MjeteShkollore', {
             Pershkrimi: this.state.Pershkrimi,
             TipiID: this.state.TipiID,
             ShtetiMShID: this.state.ShtetiMShID,
@@ -163,6 +162,11 @@ export class MjeteShkollore extends Component {
             ImgPath: this.state.ImgPath,
             Cmimi: this.state.Cmimi,
             Sasia: this.state.Sasia,
+        },
+        {
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem('Token')}`
+            }
         })
             .then((response) => {
                 alert('U shtua me sukses');
@@ -180,7 +184,7 @@ export class MjeteShkollore extends Component {
     updateClick = () => {
         const { ID, Pershkrimi, TipiID, ShtetiMShID, ProdhuesiMShID, ImgPath, Cmimi, Sasia } = this.state;
 
-        axios.put(`http://localhost:5170/api/MjeteShkollore/${ID}`, {
+        axiosInstance.put(`http://localhost:5170/api/MjeteShkollore/${ID}`, {
             ID,
             Pershkrimi,
             TipiID,
@@ -189,6 +193,11 @@ export class MjeteShkollore extends Component {
             ImgPath,
             Cmimi,
             Sasia
+        }, 
+        {
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem('Token')}`
+            }
         })
             .then(response => {
                 alert('Updated successfully');
@@ -208,7 +217,8 @@ export class MjeteShkollore extends Component {
                 method: 'DELETE',
                 headers: {
                     'Accept': 'application/json',
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${localStorage.getItem('Token')}`
                 }
             })
                 .then(res => res.json())

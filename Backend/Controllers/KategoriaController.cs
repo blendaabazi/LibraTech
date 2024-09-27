@@ -9,12 +9,16 @@ using System.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using Lab1_Backend.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.IdentityModel.Tokens;
 
 
 namespace Lab1_Backend.Controllers
 {
+    
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class KategoriaController : ControllerBase
     {
         private readonly LibrariaContext _context;
@@ -25,6 +29,7 @@ namespace Lab1_Backend.Controllers
         }
 
         // GET: api/Kategoria
+        [AllowAnonymous]
         [HttpGet]
         public ActionResult<IEnumerable<Kategoria>> GetKategoria()
         {
@@ -32,6 +37,7 @@ namespace Lab1_Backend.Controllers
         }
 
         //GET: api/Kategoria/5
+        [AllowAnonymous]
         [HttpGet("{id}")]
         public ActionResult<Kategoria> GetKategoria(int id)
         {
@@ -48,6 +54,7 @@ namespace Lab1_Backend.Controllers
 
 
         // POST: api/Kategoria
+        [Authorize(Policy = "AdminOnly")]
         [HttpPost]
         public async Task<ActionResult<Kategoria>> PostKategoria(Kategoria kategoria)
         {
@@ -57,7 +64,10 @@ namespace Lab1_Backend.Controllers
 
             return CreatedAtAction(nameof(GetKategoria), new { id = kategoria.KategoriaID }, kategoria);
         }
+       
         [HttpPut]
+        [Authorize(Policy = "AdminOnly")]
+
         public IActionResult PutKategoria(Kategoria kategoria) 
         {
             if (kategoria == null)
@@ -81,7 +91,10 @@ namespace Lab1_Backend.Controllers
 
 
         // DELETE: api/Kategoria/5
+      
         [HttpDelete("{id}")]
+        [Authorize(Policy = "AdminOnly")]
+
         public IActionResult DeleteKategoria(int id)
         {
             var k = _context.Kategoria.Find(id);

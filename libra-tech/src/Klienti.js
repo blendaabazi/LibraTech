@@ -151,7 +151,9 @@
         method: 'POST',
         headers: {
           'Accept': 'application/json',
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('Token')}`
+
         },
         body: JSON.stringify({
           Emri: this.state.Emri,
@@ -179,7 +181,9 @@
           method: 'PUT',
           headers: {
               'Accept': 'application/json',
-              'Content-Type': 'application/json'
+              'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('Token')}`
+
           },
           body: JSON.stringify({
               ID: this.state.ID,
@@ -211,26 +215,32 @@
           });
   }
 
-
-    deleteClick(id) {
-      if (window.confirm('A jeni i sigurt?')) {
-        fetch(variables.API_URL + 'klienti/' + id, {
-          method: 'DELETE',
-          headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
+  deleteClick(id) {
+    if (window.confirm('A jeni i sigurt?')) {
+      console.log(`Deleting client with ID: ${id}`);
+      fetch(variables.API_URL + 'klienti/' + id, {
+        method: 'DELETE',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('Token')}`
+        }
+      })
+        .then(res => {
+          if (res.ok) {
+            alert('Success'); // Notify success
+            this.refreshList(); // Refresh the list after successful delete
+          } else {
+            alert('Failed'); // Notify failure
           }
         })
-          .then(res => res.json())
-          .then((result) => {
-            alert('Failed');
-            this.refreshList();
-          }, (error) => {
-            alert('Success');
-            this.refreshList();
-          })
-      }
+        .catch(error => {
+          console.error('Error deleting client:', error);
+          alert('Failed'); // Notify failure
+        });
     }
+  }
+  
 
 
     render() {

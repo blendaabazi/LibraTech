@@ -9,12 +9,14 @@ using System.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using Lab1_Backend.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 
 
 namespace Lab1_Backend.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class GjuhaController : ControllerBase
     {
         private readonly LibrariaContext _context;
@@ -26,6 +28,7 @@ namespace Lab1_Backend.Controllers
 
         // GET: api/Gjuha
         [HttpGet]
+        [AllowAnonymous]
         public ActionResult<IEnumerable<Gjuha>> GetGjuha()
         {
             return _context.Gjuha.ToList();
@@ -33,6 +36,7 @@ namespace Lab1_Backend.Controllers
 
         // GET: api/Gjuha/5
         [HttpGet("{id}")]
+        [AllowAnonymous]
         public ActionResult<Gjuha> GetGjuha(int id)
         {
             var gj = _context.Gjuha.Find(id);
@@ -49,6 +53,8 @@ namespace Lab1_Backend.Controllers
 
         // POST: api/Gjuha
         [HttpPost]
+        [Authorize(Policy = "AdminOnly")]
+
         public async Task<ActionResult<Gjuha>> PostGjuha(Gjuha gjuha)
         {
             _context.Gjuha.Add(gjuha);
@@ -58,6 +64,8 @@ namespace Lab1_Backend.Controllers
             return CreatedAtAction(nameof(GetGjuha), new { id = gjuha.GjuhaID }, gjuha);
         }
         [HttpPut]
+        [Authorize(Policy = "AdminOnly")]
+
         public IActionResult PutGjuha(Gjuha gjuha)
         {
             if (gjuha == null)
@@ -82,6 +90,7 @@ namespace Lab1_Backend.Controllers
 
         // DELETE: api/Gjuha/5
         [HttpDelete("{id}")]
+        [Authorize(Policy = "AdminOnly")]
         public IActionResult DeleteGjuha(int id)
         {
             var gj = _context.Gjuha.Find(id);

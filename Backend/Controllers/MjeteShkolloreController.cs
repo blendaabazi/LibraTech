@@ -7,11 +7,13 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Hosting;
 using System.IO;
 using System.Linq;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Lab1_Backend.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class MjeteShkolloreController : ControllerBase
     {
         private readonly LibrariaContext _mjeteShkolloreContext;
@@ -26,6 +28,7 @@ namespace Lab1_Backend.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public async Task<ActionResult<IEnumerable<MjeteShkollore>>> GetMjeteShkollore()
         {
             return await _mjeteShkolloreContext.MjeteShkollore
@@ -36,6 +39,7 @@ namespace Lab1_Backend.Controllers
         }
 
         [HttpGet("{id}")]
+        [AllowAnonymous]
         public async Task<ActionResult<MjeteShkollore>> GetMjeteShkollore(int id)
         {
             var mjeteShkollore = await _mjeteShkolloreContext.MjeteShkollore
@@ -53,6 +57,7 @@ namespace Lab1_Backend.Controllers
         }
 
         [HttpPost]
+        [Authorize(Policy = "AdminOnly")]
         public async Task<ActionResult<MjeteShkollore>> PostMjeteShkollore([FromBody] MjeteShkolloreDto mjeteShkolloreDto)
         {
             try
@@ -85,6 +90,7 @@ namespace Lab1_Backend.Controllers
         }
 
         [HttpPut("{id}")]
+        [Authorize(Policy = "AdminOnly")]
         public async Task<IActionResult> PutMjeteShkollore(int id, [FromBody] MjeteShkolloreDto mjeteShkolloreDto)
         {
             try
@@ -120,6 +126,7 @@ namespace Lab1_Backend.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize(Policy = "AdminOnly")]
         public async Task<IActionResult> DeleteMjeteShkollore(int id)
         {
             var mjeteShkollore = await _mjeteShkolloreContext.MjeteShkollore.FindAsync(id);
@@ -135,6 +142,7 @@ namespace Lab1_Backend.Controllers
         }
 
         [HttpGet("TotalMjetet")]
+        [AllowAnonymous]
         public async Task<ActionResult<int>> GetTotalMjetet()
         {
             var totalMjetet = await _mjeteShkolloreContext.MjeteShkollore.CountAsync();
@@ -142,6 +150,7 @@ namespace Lab1_Backend.Controllers
         }
 
         [HttpGet("GetMjetetMeTeRinje")]
+        [AllowAnonymous]
         public async Task<ActionResult<IEnumerable<MjeteShkollore>>> GetNewestMjete()
         {
             var newestMjete = await _mjeteShkolloreContext.MjeteShkollore.OrderByDescending(m => m.ID).Take(6).ToListAsync();
@@ -149,6 +158,7 @@ namespace Lab1_Backend.Controllers
         }
 
         [HttpGet("tipi/{tipi}")]
+        [AllowAnonymous]
         public async Task<ActionResult<IEnumerable<MjeteShkollore>>> GetMjeteByTipi(int tipi)
         {
             var mjetet = await _mjeteShkolloreContext.MjeteShkollore
@@ -163,6 +173,7 @@ namespace Lab1_Backend.Controllers
 
         [HttpGet]
         [Route("GetFoto/{id}")]
+        [AllowAnonymous]
         public IActionResult GetFoto(int id)
         {
             var mjeteShkollore = _mjeteShkolloreContext.MjeteShkollore.FirstOrDefault(m => m.ID == id);
@@ -183,6 +194,7 @@ namespace Lab1_Backend.Controllers
 
         [Route("SaveFile")]
         [HttpPost]
+        [AllowAnonymous]
         public JsonResult SaveFile()
         {
             try

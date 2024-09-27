@@ -9,11 +9,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using Lab1_Backend.Models;
 using Backend.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Lab1_Backend.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class LibriController : ControllerBase
     {
         private readonly LibrariaContext _bookContext;
@@ -26,7 +28,7 @@ namespace Lab1_Backend.Controllers
             _configuration = configuration;
             _env = env;
         }
-
+        [AllowAnonymous]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Libri>>> GetLibri()
         {
@@ -37,7 +39,7 @@ namespace Lab1_Backend.Controllers
                                      .Include(l => l.Gjuha)
                                      .ToListAsync();
         }
-
+        [AllowAnonymous]
         [HttpGet("{id}")]
         public async Task<ActionResult<Libri>> GetLibri(int id)
         {
@@ -55,8 +57,9 @@ namespace Lab1_Backend.Controllers
 
             return libri;
         }
-
+        
         [HttpPost]
+        [Authorize(Policy = "AdminOnly")]
         public async Task<ActionResult<Libri>> PostLibri([FromBody] LibriDto libriDto)
         {
             try
@@ -92,7 +95,7 @@ namespace Lab1_Backend.Controllers
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
-
+        [Authorize(Policy = "AdminOnly")]
         [HttpPut("{id}")]
         public async Task<IActionResult> PutLibri(int id, [FromBody] LibriDto libriDto)
         {
@@ -132,7 +135,7 @@ namespace Lab1_Backend.Controllers
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
-
+        [Authorize(Policy = "AdminOnly")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteLibri(int id)
         {
@@ -147,33 +150,37 @@ namespace Lab1_Backend.Controllers
 
             return NoContent();
         }
-
+        [AllowAnonymous]
         [HttpGet("TotalLibrat")]
         public async Task<ActionResult<int>> GetTotalLibrat()
         {
             var totalLibrat = await _bookContext.Libri.CountAsync();
             return totalLibrat;
         }
-
+        [AllowAnonymous]
         [HttpGet("GetLibratMeTeRinje")]
         public async Task<ActionResult<IEnumerable<Libri>>> GetNewestBooks()
         {
             var newestBooks = await _bookContext.Libri.OrderByDescending(l => l.ID).Take(6).ToListAsync();
             return newestBooks;
         }
-
-        [HttpGet("kategoria/{kategoria}")]
-        public async Task<ActionResult<IEnumerable<Libri>>> GetLibratByKategoria(int kategoria)
+        [AllowAnonymous]
+        [HttpGet("kategoria/{kategoriaId}")]
+        public async Task<IActionResult> GetLibratByKategoria(int kategoriaId)
         {
             var librat = await _bookContext.Libri
-                                           .Where(l => l.KategoriaID == kategoria)
-                                           .ToListAsync();
-            if (librat == null || librat.Count == 0)
+                .Include(l => l.Kategoria)
+                .Where(l => l.KategoriaID == kategoriaId)
+                .ToListAsync();
+
+            if (librat == null || !librat.Any())
             {
-                return NotFound();
+                return NotFound("Nuk ka libra për këtë kategori.");
             }
-            return librat;
+
+            return Ok(librat);
         }
+        [AllowAnonymous]
 
         [HttpGet]
         [Route("GetFoto/{id}")]
@@ -194,7 +201,7 @@ namespace Lab1_Backend.Controllers
             var image = System.IO.File.OpenRead(imagePath);
             return File(image, "image/jpeg");
         }
-
+        [AllowAnonymous]
         [Route("SaveFile")]
         [HttpPost]
         public JsonResult SaveFile()

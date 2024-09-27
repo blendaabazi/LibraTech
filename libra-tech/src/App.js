@@ -37,7 +37,8 @@ import DetajetEMjetit from './DetajetEMjetit';
 import KlientiQyteti from './KlientiQyteti';
 import { PorosiaService } from './PorosiaService';
 import StafiSchedule from './StafiSchedule';
-import ProtectedRoute from './ProtectedRoute';  // Import the ProtectedRoute component
+import ProtectedRoute from './ProtectedRoute';  
+import PrivateRoute from './PrivateRoute';
 import { useAuth } from './AuthProvider';
 import { AuthProvider } from './AuthProvider';
 import WishList from './WishList';
@@ -50,29 +51,34 @@ function App() {
       <Router>
         <Routes>
           {!isAuthenticated ? (
+            
             <>
               <Route path="/" element={<Login />} />
               <Route path="/register" element={<Register />} />
               <Route path="/forgotpassword" element={<ForgotPassword />} />
               <Route path="*" element={<Navigate to="/" />} />
               <Route path="/logout" element={<Logout />} />
+              
             </>
           ) : (
             <>
+            
+              <Route path="/libri" element={<ProtectedRoute pathTo="libri" requiredRoli="Admin"><Libri /></ProtectedRoute>} />
               <Route path="/" element={<Home />} />
               <Route path="/register" element={<Register />} />
-              <Route path='/mjeteShkollore' element={<MjeteShkollore />} />
-              <Route path='/libri' element={<Libri />} />
+              <Route path="/mjeteShkollore" element={<ProtectedRoute requiredRoli="Admin"><MjeteShkollore /></ProtectedRoute>} />
+
+            
               <Route path="/tipi" element={<ProtectedRoute requiredRoli="Admin"><Tipi /></ProtectedRoute>} />
               <Route path="/autori" element={<ProtectedRoute requiredRoli="Admin"><Autori /></ProtectedRoute>} />
               <Route path="/shporta" element={<ProtectedRoute requiredRoli="User"><Shporta /></ProtectedRoute>} />
               <Route path="/wishlist" element={<ProtectedRoute requiredRoli="User"><WishList /></ProtectedRoute>} />
 
               <Route path="/libraria" element={<ProtectedRoute requiredRoli="Admin"><Libraria /></ProtectedRoute>} />
-              <Route path='/lokacioni' element={<Lokacioni />} />
+              
               <Route path="/porosia" element={<ProtectedRoute requiredRoli="Admin"><Porosia /></ProtectedRoute>} />
               <Route path="/porosiaService" element={<ProtectedRoute requiredRoli="Admin"><PorosiaService /></ProtectedRoute>} />
-              <Route path='/qyteti' element={<Qyteti />} />
+
         
               <Route path="/prodhuesiMSh" element={<ProtectedRoute requiredRoli="Admin"><ProdhuesiMSh /></ProtectedRoute>} />
               <Route path="/shtetiMSh" element={<ProtectedRoute requiredRoli="Admin"><ShtetiMSh /></ProtectedRoute>} />
@@ -88,16 +94,17 @@ function App() {
               <Route path="/kategoria/:kategoria/librat" element={<LibratSipasKategorise />} />
               <Route path="/tipi/:tipi/MjeteShkollore" element={<MjetetSipasTipit />} />
        
-
-
+              <Route path="/forgotpassword" element={<ForgotPassword />} />
+              <Route path='/UserProfile' element={<UserProfile />} />
               <Route path="/klientigjinia" element={<ProtectedRoute requiredRoli="Admin"><KlientiGjinia /></ProtectedRoute>} />
               <Route path="/klientiqyteti" element={<ProtectedRoute requiredRoli="Admin"><KlientiQyteti /></ProtectedRoute>} />
               <Route path="/klientiroli" element={<ProtectedRoute requiredRoli="Admin"><KlientiRoli /></ProtectedRoute>} />
+             
               <Route path="/dashboard" element={<ProtectedRoute requiredRoli="Admin"><Dashboard /></ProtectedRoute>} />
               <Route path="/Home" element={<ProtectedRoute requiredRolis={["Admin", "User"]}><Home /></ProtectedRoute>} />
             </>
           )}
-           <Route path='/libri' element={<Libri />} />
+           {/* <Route path='/libri' element={<Libri />} /> */}
            <Route path='/mjeteShkollore' element={<MjeteShkollore />} />
            {/* <Route path='/kategoria' element={<Kategoria />} /> */}
            {/* <Route path='/gjuha' element={<Gjuha />} />
@@ -112,7 +119,7 @@ function App() {
            <Route path='/Register' element={<Register />} /> */}
           
 
-           {/* <Route path='/porosia' element={<Porosia />} /> */}
+           <Route path='/porosia' element={<Porosia />} />
            <Route path="/klienti" element={<Klienti/>} />
            {/* <Route path="/stafi" element={<Stafi/>} />
            <Route path='/mjeteShkollore' element={<MjeteShkollore />} />

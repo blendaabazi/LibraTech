@@ -93,7 +93,7 @@ const Shporta = () => {
                   {mjetetShkollore.map((mjeti, index) => (
                     <li key={index}>
                       <div>
-                        <img src={variables.API_URL + 'MjeteShkollore/GetFoto/' + mjeti.ID} alt={mjeti.Tipi} style={{ width: '100%', height: '200px', objectFit: 'contain' }} className="img-fluid" />
+                        <img src={variables.API_URL + 'MjeteShkollore/GetFoto/' + mjeti.ID} alt={mjeti.TipiID} style={{ width: '100%', height: '200px', objectFit: 'contain' }} className="img-fluid" />
                         <p>Mjet Shkollor</p>
                         <p>Cmimi: {mjeti.Cmimi}</p>
                         <button onClick={() => removeFromCart(mjeti.ID)} className="btn btn-danger ml-2">Fshij</button>

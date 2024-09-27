@@ -3,6 +3,7 @@
 using Backend.Models;
 
 using Lab1_Backend.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -18,6 +19,7 @@ namespace Backend.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize]
     public class KlientiController : ControllerBase
     {
         private readonly LibrariaContext _dbContext;
@@ -31,6 +33,7 @@ namespace Backend.Controllers
 
         // GET: api/Klienti
         [HttpGet]
+        [AllowAnonymous]
         public async Task<ActionResult<IEnumerable<Klienti>>> GetKlients()
         {
             return await _dbContext.Klienti.ToListAsync();
@@ -38,6 +41,7 @@ namespace Backend.Controllers
 
         // GET: api/Klienti/5
         [HttpGet("{id}")]
+        [AllowAnonymous]
         public async Task<ActionResult<Klienti>> GetKlienti(int id)
         {
             var klienti = await _dbContext.Klienti.FindAsync(id);
@@ -50,6 +54,8 @@ namespace Backend.Controllers
             return klienti;
         }
         [HttpPut]
+        [Authorize(Policy = "AdminOnly")]
+
         public async Task<ActionResult> PutKlienti(Klienti k)
         {
             if (k == null || k.ID == 0)
@@ -71,6 +77,8 @@ namespace Backend.Controllers
 
         // PUT: api/Klienti/5
         [HttpPut("{id}")]
+        [Authorize(Policy = "AdminOnly")]
+
         public async Task<IActionResult> PutKlienti(int id, Klienti klienti)
         {
             if (id != klienti.ID)
@@ -101,6 +109,8 @@ namespace Backend.Controllers
 
         // POST: api/Klienti
         [HttpPost]
+        [Authorize(Policy = "AdminOnly")]
+
         public async Task<ActionResult<Klienti>> PostKlienti(Klienti klienti)
         {
             _dbContext.Klienti.Add(klienti);
@@ -109,6 +119,8 @@ namespace Backend.Controllers
             return CreatedAtAction("GetKlienti", new { id = klienti.ID }, klienti);
         }
         [HttpGet("TotalKlienti")]
+        [Authorize(Policy = "AdminOnly")]
+
         public async Task<ActionResult<int>> GetTotalKlienti()
         {
             var total = await _dbContext.Klienti.CountAsync();
@@ -116,6 +128,8 @@ namespace Backend.Controllers
         }
         // DELETE: api/Klienti/5
         [HttpDelete("{id}")]
+        [Authorize(Policy = "AdminOnly")]
+
         public async Task<IActionResult> DeleteKlienti(int id)
         {
             var klienti = await _dbContext.Klienti.FindAsync(id);
@@ -130,6 +144,8 @@ namespace Backend.Controllers
             return NoContent();
         }
         [HttpPost("login")]
+        [AllowAnonymous]
+
         public async Task<ActionResult> Login(LoginModel loginModel)
         {
             var user = await _dbContext.Klienti.FirstOrDefaultAsync(x => x.Email == loginModel.Email);
@@ -145,6 +161,7 @@ namespace Backend.Controllers
             }
         }
 
+
         //per forgotpassword
         public class ResetPasswordRequest
         {
@@ -153,6 +170,8 @@ namespace Backend.Controllers
         }
 
         [HttpPost("reset-password")]
+        [AllowAnonymous]
+
         public async Task<ActionResult> ResetPassword([FromBody] ResetPasswordRequest request)
         {
             var user = await _dbContext.Klienti.FirstOrDefaultAsync(x => x.Email == request.Email);

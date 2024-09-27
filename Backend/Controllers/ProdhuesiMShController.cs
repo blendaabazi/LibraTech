@@ -9,11 +9,13 @@ using System.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using Lab1_Backend.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Lab1_Backend.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class ProdhuesiMShController : ControllerBase
     {
         private readonly LibrariaContext _context;
@@ -25,6 +27,7 @@ namespace Lab1_Backend.Controllers
 
         // GET: api/ProdhuesiMSh
         [HttpGet]
+        [AllowAnonymous]
         public ActionResult<IEnumerable<ProdhuesiMSh>> GetProdhuesiMSh()
         {
             return _context.ProdhuesiMSh.ToList();
@@ -32,6 +35,7 @@ namespace Lab1_Backend.Controllers
 
         // GET: ap//5
         [HttpGet("{id}")]
+        [AllowAnonymous]
         public ActionResult<ProdhuesiMSh> GetProdhuesiMSh(int id)
         {
             var gj = _context.ProdhuesiMSh.Find(id);
@@ -48,6 +52,8 @@ namespace Lab1_Backend.Controllers
 
         // POST: api/Gjuha
         [HttpPost]
+        [Authorize(Policy = "AdminOnly")]
+
         public async Task<ActionResult<ProdhuesiMSh>> PostProdhuesi(ProdhuesiMSh p)
         {
             _context.ProdhuesiMSh.Add(p);
@@ -57,6 +63,8 @@ namespace Lab1_Backend.Controllers
             return CreatedAtAction(nameof(GetProdhuesiMSh), new { id = p.ProdhuesiMShID }, p);
         }
         [HttpPut]
+        [Authorize(Policy = "AdminOnly")]
+
         public IActionResult PutProdhuesiMSH(ProdhuesiMSh p)
         {
             if (p == null)
@@ -81,6 +89,8 @@ namespace Lab1_Backend.Controllers
 
         // DELETE: api/Gjuha/5
         [HttpDelete("{id}")]
+        [Authorize(Policy = "AdminOnly")]
+
         public IActionResult DeleteProdhuesiMSH(int id)
         {
             var gj = _context.ProdhuesiMSh.Find(id);

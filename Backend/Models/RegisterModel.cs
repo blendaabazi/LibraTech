@@ -4,27 +4,27 @@ namespace Lab1_Backend.Models
 {
     public class RegisterModel
     {
-        [Required]
+        [Required(ErrorMessage = "Emri is required")]
         public string Emri { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Mbiemri is required")]
         public string Mbiemri { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "KlientiGjinia is required")]
         public string KlientiGjinia { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "KlientiQyteti is required")]
         public string KlientiQyteti { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Email is required")]
         [EmailAddress]
         public string Email { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Password is required")]
         [DataType(DataType.Password)]
         public string Password { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "ConfirmPassword is required")]
         [Compare("Password")]
         [DataType(DataType.Password)]
         public string ConfirmPassword { get; set; }

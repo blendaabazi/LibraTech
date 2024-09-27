@@ -62,7 +62,9 @@ export class Autori extends Component {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('Token')}`
+
             },
             body: JSON.stringify({
                 Emri: Emri
@@ -93,7 +95,9 @@ export class Autori extends Component {
             method: 'PUT',
             headers: {
                 'Accept': 'application/json',
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('Token')}`
+
             },
             body: JSON.stringify({
                 AutoriID: AutoriID,
@@ -119,7 +123,9 @@ export class Autori extends Component {
                 method: 'DELETE',
                 headers: {
                     'Accept': 'application/json',
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${localStorage.getItem('Token')}`
+
                 }
             })
                 .then(res => res.json())
