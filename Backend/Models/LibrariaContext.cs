@@ -59,6 +59,18 @@
 
         //    base.OnModelCreating(modelBuilder);
         //}
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<Produkti>()
+                .Property(p => p.LibriID)
+                .IsRequired(false); // Sigurohuni që LibriID lejohet null
+
+            modelBuilder.Entity<Produkti>()
+                .Property(p => p.MjeteShkolloreID)
+                .IsRequired(false); // Sigurohuni që MjeteShkolloreID lejohet null
+        }
 
 
 

@@ -46,7 +46,10 @@ const Shporta = () => {
                 IsBook: !!item.Titulli 
             };
         });
-      await axios.post('http://localhost:5170/api/Porosia', resultArray).then((e) =>{
+      await axios.post('http://localhost:5170/api/Porosia', resultArray, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('Token')}` // Shtoni tokenin këtu
+        }}).then((e) =>{
         localStorage.removeItem('shporta');
         setLibra([]);
         setMjetetShkollore([]);

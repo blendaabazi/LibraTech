@@ -7,6 +7,7 @@ using Lab1_Backend.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Globalization;
 using Microsoft.AspNetCore.Authorization;
+using System.Security.Policy;
 
 namespace Lab1_Backend.Controllers
 {
@@ -105,7 +106,7 @@ namespace Lab1_Backend.Controllers
             }
         }
 
-        [AllowAnonymous]
+        [Authorize(Policy = "AdminOnly")]
 
         [HttpGet("CountOnDate/{date}")]
         public async Task<ActionResult<int>> CountPorositeOnDate(DateTime date)
@@ -122,7 +123,7 @@ namespace Lab1_Backend.Controllers
 
         // DELETE: api/Porosia/5
         [HttpDelete("{id}")]
-       [AllowAnonymous]
+        [Authorize(Policy = "AdminOnly")]
 
         public async Task<IActionResult> DeletePorosia(int id)
         {
@@ -138,37 +139,49 @@ namespace Lab1_Backend.Controllers
 
             return NoContent();
         }
-        //[HttpGet("TopProducts")]
-        //public async Task<ActionResult<IEnumerable<object>>> GetTopProducts()
-        //{
-        //    var topLibra = await _context.Produkti
-        //        .Where(p => p.LibriID != null)
-        //        .GroupBy(p => new { p.LibriID, p.Libri.Titulli })
-        //        .Select(g => new
-        //        {
-        //            ProduktID = g.Key.LibriID,
-        //            EmriProduktit = g.Key.Titulli,
-        //            NumriShitjeve = g.Count()
+      
 
-        //        })
-        //        .ToListAsync();
+        [Authorize(Policy = "AdminOnly")]
+        [HttpGet("TopProducts")]
+        public async Task<ActionResult<IEnumerable<object>>> GetTopProducts()
+        {
+            // Merrni produktet e librave
+            var topLibra = await _context.Produkti
+                .Where(p => p.LibriID != null)
+                .Include(p => p.Libri) // Përdorni Include për të sjellë të dhënat e Librave
+                .GroupBy(p => new { p.LibriID, p.Libri.Titulli })
+                .Select(g => new
+                {
+                    ProduktID = g.Key.LibriID,
+                    EmriProduktit = g.Key.Titulli,
+                    NumriShitjeve = g.Count()
+                })
+                .ToListAsync();
 
-        //    var topMjete = await _context.Produkti
-        //        .Where(p => p.MjeteShkolloreID != null)
-        //        .GroupBy(p => new { p.MjeteShkolloreID, p.MjeteShkollore.Tipi })
-        //        .Select(g => new
-        //        {
-        //            ProduktID = g.Key.MjeteShkolloreID,
-        //            EmriProduktit = g.Key.Tipi,
-        //            NumriShitjeve = g.Count()
-        //        })
-        //        .ToListAsync();
+            // Merrni produktet shkollore
+            var topMjete = await _context.Produkti
+                .Where(p => p.MjeteShkolloreID != null)
+                .Include(p => p.MjeteShkollore) // Sigurohu që të përfshijë informacionin për MjeteShkollore
+                .Include(p => p.MjeteShkollore.Tipi) // Përdorni Include për të sjellë informacionin e Tipit
+                .GroupBy(p => new { p.MjeteShkolloreID, Emri = p.MjeteShkollore.Tipi.tipi }) // Ndryshoni këtë sipas emrit të pronës
+                .Select(g => new
+                {
+                    ProduktID = g.Key.MjeteShkolloreID,
+                    EmriProduktit = g.Key.Emri.ToString(), // Konverto në string
+                    NumriShitjeve = g.Count()
+                })
+                .ToListAsync();
 
-        //    var topProducts = topLibra.Concat(topMjete)
-        //        .OrderByDescending(p => p.NumriShitjeve)
-        //        .ToList();
+            // Bashkoni rezultatet
+            var topProducts = topLibra
+                .Concat(topMjete)
+                .OrderByDescending(p => p.NumriShitjeve)
+                .ToList();
 
-        //    return Ok(topProducts);
-        //}
+            return Ok(topProducts);
+        }
+
+
     }
 }
+

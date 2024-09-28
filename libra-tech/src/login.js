@@ -25,8 +25,8 @@ function Login() {
         // Clear user data on logout
         login(null, null, null, null);
         localStorage.removeItem('token');
-        localStorage.removeItem('refreshToken');
-        navigate('/login');
+        localStorage.removeItem('refreshtoken');
+        navigate('/');
     };
 
     const handleLogin = async (event) => {

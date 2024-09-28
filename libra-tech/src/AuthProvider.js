@@ -21,7 +21,7 @@ export const AuthProvider = ({ children }) => {
 
     useEffect(() => {
         const token = localStorage.getItem('Token');
-        const refreshToken = localStorage.getItem('RefreshToken');
+        const refreshToken = localStorage.getItem('refreshtoken');
         const roli = localStorage.getItem('Roli');
         const id = localStorage.getItem('ID');
         const emri = localStorage.getItem('Emri');
@@ -55,10 +55,15 @@ export const AuthProvider = ({ children }) => {
     }, []);
 
     const login = (token,refreshToken, roli, userData) => {
-        const expiration = new Date().getTime() + 120000; 
+        if (!userData || !userData.id) {
+            console.error('User data is invalid:', userData);
+            return;
+        }
+    
+        const expiration = new Date().getTime() + 12000; 
 
         localStorage.setItem('Token', token);
-        localStorage.setItem('RefreshToken', refreshToken);
+        localStorage.setItem('refreshtoken', refreshToken);
         localStorage.setItem('Roli', roli);
         localStorage.setItem('ID', userData.id);
         localStorage.setItem('Emri', userData.emri);
@@ -84,18 +89,25 @@ export const AuthProvider = ({ children }) => {
         setTokenExpiration(expiration);
     };
     const refreshToken = async () => {
-        const refreshToken = localStorage.getItem('refreshToken');
+        const token = localStorage.getItem('Token'); // Merr token-in e aksesit
+        const refreshToken = localStorage.getItem('refreshtoken'); // Merr refresh token-in
+    
         try {
-            const response = await axios.post('http://localhost:5170/api/Authorization/refresh-token', { refreshToken });
+            const response = await axios.post('http://localhost:5170/api/Authorization/refresh-token', { 
+                token, // Dërgo token-in e aksesit
+                refreshToken // Dërgo refresh token-in
+            });
+    
             if (response.data.Token) {
                 login(response.data.Token, response.data.RefreshToken, user.roli, user);
-                return true; // Indicate that the refresh was successful
+                return true; // Indiko që rinovimi ishte i suksesshëm
             }
         } catch (error) {
             console.error('Error refreshing token:', error);
-            return false; // Indicate that the refresh failed
+            return false; // Indiko që rinovimi dështoi
         }
     };
+    
 
     const logout = () => {
         localStorage.clear();

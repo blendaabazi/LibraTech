@@ -21,86 +21,159 @@ function Home() {
     const [kategorite, setKategorite] = useState([]);
     const [tipet, setTipet] = useState([]);
     const [searchTerm, setSearchTerm] = useState("");
-    const { user } = useAuth();
-    // const { kategoria } = useState();
+    const { user, refreshToken } = useAuth();
+    const navigate = useNavigate();
+    
+        const { tokenExpiration, login } = useAuth();
+        const [timeLeft, setTimeLeft] = useState(null);
+    
+        useEffect(() => {
+            if (tokenExpiration) {
+                const timer = setTimeout(async () => {
+                    const success = await refreshToken();
+                    if (!success) {
+                        // logoutAndRedirect(); 
+                    }
+                }, tokenExpiration - new Date().getTime());
+    
+                const interval = setInterval(() => {
+                    const remainingTime = tokenExpiration - new Date().getTime();
+                    if (remainingTime > 0) {
+                        setTimeLeft(Math.ceil(remainingTime / 1000));
+                        console.log(`Time left before logout: ${Math.ceil(remainingTime / 1000)} seconds`);
+                    } else {
+                        clearInterval(interval);
+                        // logoutAndRedirect();
+                    }
+                }, 1000);
+    
+                return () => {
+                    clearTimeout(timer);
+                    clearInterval(interval);
+                };
+            }
+        }, [tokenExpiration, refreshToken]);
+    
+        // const logoutAndRedirect = () => {
+        //     // Clear user data on logout
+        //     login(null, null, null, null);
+        //     localStorage.removeItem('token');
+        //     localStorage.removeItem('refreshtoken');
+        //     navigate('/login');
+        // };
+
+
 
     useEffect(() => {
-        fetchLibrat();
-        fetchMjetet();
-        fetchKategorite();
-        fetchTipet();
-    }, []);
+        const fetchData = async () => {
+            try {
+                await fetchLibrat();
+                await fetchMjetet();
+                await fetchKategorite();
+                await fetchTipet();
+            } catch (error) {
+                console.error('Error during fetching data:', error);
+                // Attempt to refresh the token if there's an error
+                const refreshed = await refreshToken();
+                if (!refreshed) {
+                    // If refreshing fails, navigate to the login page
+                    navigate('/login');
+                } else {
+                    // Retry fetching data after refreshing
+                    await fetchLibrat();
+                    await fetchMjetet();
+                    await fetchKategorite();
+                    await fetchTipet();
+                }
+            }
+        };
+
+        fetchData();
+    }, [refreshToken, navigate]);
 
     const handleSearchChange = (event) => {
         setSearchTerm(event.target.value);
-
     };
 
     const fetchLibrat = async () => {
         try {
-            const response = await fetch(variables.API_URL + 'libri/GetLibratMeTeRinje');
+            const response = await fetch(variables.API_URL + 'libri/GetLibratMeTeRinje', {
+                headers: {
+                    'Authorization': `Bearer ${user.token}`, // Pass the access token
+                }
+            });
             if (!response.ok) {
                 throw new Error('Gabim gjatë marrjes së të dhënave');
             }
             const data = await response.json();
             setLibrat(data);
-            setLoading(false);
         } catch (error) {
             console.error('Gabim gjatë marrjes së të dhënave:', error);
             setError(error.message);
+        } finally {
             setLoading(false);
         }
     };
 
     const fetchMjetet = async () => {
         try {
-            const response = await fetch(variables.API_URL + 'MjeteShkollore');
+            const response = await fetch(variables.API_URL + 'MjeteShkollore', {
+                headers: {
+                    'Authorization': `Bearer ${user.token}`, // Pass the access token
+                }
+            });
             if (!response.ok) {
                 throw new Error('Gabim gjatë marrjes së të dhënave');
             }
             const data = await response.json();
             setMjetet(data);
-            setLoading(false);
         } catch (error) {
             console.error('Gabim gjatë marrjes së të dhënave:', error);
             setError(error.message);
+        } finally {
             setLoading(false);
         }
     };
 
     const fetchKategorite = async () => {
         try {
-            const response = await fetch(variables.API_URL + 'kategoria');
+            const response = await fetch(variables.API_URL + 'kategoria', {
+                headers: {
+                    'Authorization': `Bearer ${user.token}`, // Pass the access token
+                }
+            });
             if (!response.ok) {
                 throw new Error('Error fetching data');
             }
             const data = await response.json();
             setKategorite(data);
-            setLoading(false);
         } catch (error) {
             console.error('Error fetching data:', error);
             setError(error.message);
+        } finally {
             setLoading(false);
         }
     };
 
     const fetchTipet = async () => {
         try {
-            const response = await fetch(variables.API_URL + 'tipi');
+            const response = await fetch(variables.API_URL + 'tipi', {
+                headers: {
+                    'Authorization': `Bearer ${user.token}`, // Pass the access token
+                }
+            });
             if (!response.ok) {
                 throw new Error('Gabim gjatë marrjes së të dhënave');
             }
             const data = await response.json();
             setTipet(data);
-            setLoading(false);
         } catch (error) {
             console.error('Gabim gjatë marrjes së të dhënave:', error);
             setError(error.message);
+        } finally {
             setLoading(false);
         }
     };
-
-
 
     const filteredLibrat = librat.filter(libri =>
         libri.Titulli.toLowerCase().includes(searchTerm.toLowerCase())
@@ -123,19 +196,21 @@ function Home() {
         localStorage.setItem('shporta', JSON.stringify(shporta));
         setShowModal(true); // Shfaq modal-in
     };
+
     const handleCloseModal = () => {
         setShowModal(false);
     };
+
     const handleCloseWishListModal = () => {
         setShowWishListModal(false);
     };
+
     const addToWishList = (libri) => {
         const wishList = JSON.parse(localStorage.getItem('WishList')) || [];
         wishList.push(libri);
         localStorage.setItem('WishList', JSON.stringify(wishList));
         setShowWishListModal(true);
     };
-
 
     return (
         <div>
@@ -180,7 +255,9 @@ function Home() {
                     </div>
                     <div className="col-md-9">
                         <form className="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-                        
+                        <h1>Welcome to the Home Page!</h1>
+            {timeLeft !== null && <div>Time left before logout: {timeLeft} seconds</div>}
+
                             <div className="input-group">
                                 <input
                                     type="text"

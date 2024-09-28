@@ -37,7 +37,11 @@ function Dashboard() {
 
     const countPorosite = async (date) => {
         try {
-            const response = await axios.get(`http://localhost:5170/api/Porosia/CountOnDate/${date}`);
+            const response = await axios.get(`http://localhost:5170/api/Porosia/CountOnDate/${date}`, {
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('Token')}`
+                }
+            });
             setPorositeCount(response.data);
         } catch (error) {
             console.error('Gabim gjatë kërkesës në backend:', error);
@@ -45,7 +49,11 @@ function Dashboard() {
     };
     const countSelectedPorosite = async (date) => {
         try {
-            const response = await axios.get(`http://localhost:5170/api/Porosia/CountOnDate/${date}`);
+            const response = await axios.get(`http://localhost:5170/api/Porosia/CountOnDate/${date}`, {
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('Token')}`
+                }
+            });
             setPorositeCountt(response.data);
         } catch (error) {
             console.error('Gabim gjatë kërkesës në backend:', error);
@@ -56,7 +64,11 @@ function Dashboard() {
         const fetchTopProduktet = async () => {
 
             try {
-                const response = await axios.get('http://localhost:5170/api/Porosia/TopProducts');
+                const response = await axios.get('http://localhost:5170/api/Porosia/TopProducts', {
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem('Token')}`
+                    }
+                });
                 setTopProduktet(response.data);
             } catch (error) {
                 console.error('Error fetching top products:', error);
@@ -87,7 +99,11 @@ function Dashboard() {
 
     const fetchTotalLibrat = async () => {
         try {
-            const response = await fetch(variables.API_URL + 'libri/TotalLibrat');
+            const response = await fetch(variables.API_URL + 'libri/TotalLibrat', {
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('Token')}`
+                }
+            });
             if (!response.ok) {
                 throw new Error('Error fetching data');
             }
@@ -110,10 +126,10 @@ function Dashboard() {
                     headers: {
                         'Accept': 'application/json',
                         'Content-Type': 'application/json',
-                   'Authorization': `Bearer ${localStorage.getItem('Token')}`
+                        'Authorization': `Bearer ${localStorage.getItem('Token')}`
                     }
                 })
-            
+
             if (!response.ok) {
                 throw new Error('Error fetching data');
             }
@@ -123,24 +139,24 @@ function Dashboard() {
             console.error('Error fetching data:', error);
         }
     };
-    const [totalStafi, setTotalStafi] = useState(0);
+    // const [totalStafi, setTotalStafi] = useState(0);
 
-    useEffect(() => {
-        fetchtotalStafi();
-    }, []);
+    // useEffect(() => {
+    //     fetchtotalStafi();
+    // }, []);
 
-    const fetchtotalStafi = async () => {
-        try {
-            const response = await fetch(variables.API_URL + 'stafi/TotalStafi');
-            if (!response.ok) {
-                throw new Error('Error fetching data');
-            }
-            const data = await response.json();
-            setTotalStafi(data);
-        } catch (error) {
-            console.error('Error fetching data:', error);
-        }
-    };
+    // const fetchtotalStafi = async () => {
+    //     try {
+    //         const response = await fetch(variables.API_URL + 'stafi/TotalStafi');
+    //         if (!response.ok) {
+    //             throw new Error('Error fetching data');
+    //         }
+    //         const data = await response.json();
+    //         setTotalStafi(data);
+    //     } catch (error) {
+    //         console.error('Error fetching data:', error);
+    //     }
+    // };
 
 
     const [categories, setCategories] = useState([]);
@@ -151,8 +167,12 @@ function Dashboard() {
 
     const fetchCategories = async () => {
         try {
-            const response = await fetch(variables.API_URL + 'Kategoria');
-            
+            const response = await fetch(variables.API_URL + 'Kategoria', {
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('Token')}`
+                }
+            });
+
             const data = await response.json();
             setCategories(data);
         } catch (error) {
@@ -167,7 +187,11 @@ function Dashboard() {
 
     const fetchTotalMjetet = async () => {
         try {
-            const response = await fetch(variables.API_URL + 'MjeteShkollore/TotalMjetet');
+            const response = await fetch(variables.API_URL + 'MjeteShkollore/TotalMjetet', {
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('Token')}`
+                }
+            });
             if (!response.ok) {
                 throw new Error('Error fetching data');
             }
@@ -185,7 +209,11 @@ function Dashboard() {
 
     const fetchTipi = async () => {
         try {
-            const response = await fetch(variables.API_URL + 'Tipi');
+            const response = await fetch(variables.API_URL + 'Tipi', {
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('Token')}`
+                }
+            });
             const data = await response.json();
             setTipi(data);
         } catch (error) {
@@ -375,12 +403,12 @@ function Dashboard() {
                                                 <div className="row no-gutters align-items-center">
                                                     <div className="col mr-2">
                                                         <div className="text-m font-weight-bold text-success text-uppercase mb-1">
-                                                        {user && user.roli === 'Admin' && (
-                                                             <Link  to="/libri">
-                                                                 <span>Libri</span>
-                                                              </Link>
+                                                            {user && user.roli === 'Admin' && (
+                                                                <Link to="/libri">
+                                                                    <span>Libri</span>
+                                                                </Link>
                                                             )}
-                                                            </div>
+                                                        </div>
                                                         <div className="h3 mb-0 font-weight-bold text-gray-800"> {totalLibrat}</div>
                                                     </div>
                                                     <div className="col-auto">
@@ -398,12 +426,12 @@ function Dashboard() {
                                                 <div className="row no-gutters align-items-center">
                                                     <div className="col mr-2">
                                                         <div className="text-m font-weight-bold text-success text-uppercase mb-1">
-                                                        {user && user.roli === 'Admin' && (
-                                                             <Link  to="/mjeteshkollore">
-                                                                 <span>Mjetet Shkollore</span>
-                                                              </Link>
+                                                            {user && user.roli === 'Admin' && (
+                                                                <Link to="/mjeteshkollore">
+                                                                    <span>Mjetet Shkollore</span>
+                                                                </Link>
                                                             )}
-                                                          </div>
+                                                        </div>
                                                         <div className="h3 mb-0 font-weight-bold text-gray-800"> {totalMjetet}</div>
                                                     </div>
                                                     <div className="col-auto">
@@ -421,12 +449,12 @@ function Dashboard() {
                                                 <div className="row no-gutters align-items-center">
                                                     <div className="col mr-2">
                                                         <div className="text-m font-weight-bold text-success text-uppercase mb-1">
-                                                        {user && user.roli === 'Admin' && (
-                                                             <Link  to="/Klienti">
-                                                                 <span>Klientët</span>
-                                                              </Link>
+                                                            {user && user.roli === 'Admin' && (
+                                                                <Link to="/Klienti">
+                                                                    <span>Klientët</span>
+                                                                </Link>
                                                             )}
-                                                           </div>
+                                                        </div>
                                                         <div className="h3 mb-0 font-weight-bold text-gray-800"> {totalKlienti}</div>
                                                     </div>
                                                     <div className="col-auto">
@@ -438,26 +466,26 @@ function Dashboard() {
                                         </div>
                                     </div>
                                     <div className="col-xl-3 col-md-6 mb-4">
-                                        <div className="card border-left-primary shadow h-100 py-2">
-                                            <div className="card-body">
-                                                <div className="row no-gutters align-items-center">
-                                                    <div className="col mr-2">
-                                                        <div className="text-m font-weight-bold text-success text-uppercase mb-1">
+                                        {/* <div className="card border-left-primary shadow h-100 py-2"> */}
+                                            {/* <div className="card-body"> */}
+                                                {/* <div className="row no-gutters align-items-center"> */}
+                                                    {/* <div className="col mr-2"> */}
+                                                        {/* <div className="text-m font-weight-bold text-success text-uppercase mb-1">
                                                         {user && user.roli === 'Admin' && (
                                                              <Link  to="/Stafi">
                                                                  <span>Stafi</span>
                                                               </Link>
                                                             )}
-                                                           </div>
-                                                        <div className="h3 mb-0 font-weight-bold text-gray-800"> {totalStafi}</div>
-                                                    </div>
-                                                    <div className="col-auto">
+                                                           </div> */}
+                                                        {/* <div className="h3 mb-0 font-weight-bold text-gray-800"> {totalStafi}</div> */}
+                                                    {/* </div> */}
+                                                    {/* <div className="col-auto">
                                                         <a href='stafi' className="h5 mb-0 text-gray-800"><i class="fa fa-user" aria-hidden="true"></i></a>
 
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+                                                    </div> */}
+                                                {/* </div> */}
+                                            {/* </div> */}
+                                        {/* </div> */}
                                     </div>
                                     <div className="d-sm-flex align-items-center justify-content-between mb-4" >
 
@@ -512,22 +540,22 @@ function Dashboard() {
 
                                 </div>
                                 <div className="card shadow mb-4">
-                                <div className="card-header py-3">
-                                    <h6 className="m-0 font-weight-bold text-primary">Top Produktet</h6>
-                                </div>
-                                <div className="card-body">
-                                    {topProduktet.length > 0 ? (
-                                        <ul>
-                                            {topProduktet.map((produkt, index) => (
-                                                <li key={index}>
-                                                    {produkt.EmriProduktit} - {produkt.NumriShitjeve} shitje
-                                                </li>
-                                            ))}
-                                        </ul>
-                                    ) : (
-                                        <p>Nuk ka të dhëna për të shfaqur.</p>
-                                    )}
-                                </div>
+                                    <div className="card-header py-3">
+                                        <h6 className="m-0 font-weight-bold text-primary">Top Produktet</h6>
+                                    </div>
+                                    <div className="card-body">
+                                        {topProduktet.length > 0 ? (
+                                            <ul>
+                                                {topProduktet.map((produkt, index) => (
+                                                    <li key={index}>
+                                                        {produkt.EmriProduktit} - {produkt.NumriShitjeve} shitje
+                                                    </li>
+                                                ))}
+                                            </ul>
+                                        ) : (
+                                            <p>Nuk ka të dhëna për të shfaqur.</p>
+                                        )}
+                                    </div>
                                 </div>
 
 

@@ -17,7 +17,11 @@ const Porosia = () => {
 
   const fetchPorosite = async () => {
     try {
-      const response = await axios.get(`${variables.API_URL}Porosia`);
+      const response = await axios.get(`${variables.API_URL}Porosia`, {
+        headers: {
+            'Authorization': `Bearer ${localStorage.getItem('Token')}`
+        }
+    });
       setPorosite(response.data);
     } catch (error) {
       console.error('Gabim në marrjen e porosive:', error);
@@ -31,17 +35,28 @@ const Porosia = () => {
 
   const deletePorosia = async () => {
     try {
-      await axios.delete(`${variables.API_URL}Porosia/${deletedPorosiaId}`);
-      setShowModal(false);
-      refreshList();
+        await axios.delete(`${variables.API_URL}Porosia/${deletedPorosiaId}`, {
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem('Token')}`
+            }
+        });
+        setShowModal(false);
+        refreshList();
     } catch (error) {
-      console.error('Gabim në fshirjen e porosise:', error);
+        console.error('Error deleting order:', error.response.data);
+        // Optionally show an error message to the user
+        alert(`Failed to delete order: ${error.response.data.Message}`);
     }
-  };
+};
+
 
   const refreshList = async () => {
     try {
-      const response = await axios.get(`${variables.API_URL}Porosia`);
+      const response = await axios.get(`${variables.API_URL}Porosia`, {
+        headers: {
+            'Authorization': `Bearer ${localStorage.getItem('Token')}`
+        }
+    });
       setPorosite(response.data);
     } catch (error) {
       console.error('Gabim në rifreskimin e listës së porosive:', error);
