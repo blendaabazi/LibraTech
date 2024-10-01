@@ -158,21 +158,21 @@ namespace Lab1_Backend.Controllers
                 })
                 .ToListAsync();
 
-            // Merrni produktet shkollore
+          
             var topMjete = await _context.Produkti
                 .Where(p => p.MjeteShkolloreID != null)
-                .Include(p => p.MjeteShkollore) // Sigurohu që të përfshijë informacionin për MjeteShkollore
-                .Include(p => p.MjeteShkollore.Tipi) // Përdorni Include për të sjellë informacionin e Tipit
-                .GroupBy(p => new { p.MjeteShkolloreID, Emri = p.MjeteShkollore.Tipi.tipi }) // Ndryshoni këtë sipas emrit të pronës
+                .Include(p => p.MjeteShkollore) 
+                .Include(p => p.MjeteShkollore.Tipi) 
+                .GroupBy(p => new { p.MjeteShkolloreID, Emri = p.MjeteShkollore.Tipi.tipi }) 
                 .Select(g => new
                 {
                     ProduktID = g.Key.MjeteShkolloreID,
-                    EmriProduktit = g.Key.Emri.ToString(), // Konverto në string
+                    EmriProduktit = g.Key.Emri.ToString(), 
                     NumriShitjeve = g.Count()
                 })
                 .ToListAsync();
 
-            // Bashkoni rezultatet
+          
             var topProducts = topLibra
                 .Concat(topMjete)
                 .OrderByDescending(p => p.NumriShitjeve)

@@ -253,7 +253,7 @@ function Dashboard() {
                             <a className="nav-link" href="./home">
                                 <i className="fa fa-home" aria-hidden="true"></ i>
                                 <span>Home</span></a>
-                            <Link className="nav-link" to="/stafi">
+                            <Link className="nav-link" to="/dashboard">
                                 <i className="fas fa-fw fa-tachometer-alt"></i>
                                 <span>Dashboard</span></Link>
 
@@ -412,7 +412,11 @@ function Dashboard() {
                                                         <div className="h3 mb-0 font-weight-bold text-gray-800"> {totalLibrat}</div>
                                                     </div>
                                                     <div className="col-auto">
-                                                        <a href='Libri' className="h5 mb-0 text-gray-800"> <i className="fas fa-book large-icon"></i></a>
+                                                        {user && user.roli === 'Admin' && (
+                                                            <Link to="/libri">
+                                                                <i className="fas fa-book large-icon"></i>
+                                                            </Link>
+                                                        )}
                                                     </div>
                                                 </div>
                                             </div>
@@ -435,8 +439,11 @@ function Dashboard() {
                                                         <div className="h3 mb-0 font-weight-bold text-gray-800"> {totalMjetet}</div>
                                                     </div>
                                                     <div className="col-auto">
-
-                                                        <a href='MjeteShkollore' className="h5 mb-0 text-gray-800"> <i className="fas fa-book large-icon"></i></a>
+                                                        {user && user.roli === 'Admin' && (
+                                                            <Link to="/MjeteShkollore">
+                                                                <i className="fas fa-book large-icon"></i>
+                                                            </Link>
+                                                        )}
                                                     </div>
                                                 </div>
                                             </div>
@@ -455,10 +462,16 @@ function Dashboard() {
                                                                 </Link>
                                                             )}
                                                         </div>
+
                                                         <div className="h3 mb-0 font-weight-bold text-gray-800"> {totalKlienti}</div>
                                                     </div>
                                                     <div className="col-auto">
-                                                        <a href='klienti' className="h5 mb-0 text-gray-800"><i class="fa fa-user" aria-hidden="true"></i></a>
+                                                        {user && user.roli === 'Admin' && (
+                                                            <Link to="/klienti">
+                                                                <i class="fa fa-user" aria-hidden="true"></i>
+                                                            </Link>
+                                                        )}
+
 
                                                     </div>
                                                 </div>
@@ -466,26 +479,32 @@ function Dashboard() {
                                         </div>
                                     </div>
                                     <div className="col-xl-3 col-md-6 mb-4">
-                                        {/* <div className="card border-left-primary shadow h-100 py-2"> */}
-                                            {/* <div className="card-body"> */}
-                                                {/* <div className="row no-gutters align-items-center"> */}
-                                                    {/* <div className="col mr-2"> */}
-                                                        {/* <div className="text-m font-weight-bold text-success text-uppercase mb-1">
-                                                        {user && user.roli === 'Admin' && (
-                                                             <Link  to="/Stafi">
-                                                                 <span>Stafi</span>
-                                                              </Link>
+                                        <div className="card border-left-primary shadow h-100 py-2">
+                                            <div className="card-body">
+                                                <div className="row no-gutters align-items-center">
+                                                    <div className="col mr-2">
+                                                        <div className="text-m font-weight-bold text-success text-uppercase mb-1">
+                                                            {user && user.roli === 'Admin' && (
+                                                                <Link to="/auditLog">
+                                                                    <span>AuditLog</span>
+                                                                </Link>
                                                             )}
-                                                           </div> */}
+                                                        </div>
                                                         {/* <div className="h3 mb-0 font-weight-bold text-gray-800"> {totalStafi}</div> */}
-                                                    {/* </div> */}
-                                                    {/* <div className="col-auto">
-                                                        <a href='stafi' className="h5 mb-0 text-gray-800"><i class="fa fa-user" aria-hidden="true"></i></a>
+                                                    </div>
+                                                    <div className="col-auto">
+                                                        {user && user.roli === 'Admin' && (
+                                                            <Link to="/auditLog">
+                                                                <i class="fa fa-user" aria-hidden="true"></i>
+                                                            </Link>
+                                                        )}
 
-                                                    </div> */}
-                                                {/* </div> */}
-                                            {/* </div> */}
-                                        {/* </div> */}
+
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                     <div className="d-sm-flex align-items-center justify-content-between mb-4" >
 

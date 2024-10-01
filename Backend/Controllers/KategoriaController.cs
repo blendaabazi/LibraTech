@@ -11,6 +11,8 @@ using Lab1_Backend.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.IdentityModel.Tokens;
+using System.Security.Claims;
+using Backend.Models;
 
 
 namespace Lab1_Backend.Controllers
@@ -59,6 +61,16 @@ namespace Lab1_Backend.Controllers
         public async Task<ActionResult<Kategoria>> PostKategoria(Kategoria kategoria)
         {
             _context.Kategoria.Add(kategoria);
+            var auditLog = new AuditLog
+            {
+                Action = "Shtoi",
+                Entity = "Kategoria",
+                EntityId = kategoria.KategoriaID,
+                PerformedBy = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value,
+                PerformedAt = DateTime.Now
+            };
+
+            _context.AuditLogs.Add(auditLog);
             await _context.SaveChangesAsync();
 
 
@@ -80,6 +92,16 @@ namespace Lab1_Backend.Controllers
             _context.Entry(kategoria).State = EntityState.Modified;
             try
             {
+                var auditLog = new AuditLog
+                {
+                    Action = "Ndryshoi",
+                    Entity = "Kategoria",
+                    EntityId = kategoria.KategoriaID,
+                    PerformedBy = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value,
+                    PerformedAt = DateTime.Now
+                };
+
+                _context.AuditLogs.Add(auditLog);
                 _context.SaveChanges();
             }
             catch (DbUpdateConcurrencyException)
@@ -104,6 +126,16 @@ namespace Lab1_Backend.Controllers
             }
 
             _context.Kategoria.Remove(k);
+            var auditLog = new AuditLog
+            {
+                Action = "Fshir",
+                Entity = "Kategoria",
+                EntityId = k.KategoriaID,
+                PerformedBy = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value,
+                PerformedAt = DateTime.Now
+            };
+
+            _context.AuditLogs.Add(auditLog);
             _context.SaveChanges();
 
             return NoContent();

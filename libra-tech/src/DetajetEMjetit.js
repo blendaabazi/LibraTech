@@ -6,13 +6,12 @@ import Footer from './Footer';
 import Sidebar from './Sidebar';
 import { useAuth } from './AuthProvider';
 
-
 function DetajetEMjetit() {
   const [mjeti, setMjeti] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [successMessage, setSuccessMessage] = useState('');
   const { user } = useAuth();
-
   const { id } = useParams();
 
   useEffect(() => {
@@ -35,6 +34,26 @@ function DetajetEMjetit() {
     }
   };
 
+  const addToCart = (mjeti) => {
+    const shporta = JSON.parse(localStorage.getItem('shporta')) || [];
+
+    // Check for duplicate entries
+    const alreadyInCart = shporta.some(item => item.ID === mjeti.ID);
+    if (alreadyInCart) {
+      setSuccessMessage('Ky mjet është tashmë në shportë!');
+      return;
+    }
+
+    shporta.push(mjeti);
+    localStorage.setItem('shporta', JSON.stringify(shporta));
+    setSuccessMessage('Mjeti u shtua në shportë me sukses!');
+
+    // Clear the success message after 4 seconds
+    setTimeout(() => {
+      setSuccessMessage('');
+    }, 4000);
+  };
+
   if (loading) {
     return <div className="spinner">Loading...</div>;
   }
@@ -46,11 +65,6 @@ function DetajetEMjetit() {
   if (!mjeti) {
     return <div className="error">Mjeti nuk u gjet.</div>;
   }
-  const addToCart = (libri) => {
-    const shporta = JSON.parse(localStorage.getItem('shporta')) || [];
-    shporta.push(libri);
-    localStorage.setItem('shporta', JSON.stringify(shporta));
-  };
 
   return (
     <div>
@@ -72,23 +86,26 @@ function DetajetEMjetit() {
                     <p><strong>Pershkrimi:</strong> {mjeti.Pershkrimi}</p>
                     <p><strong>Prodhuesi:</strong> {mjeti.ProdhuesiMSh.Prodhuesi}</p>
                     <p><strong>Shteti:</strong> {mjeti.ShtetiMSh.shteti}</p>
-                    <p><strong>Cmimi:</strong> {mjeti.Cmimi}$</p>
+                    <p><strong>Cmimi:</strong> {mjeti.Cmimi}€</p>
                     <p><strong>Sasia:</strong> {mjeti.Sasia}</p>
                     {user && user.roli === 'User' && (
-                    <button onClick={() => addToCart(mjeti)} className="btn btn-success">Shto ne shportë</button>
+                      <button onClick={() => addToCart(mjeti)} className="btn btn-success">Shto ne shportë</button>
                     )}
                   </div>
                 </div>
+                {/* Success message display */}
+                {successMessage && (
+                  <div className="alert alert-success mt-3">
+                    {successMessage}
+                  </div>
+                )}
               </div>
-             
             </div>
           </div>
         </div>
-    
       </div>
       <Footer />
     </div>
-
   );
 }
 

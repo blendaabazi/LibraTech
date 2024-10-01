@@ -42,6 +42,7 @@ import PrivateRoute from './PrivateRoute';
 import { useAuth } from './AuthProvider';
 import { AuthProvider } from './AuthProvider';
 import WishList from './WishList';
+import AuditLog from './AuditLog';
 
 function App() {
   const { isAuthenticated } = useAuth();
@@ -64,6 +65,8 @@ function App() {
             <>
             
               <Route path="/libri" element={<ProtectedRoute pathTo="libri" requiredRoli="Admin"><Libri /></ProtectedRoute>} />
+              <Route path="/auditLog" element={<ProtectedRoute pathTo="auditLog" requiredRoli="Admin"><AuditLog /></ProtectedRoute>} />
+
               <Route path="/" element={<Home />} />
               <Route path="/register" element={<Register />} />
               <Route path="/mjeteShkollore" element={<ProtectedRoute requiredRoli="Admin"><MjeteShkollore /></ProtectedRoute>} />
@@ -105,7 +108,8 @@ function App() {
             </>
           )}
            {/* <Route path='/libri' element={<Libri />} /> */}
-           <Route path='/mjeteShkollore' element={<MjeteShkollore />} />
+         
+           {/* <Route path='/auditLog' element={<AuditLog/>}/> */}
            {/* <Route path='/kategoria' element={<Kategoria />} /> */}
            {/* <Route path='/gjuha' element={<Gjuha />} />
            <Route path='/autori' element={<Autori />} />

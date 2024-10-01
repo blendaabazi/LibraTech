@@ -148,7 +148,7 @@ function MjetetSipasTipit() {
                         ) : (
                             <>
                                 <div className="row" style={{ margin: '20px 0' }}>
-                                    <h1>Mjetet për tipin: {tipi}</h1>
+                                  
                                     <div className="row">
                                         {mjetet.map(mjeti => (
                                             <div className="col-md-4 mb-4" key={mjeti.ID}>

@@ -10,6 +10,8 @@ using Microsoft.Extensions.Configuration;
 using Lab1_Backend.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
+using Backend.Models;
 
 
 namespace Lab1_Backend.Controllers
@@ -59,6 +61,16 @@ namespace Lab1_Backend.Controllers
         public async Task<ActionResult<ShtepiaBotuese>> PostShtepiaBotuese(ShtepiaBotuese sh)
         {
             _context.ShtepiaBotuese.Add(sh);
+            var auditLog = new AuditLog
+            {
+                Action = "Shtoi",
+                Entity = "Shtepia Botuese",
+                EntityId = sh.ShtepiaBotueseID,
+                PerformedBy = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value,
+                PerformedAt = DateTime.Now
+            };
+
+            _context.AuditLogs.Add(auditLog);
             await _context.SaveChangesAsync();
 
 
@@ -79,6 +91,16 @@ namespace Lab1_Backend.Controllers
             _context.Entry(sh).State = EntityState.Modified;
             try
             {
+                var auditLog = new AuditLog
+                {
+                    Action = "Ndryshoi",
+                    Entity = "Shtepia Botuese",
+                    EntityId = sh.ShtepiaBotueseID,
+                    PerformedBy = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value,
+                    PerformedAt = DateTime.Now
+                };
+
+                _context.AuditLogs.Add(auditLog);
                 _context.SaveChanges();
             }
             catch (DbUpdateConcurrencyException)
@@ -102,6 +124,16 @@ namespace Lab1_Backend.Controllers
             }
 
             _context.ShtepiaBotuese.Remove(sh);
+            var auditLog = new AuditLog
+            {
+                Action = "Fshir",
+                Entity = "Shtepia Botuese",
+                EntityId = sh.ShtepiaBotueseID,
+                PerformedBy = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value,
+                PerformedAt = DateTime.Now
+            };
+
+            _context.AuditLogs.Add(auditLog);
             _context.SaveChanges();
 
             return NoContent();

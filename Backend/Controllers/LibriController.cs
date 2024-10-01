@@ -10,6 +10,8 @@ using System.Threading.Tasks;
 using Lab1_Backend.Models;
 using Backend.Models;
 using Microsoft.AspNetCore.Authorization;
+using Newtonsoft.Json;
+using System.Security.Claims;
 
 namespace Lab1_Backend.Controllers
 {
@@ -57,44 +59,111 @@ namespace Lab1_Backend.Controllers
 
             return libri;
         }
-        
-        [HttpPost]
-        [Authorize(Policy = "AdminOnly")]
-        public async Task<ActionResult<Libri>> PostLibri([FromBody] LibriDto libriDto)
+
+        //[HttpPost]
+        //[Authorize(Policy = "AdminOnly")]
+        //public async Task<ActionResult<Libri>> PostLibri([FromBody] LibriDto libriDto)
+        //{
+        //    try
+        //    {
+        //        if (libriDto == null)
+        //        {
+        //            return BadRequest("Libri data is null.");
+        //        }
+
+        //        var libri = new Libri
+        //        {
+        //            ISBN = libriDto.ISBN,
+        //            Titulli = libriDto.Titulli,
+        //            Pershkrimi = libriDto.Pershkrimi,
+        //            AutoriID = libriDto.AutoriID,
+        //            NrFaqeve = libriDto.NrFaqeve,
+        //            KategoriaID = libriDto.KategoriaID,
+        //            VitiPublikimit = libriDto.VitiPublikimit,
+        //            ShtepiaBotueseID = libriDto.ShtepiaBotueseID,
+        //            GjuhaID = libriDto.GjuhaID,
+        //            Cmimi = libriDto.Cmimi,
+        //            Sasia = libriDto.Sasia,
+        //            ImgPath = libriDto.ImgPath
+        //        };
+
+        //        _bookContext.Libri.Add(libri);
+        //        await _bookContext.SaveChangesAsync();
+
+        //        return CreatedAtAction(nameof(GetLibri), new { id = libri.ID }, libri);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return StatusCode(500, $"Internal server error: {ex.Message}");
+        //    }
+        //}
+       [HttpPost]
+[Authorize(Policy = "AdminOnly")]
+public async Task<ActionResult<Libri>> PostLibri([FromBody] LibriDto libriDto)
+{
+    try
+    {
+        if (libriDto == null)
         {
-            try
-            {
-                if (libriDto == null)
-                {
-                    return BadRequest("Libri data is null.");
-                }
-
-                var libri = new Libri
-                {
-                    ISBN = libriDto.ISBN,
-                    Titulli = libriDto.Titulli,
-                    Pershkrimi = libriDto.Pershkrimi,
-                    AutoriID = libriDto.AutoriID,
-                    NrFaqeve = libriDto.NrFaqeve,
-                    KategoriaID = libriDto.KategoriaID,
-                    VitiPublikimit = libriDto.VitiPublikimit,
-                    ShtepiaBotueseID = libriDto.ShtepiaBotueseID,
-                    GjuhaID = libriDto.GjuhaID,
-                    Cmimi = libriDto.Cmimi,
-                    Sasia = libriDto.Sasia,
-                    ImgPath = libriDto.ImgPath
-                };
-
-                _bookContext.Libri.Add(libri);
-                await _bookContext.SaveChangesAsync();
-
-                return CreatedAtAction(nameof(GetLibri), new { id = libri.ID }, libri);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"Internal server error: {ex.Message}");
-            }
+            return BadRequest("Libri data is null.");
         }
+
+        var libri = new Libri
+        {
+            ISBN = libriDto.ISBN,
+            Titulli = libriDto.Titulli,
+            Pershkrimi = libriDto.Pershkrimi,
+            AutoriID = libriDto.AutoriID,
+            NrFaqeve = libriDto.NrFaqeve,
+            KategoriaID = libriDto.KategoriaID,
+            VitiPublikimit = libriDto.VitiPublikimit,
+            ShtepiaBotueseID = libriDto.ShtepiaBotueseID,
+            GjuhaID = libriDto.GjuhaID,
+            Cmimi = libriDto.Cmimi,
+            Sasia = libriDto.Sasia,
+            ImgPath = libriDto.ImgPath
+        };
+
+        _bookContext.Libri.Add(libri);
+        await _bookContext.SaveChangesAsync();
+
+        // Merr identitetin e adminit
+        var performedBy = User.Identity?.Name;
+
+        if (string.IsNullOrEmpty(performedBy))
+        {
+         
+            performedBy = "Unknown Admin"; 
+        }
+
+        // Regjistro veprimin në AuditLog
+        var auditLog = new AuditLog
+        {
+            Action = "Shtoi",
+            Entity = "Libri",
+            EntityId = libri.ID,
+            PerformedBy = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value,
+            PerformedAt = DateTime.Now
+        };
+
+        _bookContext.AuditLogs.Add(auditLog);
+        await _bookContext.SaveChangesAsync();
+
+        return CreatedAtAction(nameof(GetLibri), new { id = libri.ID }, libri);
+    }
+    catch (DbUpdateException dbEx)
+    {
+        Console.WriteLine($"Database error: {dbEx.InnerException?.Message ?? dbEx.Message}");
+        return StatusCode(500, $"Database error: {dbEx.InnerException?.Message ?? "An error occurred while saving the entity."}");
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"Error: {ex.Message}");
+        return StatusCode(500, $"Internal server error: {ex.Message}");
+    }
+}
+
+
         [Authorize(Policy = "AdminOnly")]
         [HttpPut("{id}")]
         public async Task<IActionResult> PutLibri(int id, [FromBody] LibriDto libriDto)
@@ -128,6 +197,19 @@ namespace Lab1_Backend.Controllers
                 _bookContext.Entry(libri).State = EntityState.Modified;
                 await _bookContext.SaveChangesAsync();
 
+                // Log the update action in AuditLog
+                var auditLog = new AuditLog
+                {
+                    Action = "Ndryshoi",
+                    Entity = "Libri",
+                    EntityId = libri.ID,
+                    PerformedBy = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value,
+                    PerformedAt = DateTime.Now
+                };
+
+                _bookContext.AuditLogs.Add(auditLog);
+                await _bookContext.SaveChangesAsync();
+
                 return NoContent();
             }
             catch (Exception ex)
@@ -135,6 +217,14 @@ namespace Lab1_Backend.Controllers
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
+
+        [Authorize(Policy = "AdminOnly")]
+        [HttpGet("AuditLogs")]
+        public async Task<ActionResult<IEnumerable<AuditLog>>> GetAuditLogs()
+        {
+            return await _bookContext.AuditLogs.OrderByDescending(log => log.PerformedAt).ToListAsync();
+        }
+
         [Authorize(Policy = "AdminOnly")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteLibri(int id)
@@ -145,11 +235,27 @@ namespace Lab1_Backend.Controllers
                 return NotFound();
             }
 
+            // Log the delete action in AuditLog before removing the entity
+            var auditLog = new AuditLog
+            {
+                Action = "Fshir", 
+                Entity = "Libri",
+                EntityId = libri.ID,
+                PerformedBy = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value,
+                PerformedAt = DateTime.Now
+            };
+
+            _bookContext.AuditLogs.Add(auditLog);
+
             _bookContext.Libri.Remove(libri);
+            await _bookContext.SaveChangesAsync();
+
+            // Save changes for audit log
             await _bookContext.SaveChangesAsync();
 
             return NoContent();
         }
+
         [AllowAnonymous]
         [HttpGet("TotalLibrat")]
         public async Task<ActionResult<int>> GetTotalLibrat()

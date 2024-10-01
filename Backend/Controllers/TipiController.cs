@@ -9,6 +9,8 @@ using System.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using Lab1_Backend.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
+using Backend.Models;
 
 
 namespace Lab1_Backend.Controllers
@@ -52,6 +54,17 @@ namespace Lab1_Backend.Controllers
         public async Task<ActionResult<Tipi>> PostTipi(Tipi t)
         {
             _context.Tipi.Add(t);
+            var auditLog = new AuditLog
+            {
+                Action = "Shtoi",
+                Entity = "Tipin",
+                EntityId = t.TipiID,
+                PerformedBy = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value,
+                PerformedAt = DateTime.Now
+            };
+
+
+            _context.AuditLogs.Add(auditLog);
             await _context.SaveChangesAsync();
 
 
@@ -70,6 +83,16 @@ namespace Lab1_Backend.Controllers
             _context.Entry(t).State = EntityState.Modified;
             try
             {
+                var auditLog = new AuditLog
+                {
+                    Action = "Ndryshoi",
+                    Entity = "Tipin",
+                    EntityId = t.TipiID,
+                    PerformedBy = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value,
+                    PerformedAt = DateTime.Now
+                };
+
+                _context.AuditLogs.Add(auditLog);
                 _context.SaveChanges();
             }
             catch (DbUpdateConcurrencyException)
@@ -91,6 +114,16 @@ namespace Lab1_Backend.Controllers
             }
 
             _context.Tipi.Remove(k);
+            var auditLog = new AuditLog
+            {
+                Action = "Fshir",
+                Entity = "Tipin",
+                EntityId = k.TipiID,
+                PerformedBy = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value,
+                PerformedAt = DateTime.Now
+            };
+
+            _context.AuditLogs.Add(auditLog);
             _context.SaveChanges();
 
             return NoContent();

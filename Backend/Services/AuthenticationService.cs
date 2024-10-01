@@ -25,7 +25,7 @@ namespace Lab1_Backend.Services
             _httpContextAccessor = httpContextAccessor;
         }
 
-        public async Task<(string Token, string RefreshToken, string Roli, int ID, string Emri, string Mbiemri, string KlientiGjinia, string KlientiQyteti, string Email)> AuthenticateAndGetJwtToken(LoginModel loginModel)
+        public async Task<(string Token, string RefreshToken, string Roli, int ID, string Emri, string Mbiemri, string KlientiGjinia, string KlientiQyteti, string Email, DateTime expiration)> AuthenticateAndGetJwtToken(LoginModel loginModel)
         {
             Klienti? user = null;
             try
@@ -36,7 +36,7 @@ namespace Lab1_Backend.Services
             {
                 // Log exception (implement logging as needed)
                 Console.WriteLine($"Exception during authentication: {ex.Message}");
-                return (null, null, null, 0, null, null, null, null, null);
+                return (null, null, null, 0, null, null, null, null, null, DateTime.MinValue);
             }
 
             if (user != null)
@@ -46,6 +46,9 @@ namespace Lab1_Backend.Services
                 {
                     var token = GenerateJwtToken(user);
                     var refreshToken = GenerateRefreshToken();
+
+                    // Get the expiration time for the token
+                    var expiration = DateTime.UtcNow.AddMinutes(Convert.ToDouble(_configuration["Jwt:ExpiryMinutes"])); 
 
                     var refreshTokenEntity = new RefreshToken
                     {
@@ -60,7 +63,7 @@ namespace Lab1_Backend.Services
                     _dbContext.RefreshToken.Add(refreshTokenEntity);
                     await _dbContext.SaveChangesAsync();
 
-                    return (token, refreshToken, user.KlientiRoli, user.ID, user.Emri, user.Mbiemri, user.KlientiGjinia, user.KlientiQyteti, user.Email);
+                    return (token, refreshToken, user.KlientiRoli, user.ID, user.Emri, user.Mbiemri, user.KlientiGjinia, user.KlientiQyteti, user.Email, expiration);
                 }
                 else
                 {
@@ -72,7 +75,7 @@ namespace Lab1_Backend.Services
                 Console.WriteLine("User not found.");
             }
 
-            return (null, null, null, 0, null, null, null, null, null);
+            return (null, null, null, 0, null, null, null, null, null, DateTime.MinValue);
         }
 
         public async Task<bool> RegisterUser(RegisterModel registerModel)
@@ -116,7 +119,8 @@ namespace Lab1_Backend.Services
                 new Claim("Mbiemri", user.Mbiemri),
                 new Claim("KlientiGjinia", user.KlientiGjinia),
                 new Claim("KlientiQyteti", user.KlientiQyteti),
-                new Claim("Email", user.Email)
+                new Claim("Email", user.Email),
+                new Claim(ClaimTypes.Name, $"{user.Emri} {user.Mbiemri}") // Shtoni këtë për emrin e adminit
             };
 
             var token = new JwtSecurityToken(

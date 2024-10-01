@@ -163,6 +163,7 @@
           KlientiQyteti: this.state.KlientiQyteti,
           KlientiRoli: this.state.KlientiRoli,
           Password: this.state.Password,
+          RefreshTokens: [] ,
         })
       })
         .then(res => res.json())
@@ -194,6 +195,7 @@
               KlientiQyteti: this.state.KlientiQyteti,
               KlientiRoli: this.state.KlientiRoli,
               Password: this.state.Password,
+              RefreshTokens: [] ,
 
           })
       })
@@ -217,28 +219,32 @@
 
   deleteClick(id) {
     if (window.confirm('A jeni i sigurt?')) {
-      console.log(`Deleting client with ID: ${id}`);
-      fetch(variables.API_URL + 'klienti/' + id, {
-        method: 'DELETE',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('Token')}`
-        }
-      })
+        console.log(`Deleting client with ID: ${id}`);
+        fetch(`${variables.API_URL}klienti/${id}`, {
+            method: 'DELETE',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('Token')}`
+            }
+        })
         .then(res => {
-          if (res.ok) {
-            alert('Success'); // Notify success
-            this.refreshList(); // Refresh the list after successful delete
-          } else {
-            alert('Failed'); // Notify failure
-          }
+            if (res.ok) {
+                alert('Success'); // Notify success
+                this.refreshList(); // Refresh the list after successful delete
+            } else {
+                return res.text().then(text => {
+                    console.error('Delete failed with status:', res.status, text);
+                    alert('Failed: ' + text); // Notify failure with response text
+                });
+            }
         })
         .catch(error => {
-          console.error('Error deleting client:', error);
-          alert('Failed'); // Notify failure
+            console.error('Error deleting client:', error);
+            alert('Failed'); // Notify failure
         });
     }
+
   }
   
 

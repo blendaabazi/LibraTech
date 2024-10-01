@@ -1,5 +1,6 @@
 
-    using Microsoft.EntityFrameworkCore;
+using Backend.Models;
+using Microsoft.EntityFrameworkCore;
     namespace Lab1_Backend.Models
     {
         public class LibrariaContext : DbContext
@@ -12,6 +13,7 @@
             //public DbSet<MjeteShkollore> MjeteShkollore { get; set; }
             public DbSet<Tipi> Tipi { get; set; }
         public DbSet<RefreshToken> RefreshToken { get; set; }
+        public DbSet<AuditLog> AuditLogs { get; set; }
 
         public DbSet<Libri> Libri { get; set; }
             public DbSet<MjeteShkollore> MjeteShkollore { get; set; }

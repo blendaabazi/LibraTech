@@ -20,7 +20,7 @@ namespace Lab1_Backend.Controllers
         [HttpPost("login")]
         public async Task<ActionResult> Login(LoginModel loginModel)
         {
-            var (token, refreshToken, roli, id, emri, mbiemri, gjinia, qyteti, email) = await _authenticationService.AuthenticateAndGetJwtToken(loginModel);
+            var (token, refreshToken, roli, id, emri, mbiemri, gjinia, qyteti, email, expiration) = await _authenticationService.AuthenticateAndGetJwtToken(loginModel);
 
             if (token != null)
             {
@@ -35,6 +35,7 @@ namespace Lab1_Backend.Controllers
                     KlientiGjinia = gjinia,
                     KlientiQyteti = qyteti,
                     Email = email,
+                    TokenExpiration = expiration
                 });
             }
             else
@@ -113,6 +114,7 @@ namespace Lab1_Backend.Controllers
             {
                 Token = result.Token,
                 RefreshToken = result.RefreshToken,
+                TokenExpiration = DateTime.UtcNow.AddMinutes(30).Ticks
             });
         }
     }

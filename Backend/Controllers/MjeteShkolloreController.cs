@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Lab1_Backend.Models;
+using Backend.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
@@ -8,6 +9,8 @@ using Microsoft.AspNetCore.Hosting;
 using System.IO;
 using System.Linq;
 using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
+using Backend.Migrations;
 
 namespace Lab1_Backend.Controllers
 {
@@ -79,6 +82,16 @@ namespace Lab1_Backend.Controllers
                 };
 
                 _mjeteShkolloreContext.MjeteShkollore.Add(mjeteShkollore);
+                var auditLog = new AuditLog
+                {
+                    Action = "Shtoi",
+                    Entity = "MjeteShkollore",
+                    EntityId = mjeteShkollore.ID,
+                    PerformedBy = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value,
+                    PerformedAt = DateTime.Now
+                };
+
+                _mjeteShkolloreContext.AuditLogs.Add(auditLog);
                 await _mjeteShkolloreContext.SaveChangesAsync();
 
                 return CreatedAtAction(nameof(GetMjeteShkollore), new { id = mjeteShkollore.ID }, mjeteShkollore);
@@ -115,6 +128,16 @@ namespace Lab1_Backend.Controllers
                 mjeteShkollore.ImgPath = mjeteShkolloreDto.ImgPath;
 
                 _mjeteShkolloreContext.Entry(mjeteShkollore).State = EntityState.Modified;
+                var auditLog = new AuditLog
+                {
+                    Action = "Ndryshoi",
+                    Entity = "MjeteShkollore",
+                    EntityId = mjeteShkollore.ID,
+                    PerformedBy = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value,
+                    PerformedAt = DateTime.Now
+                };
+
+                _mjeteShkolloreContext.AuditLogs.Add(auditLog);
                 await _mjeteShkolloreContext.SaveChangesAsync();
 
                 return NoContent();
@@ -134,6 +157,16 @@ namespace Lab1_Backend.Controllers
             {
                 return NotFound();
             }
+            var auditLog = new AuditLog
+            {
+                Action = "Fshir",
+                Entity = "MjeteShkollore",
+                EntityId = mjeteShkollore.ID,
+                PerformedBy = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value,
+                PerformedAt = DateTime.Now
+            };
+
+            _mjeteShkolloreContext.AuditLogs.Add(auditLog);
 
             _mjeteShkolloreContext.MjeteShkollore.Remove(mjeteShkollore);
             await _mjeteShkolloreContext.SaveChangesAsync();

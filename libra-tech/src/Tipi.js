@@ -57,7 +57,8 @@ export class Tipi extends Component {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                  'Authorization': `Bearer ${localStorage.getItem('Token')}`
             },
             body: JSON.stringify({
                 tipi: this.state.tipi
@@ -80,7 +81,8 @@ export class Tipi extends Component {
             method: 'PUT',
             headers: {
                 'Accept': 'application/json',
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                  'Authorization': `Bearer ${localStorage.getItem('Token')}`
             },
             body: JSON.stringify({
                 TipiID: this.state.TipiID,
@@ -105,7 +107,8 @@ export class Tipi extends Component {
                 method: 'DELETE',
                 headers: {
                     'Accept': 'application/json',
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                      'Authorization': `Bearer ${localStorage.getItem('Token')}`
                 }
             })
                 .then(res => res.json())

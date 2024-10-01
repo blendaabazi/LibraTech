@@ -8,6 +8,7 @@ import Sidebar from './Sidebar';
 import MjeteShkollore from './MjeteShkollore';
 import { useAuth } from './AuthProvider';
 import { useNavigate } from 'react-router-dom';
+import Logout from './Logout';
 
 function Home() {
     const [librat, setLibrat] = useState([]);
@@ -32,7 +33,7 @@ function Home() {
                 const timer = setTimeout(async () => {
                     const success = await refreshToken();
                     if (!success) {
-                        // logoutAndRedirect(); 
+                        logoutAndRedirect(); 
                     }
                 }, tokenExpiration - new Date().getTime());
     
@@ -40,10 +41,10 @@ function Home() {
                     const remainingTime = tokenExpiration - new Date().getTime();
                     if (remainingTime > 0) {
                         setTimeLeft(Math.ceil(remainingTime / 1000));
-                        console.log(`Time left before logout: ${Math.ceil(remainingTime / 1000)} seconds`);
+                        // console.log(`Time left before logout: ${Math.ceil(remainingTime / 1000)} seconds`);
                     } else {
                         clearInterval(interval);
-                        // logoutAndRedirect();
+                        logoutAndRedirect();
                     }
                 }, 1000);
     
@@ -54,13 +55,12 @@ function Home() {
             }
         }, [tokenExpiration, refreshToken]);
     
-        // const logoutAndRedirect = () => {
-        //     // Clear user data on logout
-        //     login(null, null, null, null);
-        //     localStorage.removeItem('token');
-        //     localStorage.removeItem('refreshtoken');
-        //     navigate('/login');
-        // };
+        const logoutAndRedirect = () => {
+            Logout();
+            // localStorage.removeItem('token');
+            // localStorage.removeItem('refreshtoken');
+            navigate('/');
+        };
 
 
 
@@ -73,13 +73,13 @@ function Home() {
                 await fetchTipet();
             } catch (error) {
                 console.error('Error during fetching data:', error);
-                // Attempt to refresh the token if there's an error
+            
                 const refreshed = await refreshToken();
                 if (!refreshed) {
-                    // If refreshing fails, navigate to the login page
-                    navigate('/login');
+                  
+                    navigate('/');
                 } else {
-                    // Retry fetching data after refreshing
+                    
                     await fetchLibrat();
                     await fetchMjetet();
                     await fetchKategorite();
@@ -99,7 +99,7 @@ function Home() {
         try {
             const response = await fetch(variables.API_URL + 'libri/GetLibratMeTeRinje', {
                 headers: {
-                    'Authorization': `Bearer ${user.token}`, // Pass the access token
+                    'Authorization': `Bearer ${user.token}`, 
                 }
             });
             if (!response.ok) {
@@ -119,7 +119,7 @@ function Home() {
         try {
             const response = await fetch(variables.API_URL + 'MjeteShkollore', {
                 headers: {
-                    'Authorization': `Bearer ${user.token}`, // Pass the access token
+                    'Authorization': `Bearer ${user.token}`, 
                 }
             });
             if (!response.ok) {
@@ -139,7 +139,7 @@ function Home() {
         try {
             const response = await fetch(variables.API_URL + 'kategoria', {
                 headers: {
-                    'Authorization': `Bearer ${user.token}`, // Pass the access token
+                    'Authorization': `Bearer ${user.token}`, 
                 }
             });
             if (!response.ok) {
@@ -159,7 +159,7 @@ function Home() {
         try {
             const response = await fetch(variables.API_URL + 'tipi', {
                 headers: {
-                    'Authorization': `Bearer ${user.token}`, // Pass the access token
+                    'Authorization': `Bearer ${user.token}`,
                 }
             });
             if (!response.ok) {
@@ -245,6 +245,7 @@ function Home() {
                 .text-decoration-none {
                     text-decoration: none;
                 }
+               
                 `}
             </style>
             <Header />
@@ -253,20 +254,22 @@ function Home() {
                     <div className="col-md-3">
                         <Sidebar />
                     </div>
-                    <div className="col-md-9">
+                    <div className="col-md-9" style={{ paddingRight: '50px' }}>
                         <form className="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-                        <h1>Welcome to the Home Page!</h1>
-            {timeLeft !== null && <div>Time left before logout: {timeLeft} seconds</div>}
+                      
+            {/* {timeLeft !== null && <div>Time left before logout: {timeLeft} seconds</div>} */}
 
-                            <div className="input-group">
+                            <div className="input-group" style={{marginBottom:'50px'}}>
                                 <input
                                     type="text"
-                                    className="form-control bg-light border-0 small"
+                                    className="form-control bg-light border-0 large"
                                     placeholder="Kërko..."
                                     aria-label="Search"
                                     aria-describedby="basic-addon2"
                                     value={searchTerm}
                                     onChange={handleSearchChange}
+                                    style={{paddingInlineEnd:'100px'
+                                    }}
                                 />
                                 <div className="input-group-append">
                                     <button className="btn btn-primary" type="button">
@@ -367,7 +370,7 @@ function Home() {
                             <>
                                 <div className="row" style={{ marginRight: '30px' }}>
                                     <div className="col-12">
-                                        <h1 className="mb-4 text-center">Kategoritë</h1>
+                                        {/* <h1 className="mb-4 text-center">Kategoritë</h1> */}
                                         <div className="card-deck">
                                             {kategorite.map(kategoria => (
                                                 <div key={kategoria.KategoriaID} className="col-md-4 mb-4">
@@ -459,7 +462,7 @@ function Home() {
                                                     style={{ width: '100%', height: '200px', objectFit: 'contain' }}
                                                 />
                                                 <div className="card-body d-flex flex-column">
-                                                    <h5 className="card-title">{mjeti.TipiID}</h5>
+                                                    <h5 className="card-title">{mjeti.tipi}</h5>
                                                     <p className="card-text flex-grow-1">{mjeti.Pershkrimi}</p>
                                                     <div className="mt-auto">
                                                         <Link to={`/MjeteShkollore/${mjeti.ID}`} className="btn btn-primary mr-2">

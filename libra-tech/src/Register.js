@@ -60,7 +60,7 @@ function Register() {
                 console.log('Registration successful');
                 navigate('/');
             } else {
-                setErrorMessage('Registration failed.');
+                navigate('/');
             }
         } catch (error) {
             console.error('Error during registration:', error);

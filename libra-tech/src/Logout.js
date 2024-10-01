@@ -9,19 +9,19 @@ const Logout = () => {
     useEffect(() => {
         const handleLogout = async () => {
             try {
-                await axios.post('http://localhost:5170/api/Authorization/logout'); // Call the backend logout endpoint
-                localStorage.clear(); // Clear all local storage items
+                await axios.post('http://localhost:5170/api/Authorization/logout');
+                localStorage.clear();
                 localStorage.removeItem('token');
-localStorage.removeItem('refreshToken');
+                localStorage.removeItem('refreshToken');
 
                 console.log('localStorage was cleared');
-                navigate('/'); // Navigate to the login page
-                window.location.reload(); // Reload the page to ensure state is reset
+                navigate('/');
+                window.location.reload();
             } catch (error) {
                 console.error('Error during logout:', error);
             }
         };
-        
+
         handleLogout();
     }, [navigate]);
 

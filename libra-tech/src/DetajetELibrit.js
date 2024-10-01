@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { variables } from './Variables';
 import Header from './Header';
 import Footer from './Footer';
@@ -10,8 +10,8 @@ function DetajetELibrit() {
   const [libri, setLibri] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [successMessage, setSuccessMessage] = useState('');
   const { user } = useAuth();
-
   const { id } = useParams();
 
   useEffect(() => {
@@ -36,8 +36,22 @@ function DetajetELibrit() {
 
   const addToCart = (libri) => {
     const shporta = JSON.parse(localStorage.getItem('shporta')) || [];
+
+    // Check for duplicate entries
+    const alreadyInCart = shporta.some(item => item.ID === libri.ID);
+    if (alreadyInCart) {
+      setSuccessMessage('Ky libër është tashmë në shportë!');
+      return;
+    }
+
     shporta.push(libri);
     localStorage.setItem('shporta', JSON.stringify(shporta));
+    setSuccessMessage('Libri u shtua në shportë me sukses!');
+
+    // Clear the success message after 4 seconds
+    setTimeout(() => {
+      setSuccessMessage('');
+    }, 4000);
   };
 
   if (loading) {
@@ -78,13 +92,19 @@ function DetajetELibrit() {
                     <p><strong>ShtepiaBotuese:</strong> {libri.ShtepiaBotuese.shtepiaBotuese}</p>
                     <p><strong>Viti i Publikimit:</strong> {libri.VitiPublikimit}</p>
                     <p><strong>Sasia:</strong> {libri.Sasia}</p>
-                    <p><strong>Cmimi:</strong> ${libri.Cmimi}</p>
-                    
+                    <p><strong>Cmimi:</strong> {libri.Cmimi}€</p>
+
                     {user && user.roli === 'User' && (
-                    <button onClick={() => addToCart(libri)} className="btn btn-success">Shto ne shportë</button>
+                      <button onClick={() => addToCart(libri)} className="btn btn-success">Shto ne shportë</button>
                     )}
                   </div>
                 </div>
+                {/* Success message display */}
+                {successMessage && (
+                  <div className="alert alert-success mt-3">
+                    {successMessage}
+                  </div>
+                )}
               </div>
             </div>
           </div>

@@ -18,7 +18,6 @@ export class Libri extends Component {
       librat: [],
       kategorit: [],
       gjuhet: [],
-      faqet: [],
       botuesit: [],
       modalTitle: "",
       ID: 0,
@@ -105,13 +104,13 @@ export class Libri extends Component {
         .catch(error => {
             console.error('Error fetching teams:', error);
         });
-        axios.get(variables.API_URL + 'nrfaqeve')
-        .then(response => {
-            this.setState({ faqet: response.data });
-        })
-        .catch(error => {
-            console.error('Error fetching teams:', error);
-        });
+        // axios.get(variables.API_URL + 'nrfaqeve')
+        // .then(response => {
+        //     this.setState({ faqet: response.data });
+        // })
+        // .catch(error => {
+        //     console.error('Error fetching teams:', error);
+        // });
 
         axios.get(variables.API_URL + 'shtepiabotuese')
         .then(response => {
@@ -238,7 +237,9 @@ export class Libri extends Component {
 };
 
 updateClick = () => {
-  const { ID,ISBN, Titulli, Pershkrimi, AutoriID,NrFaqeve,KategoriaID,VitiPublikimit,ShtepiaBotueseID,GjuhaID,Cmimi,Sasia,ImgPath  } = this.state;
+  const { ID, ISBN, Titulli, Pershkrimi, AutoriID, NrFaqeve, KategoriaID, VitiPublikimit, ShtepiaBotueseID, GjuhaID, Cmimi, Sasia, ImgPath } = this.state;
+
+  console.log({ ID, ISBN, Titulli, Pershkrimi, AutoriID, NrFaqeve, KategoriaID, VitiPublikimit, ShtepiaBotueseID, GjuhaID, Cmimi, Sasia, ImgPath });
 
   axios.put(`http://localhost:5170/api/Libri/${ID}`, {
     ID,
@@ -254,14 +255,11 @@ updateClick = () => {
     Cmimi,
     Sasia,
     ImgPath
-      
-  },
-  {
+  }, {
     headers: {
         'Authorization': `Bearer ${localStorage.getItem('Token')}`
     }
-})
-  
+  })
   .then(response => {
       alert('Updated successfully');
       this.refreshList();
@@ -269,8 +267,8 @@ updateClick = () => {
       document.querySelector(".modal-backdrop").remove();
   })
   .catch(error => {
-      console.error('Error updating player:', error);
-      alert('Failed to update player');
+      console.error('Error updating book:', error);
+      alert('Failed to update book');
   });
 };
 
@@ -283,7 +281,7 @@ updateClick = () => {
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json',
-           'Authorization': `Bearer ${localStorage.getItem('Token')}`
+          'Authorization': `Bearer ${localStorage.getItem('Token')}`
         }
       })
         .then(res => res.json())
@@ -348,7 +346,7 @@ updateClick = () => {
 
 
             <Sidebar />
-            <div className="container-fluid" style={{ paddingLeft: '50px' }}>
+            <div className="container-fluid" style={{ paddingLeft: '5px' }}>
               <div className='d-flex justify-content-between'>
                 <div>
                   <Link style={{ background: '#a9c0cf' }} to="/Autori" className="btn btn-primary m-2 float-end">
@@ -400,9 +398,9 @@ updateClick = () => {
                       <td>{emp.ISBN}</td>
                       <td>{emp.Titulli}</td>
                       <td>{emp.Pershkrimi}</td>
-                      <td>{autoret.find(t => t.AutoriID === emp.AutoriID)?.Emri || 'No Team'}</td>
+                      <td>{autoret.find(t => t.AutoriID === emp.AutoriID)?.Emri || 'Nuk ka Autor'}</td>
                       <td>{emp.NrFaqeve}</td>
-                      <td>{kategorit.find(t => t.KategoriaID === emp.KategoriaID)?.kategoria || 'No Kategori'}</td>
+                      <td>{kategorit.find(t => t.KategoriaID === emp.KategoriaID)?.kategoria || 'Nuk ka Kategori'}</td>
                       <td>{emp.VitiPublikimit}</td>
                       <td>{botuesit.find(t => t.ShtepiaBotueseID === emp.ShtepiaBotueseID)?.shtepiaBotuese || 'Nuk ka botues'}</td>
                       <td>{gjuhet.find(t => t.GjuhaID === emp.GjuhaID)?.gjuha || 'Nuk ka gjuhe'}</td>
@@ -476,7 +474,7 @@ updateClick = () => {
                             </select>
                           </div>
                           <div className="input-group mb-3">
-                            <span className="input-group-text">Nr\</span>
+                            <span className="input-group-text">Nr. Faqeve</span>
                             <input type="text" className="form-control"
                               value={NrFaqeve}
                               onChange={this.changeNrFaqeve} />

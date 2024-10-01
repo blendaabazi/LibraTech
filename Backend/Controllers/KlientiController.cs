@@ -66,6 +66,16 @@ namespace Backend.Controllers
             _dbContext.Entry(k).State = EntityState.Modified;
             try
             {
+                var auditLog = new AuditLog
+                {
+                    Action = "Ndryshoi",
+                    Entity = "Klienti",
+                    EntityId = k.ID,
+                    PerformedBy = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value,
+                    PerformedAt = DateTime.Now
+                };
+
+                _dbContext.AuditLogs.Add(auditLog);
                 await _dbContext.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
@@ -90,6 +100,16 @@ namespace Backend.Controllers
 
             try
             {
+                var auditLog = new AuditLog
+                {
+                    Action = "Ndryshoi",
+                    Entity = "Klienti",
+                    EntityId = klienti.ID,
+                    PerformedBy = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value,
+                    PerformedAt = DateTime.Now
+                };
+
+                _dbContext.AuditLogs.Add(auditLog);
                 await _dbContext.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
@@ -139,6 +159,16 @@ namespace Backend.Controllers
             }
 
             _dbContext.Klienti.Remove(klienti);
+            var auditLog = new AuditLog
+            {
+                Action = "Fshir",
+                Entity = "Klienti",
+                EntityId = klienti.ID,
+                PerformedBy = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value,
+                PerformedAt = DateTime.Now
+            };
+
+            _dbContext.AuditLogs.Add(auditLog);
             await _dbContext.SaveChangesAsync();
 
             return NoContent();

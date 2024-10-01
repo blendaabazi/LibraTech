@@ -10,6 +10,8 @@ using Microsoft.Extensions.Configuration;
 using Lab1_Backend.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
+using Backend.Models;
 
 
 namespace Lab1_Backend.Controllers
@@ -58,6 +60,16 @@ namespace Lab1_Backend.Controllers
         public async Task<ActionResult<Gjuha>> PostGjuha(Gjuha gjuha)
         {
             _context.Gjuha.Add(gjuha);
+            var auditLog = new AuditLog
+            {
+                Action = "Shtoi",
+                Entity = "Gjuha",
+                EntityId = gjuha.GjuhaID,
+                PerformedBy = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value,
+                PerformedAt = DateTime.Now
+            };
+
+            _context.AuditLogs.Add(auditLog);
             await _context.SaveChangesAsync();
 
 
@@ -78,6 +90,16 @@ namespace Lab1_Backend.Controllers
             _context.Entry(gjuha).State = EntityState.Modified;
             try
             {
+                var auditLog = new AuditLog
+                {
+                    Action = "Ndryshoi",
+                    Entity = "Gjuha",
+                    EntityId = gjuha.GjuhaID,
+                    PerformedBy = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value,
+                    PerformedAt = DateTime.Now
+                };
+
+                _context.AuditLogs.Add(auditLog);
                 _context.SaveChanges();
             }
             catch (DbUpdateConcurrencyException)
@@ -100,6 +122,16 @@ namespace Lab1_Backend.Controllers
             }
 
             _context.Gjuha.Remove(gj);
+            var auditLog = new AuditLog
+            {
+                Action = "Fshir",
+                Entity = "Gjuha",
+                EntityId = gj.GjuhaID,
+                PerformedBy = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value,
+                PerformedAt = DateTime.Now
+            };
+
+            _context.AuditLogs.Add(auditLog);
             _context.SaveChanges();
 
             return NoContent();

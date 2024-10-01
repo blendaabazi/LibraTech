@@ -126,13 +126,10 @@ function Sidebar() {
                     </li>
 
                     <li className="nav-item">
-                    {user && user.roli === 'Admin' && (
                         <a className="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseLibra" aria-expanded="true" aria-controls="collapseLibra">
                             <i className="fa fa-list"></i>
                             <span>Libra</span>
                         </a>
-                        )}
-
                         <div id="collapseLibra" className="collapse" aria-labelledby="headingLibra" data-parent="#accordionSidebar">
                             <div className="bg-white py-2 collapse-inner rounded">
                                 <div className="list-group">
@@ -151,6 +148,7 @@ function Sidebar() {
                             </div>
                         </div>
                     </li>
+                    
 
                     <li className="nav-item">
                         <a className="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseMjeteShkollore" aria-expanded="true" aria-controls="collapseMjeteShkollore">

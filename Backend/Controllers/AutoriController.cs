@@ -10,6 +10,8 @@ using Microsoft.Extensions.Configuration;
 using Lab1_Backend.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
+using Backend.Models;
 
 
 namespace Lab1_Backend.Controllers
@@ -50,18 +52,29 @@ namespace Lab1_Backend.Controllers
 
             return autori;
         }
-
+      
 
 
         // POST: api/Autori
         [HttpPost]
         [Authorize(Policy = "AdminOnly")]
-
         public async Task<ActionResult<Autori>> PostAutori(Autori autori)
         {
             _context.Autori.Add(autori);
             await _context.SaveChangesAsync();
 
+            // Log the addition action in AuditLog
+            var auditLog = new AuditLog
+            {
+                Action = "Shtoi",
+                Entity = "Autori",
+                EntityId = autori.AutoriID,
+                PerformedBy = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value,
+                PerformedAt = DateTime.Now
+            };
+
+            _context.AuditLogs.Add(auditLog);
+            await _context.SaveChangesAsync();
 
             return CreatedAtAction(nameof(GetAutori), new { id = autori.AutoriID }, autori);
         }
@@ -81,6 +94,16 @@ namespace Lab1_Backend.Controllers
             try
             {
                 _context.SaveChanges();
+                var auditLog = new AuditLog
+                {
+                    Action = "Ndryshoi",
+                    Entity = "Autori",
+                    EntityId = autori.AutoriID,
+                    PerformedBy = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value,
+                    PerformedAt = DateTime.Now
+                };
+
+                _context.AuditLogs.Add(auditLog);
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -103,6 +126,16 @@ namespace Lab1_Backend.Controllers
             }
 
             _context.Autori.Remove(autori);
+            var auditLog = new AuditLog
+            {
+                Action = "Fshir",
+                Entity = "Autori",
+                EntityId = autori.AutoriID,
+                PerformedBy = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value,
+                PerformedAt = DateTime.Now
+            };
+
+            _context.AuditLogs.Add(auditLog);
             _context.SaveChanges();
 
             return NoContent();
