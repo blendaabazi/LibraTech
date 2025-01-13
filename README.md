@@ -35,16 +35,15 @@ ju duhet te beni update-database   e cili do te mundesoj gjenerimin ne teresi te
 pasi qe te keni bere run komanden ne ne Visual Studio, ju duhet qe te beni run serverin dhe pastaj ne VSC pjesen e React qe 
 gjendet tek LibraTech duhet te hapet ne terminal pastaj duhen te behen run keto komonda:
 
--npm i - Bene instalimin automatik te paketave te nevojtura,
--npm run build - Bene Build Projektin, Keto duhen te behen vetem ne qoftese e keni hapur projketin per here te pare
--npm start - Bene startimin e projektit (Kjo duhet te behet gjithmone kur startojme projektin e React).
+- npm i - Bene instalimin automatik te paketave te nevojtura,
+- npm run build - Bene Build Projektin, Keto duhen te behen vetem ne qoftese e keni hapur projketin per here te pare
+- npm start - Bene startimin e projektit (Kjo duhet te behet gjithmone kur startojme projektin e React).
 
 ## Pasi qe te behet konfigurimi ju mund te kyqeni me keto te dhena:
-Pasi qe te behet konfigurimi ju mund te kyqeni me keto te dhena:
 
-Email	Password	Aksesi
-admin@gmail.com	Admin123-	Administrator (Akses i Plote)
-user@gmail.com	User123-	Klient (Akses i thjesht)
+Email	          Password	 Aksesi
+admin@gmail.com	Admin123 -	Administrator (Akses i Plote)
+user@gmail.com	User123  -	Klient (Akses i thjesht)
 
 # Disa nga pamjet e projektit
 ## Register
