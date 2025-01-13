@@ -39,24 +39,24 @@ gjendet tek LibraTech duhet te hapet ne terminal pastaj duhen te behen run keto 
 - npm run build - Bene Build Projektin, Keto duhen te behen vetem ne qoftese e keni hapur projketin per here te pare
 - npm start - Bene startimin e projektit (Kjo duhet te behet gjithmone kur startojme projektin e React).
 
-## Pasi qe te behet konfigurimi ju mund te kyqeni me keto te dhena:
+### Pasi qe te behet konfigurimi ju mund te kyqeni me keto te dhena:
 
-Email	          Password	 Aksesi
-admin@gmail.com	Admin123 -	Administrator (Akses i Plote)
-user@gmail.com	User123  -	Klient (Akses i thjesht)
+- Email	          Password	 Aksesi
+- admin@gmail.com	Admin123 -	Administrator (Akses i Plote)
+- user@gmail.com	User123  -	Klient (Akses i thjesht)
 
-# Disa nga pamjet e projektit
-## Register
+## Disa nga pamjet e projektit
+### Register
 ![Register](https://github.com/user-attachments/assets/cfea594d-baa6-4327-a8f3-c614eb4726cf)
 
-## LogIn
+### LogIn
 ![Login](https://github.com/user-attachments/assets/f0e553df-7562-44e3-ac2c-2200b5f42cf0)
 
-## Home Page 
+### Home Page 
 ![Admin-Home](https://github.com/user-attachments/assets/1d973a71-9a21-479e-a1f6-cc2792b0be05)
 ![User-Home2](https://github.com/user-attachments/assets/71be7dd5-fc68-48d7-8d26-f336c15e49bb)
 
-## Detajet e Produktit
+### Detajet e Produktit
 ![ProductDetail](https://github.com/user-attachments/assets/d0c92a59-87df-490b-add3-f1f35adac96c)
 
 ### UserProfile
