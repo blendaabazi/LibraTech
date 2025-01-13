@@ -6,7 +6,7 @@
 
 Ky projekt eshte punuar per projektin ne Lab Course 1.
 
-LibraTech eshte nje lloj e-Commerce, nje Dyqan Online per blerjen e librave dhe mjeteve shkollore.
+LibraTech eshte nje lloj E-Commerce, nje Dyqan Online per blerjen e librave dhe mjeteve shkollore.
 
 ## Ky projekt eshte i punuar ne
 
@@ -25,8 +25,8 @@ LibraTech eshte nje lloj e-Commerce, nje Dyqan Online per blerjen e librave dhe 
 Lavdim Menxhiqi - can. PhD.
 
 ## Credits
-Gjirafa50 - Emrat, çmimet dhe fotot e produkteve,
-Libraria Dukagjini - Emrat, çmimet dhe fotot e produkteve,
+- Gjirafa50 - Emrat, çmimet dhe fotot e produkteve,
+- Libraria Dukagjini - Emrat, çmimet dhe fotot e produkteve,
 
 ## Konfigurimi
 Se fillim duhet te behet konfigurimi i Connection String ne /appsettings.json dhe duhet te 
@@ -54,11 +54,9 @@ user@gmail.com	User123  -	Klient (Akses i thjesht)
 
 ## Home Page 
 ![Admin-Home](https://github.com/user-attachments/assets/1d973a71-9a21-479e-a1f6-cc2792b0be05)
-
-### Home Page me akses te thjeshte si user
 ![User-Home2](https://github.com/user-attachments/assets/71be7dd5-fc68-48d7-8d26-f336c15e49bb)
 
-## Product Detail
+## Detajet e Produktit
 ![ProductDetail](https://github.com/user-attachments/assets/d0c92a59-87df-490b-add3-f1f35adac96c)
 
 ### UserProfile
@@ -74,11 +72,11 @@ user@gmail.com	User123  -	Klient (Akses i thjesht)
 ![AlertShoppingCard](https://github.com/user-attachments/assets/573399f0-f818-4d46-9066-52fb7332689c)
 ![ShopingCard](https://github.com/user-attachments/assets/0111417d-77e2-4e3a-9725-46c01a0e6bc1)
 
-### Order
+### Porosia
 ![Order](https://github.com/user-attachments/assets/b779f71f-66f8-4cbf-bdf7-11ca6e55ac75)
 ![OrderConfirmed](https://github.com/user-attachments/assets/603dbef9-1e7f-4fef-8c96-7e0e1cc4a1a7)
 
-### Admin
+## Admin
 ### Home Page me akses te plote( Admini nuk mund te blej produkte)
 ![Admin-Home2](https://github.com/user-attachments/assets/10276a6e-fa11-4210-971e-411cccbf6783)
 
