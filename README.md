@@ -40,7 +40,7 @@ gjendet tek LibraTech duhet te hapet ne terminal pastaj duhen te behen run keto 
 - npm start - Bene startimin e projektit (Kjo duhet te behet gjithmone kur startojme projektin e React).
 
 ### Pasi qe te behet konfigurimi ju mund te kyqeni me keto te dhena:
-/ table
+
 
 | Email | Password | Aksesi |
 |:-|:-|:-|
