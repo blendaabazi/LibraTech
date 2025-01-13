@@ -1,5 +1,5 @@
 # LibraTech
-# Rreth Projektit
+## Rreth Projektit
 
 
 
@@ -10,9 +10,9 @@ LibraTech eshte nje lloj e-Commerce, nje Dyqan Online per blerjen e librave dhe 
 
 ## Ky projekt eshte i punuar ne
 
--React JS - Frontend
--ASP.NET Core - Backend
--MSSQL - Database
+- React JS - Frontend
+- ASP.NET Core - Backend
+- MSSQL - Database
 
 ## Eshte punuar nga:
 
