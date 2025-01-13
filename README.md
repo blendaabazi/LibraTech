@@ -44,8 +44,8 @@ gjendet tek LibraTech duhet te hapet ne terminal pastaj duhen te behen run keto 
 
 | Email | Password | Aksesi |
 |:-|:-|:-|
-| admin@gmail.com | Admin123 | Administrator (Akses i Plote) |
-| user@gmail.com | User123 | Klient (Akses i thjesht) |
+| admin@gmail.com | Admin123- | Administrator (Akses i Plote) |
+| user@gmail.com | User123- | Klient (Akses i thjesht) |
 
 ## Disa nga pamjet e projektit
 ### Register
