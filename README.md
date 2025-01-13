@@ -4,7 +4,7 @@
 
 
 
-Ky projekt eshte punuar per projektin ne Lab Kurs 1.
+Ky projekt eshte punuar per projektin ne Lab Course 1.
 
 LibraTech eshte nje lloj e-Commerce, nje Dyqan Online per blerjen e librave dhe mjeteve shkollore.
 
@@ -14,21 +14,21 @@ LibraTech eshte nje lloj e-Commerce, nje Dyqan Online per blerjen e librave dhe 
 - ASP.NET Core - Backend
 - MSSQL - Database
 
-## Eshte punuar nga:
+### Eshte punuar nga:
 
-Blenda Abazi - 222364884 (ba64884@ubt-uni.net) 
-Altina Abazi - 222364958 (aa64958@ubt-uni.net) 
+- Blenda Abazi - 222364884 (ba64884@ubt-uni.net) 
+- Altina Abazi - 222364958 (aa64958@ubt-uni.net) 
 
 
-## Profesori:
+### Profesori:
 
 Lavdim Menxhiqi - can. PhD.
 
-# Credits
+## Credits
 Gjirafa50 - Emrat, çmimet dhe fotot e produkteve,
 Libraria Dukagjini - Emrat, çmimet dhe fotot e produkteve,
 
-# Konfigurimi
+## Konfigurimi
 Se fillim duhet te behet konfigurimi i Connection String ne /appsettings.json dhe duhet te 
 nderrohet emri i Server me ate te serverit tuaj, pastaj ne Tools/NuGet Package Manager/Package Manager Console
 ju duhet te beni update-database   e cili do te mundesoj gjenerimin ne teresi te databases dhe insertimin e te dhenave bazike, 
