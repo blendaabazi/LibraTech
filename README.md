@@ -31,15 +31,16 @@ Lavdim Menxhiqi - can. PhD.
 ## Konfigurimi
 Se fillim duhet te behet konfigurimi i Connection String ne /appsettings.json dhe duhet te 
 nderrohet emri i Server me ate te serverit tuaj, pastaj ne Tools/NuGet Package Manager/Package Manager Console
-ju duhet te beni update-database   e cili do te mundesoj gjenerimin ne teresi te databases dhe insertimin e te dhenave bazike, 
-pasi qe te keni bere run komanden ne ne Visual Studio, ju duhet qe te beni run serverin dhe pastaj ne VSC pjesen e React qe 
+ju duhet te beni update-database e cili do te mundesoj gjenerimin ne teresi te databases dhe insertimin e te dhenave bazike, 
+pasi qe te keni bere run komanden ne Visual Studio, ju duhet qe te beni run serverin dhe pastaj ne VSC pjesen e React qe 
 gjendet tek LibraTech duhet te hapet ne terminal pastaj duhen te behen run keto komonda:
 
 - npm i - Bene instalimin automatik te paketave te nevojtura,
 - npm run build - Bene Build Projektin, Keto duhen te behen vetem ne qoftese e keni hapur projketin per here te pare
 - npm start - Bene startimin e projektit (Kjo duhet te behet gjithmone kur startojme projektin e React).
 
-### Pasi qe te behet konfigurimi ju mund te kyqeni me keto te dhena:
+### Pasi qe te behet konfigurimi ju mund te kyqeni me keto te dhena
+### ose te regjistroheni si user i ri
 
 
 | Email | Password | Aksesi |
